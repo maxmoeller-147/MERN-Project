@@ -1,9 +1,12 @@
 const PORT = process.env.PORT || 3000;
-
-// DATABASE CONNECTION
-
-
-// EXPRESS SERVER ACTIVATION
+const { dbConnect } = require("./database/connectionManager.js");
 const {app} = require("./server.js");
 
-app.listen(PORT, () => {console.log("The server is running in port:" + PORT);});
+// DATABASE CONNECTION
+dbConnect().then(() => {
+    // EXPRESS SERVER ACTIVATION
+    app.listen(PORT, () => {
+        console.log("The server is running in port:" + PORT);
+    });
+});
+
