@@ -1,11 +1,18 @@
 const mongoose = require("mongoose");
-const validator = require('validator');
+// const validator = require('validator');
 
 let ProfileSchema = new mongoose.Schema(
   {
-    profile_pic_url: {
-      type: 
+    imgage: {
+      data: Buffer,
+      contentType: String 
     },
-    description: ''
+    description: String
   }
 )
+
+const ProfileModel = mongoose.model("Profile", ProfileSchema);
+
+module.exports = {
+	ProfileSchema, ProfileModel
+}

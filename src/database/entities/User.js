@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 const validator = require('validator');
 
 let UserSchema = new mongoose.Schema({
-  email: {
+  profile_id: {
+		type: mongoose.Types.ObjectId,
+		ref: 'Profile'
+	},
+	email: {
     type: String,
     required: [true, 'email is required!'],
     unique: [true, 'this email already existed'],
