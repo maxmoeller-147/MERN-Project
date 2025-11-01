@@ -1,21 +1,33 @@
 const mongoose = require("mongoose");
-const validator = require('validator');
+const validator = require("validator");
 
 let MessageSchema = new mongoose.Schema(
   {
     room_id: {
-
+      type: mongoose.Types.ObjectId,
+      ref: 'RoomChat'
     },
-    user_id: {
-
+    sender_id: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User'
     },
-    date_sent: [Date, 'Invalid date!'],
+    date_sent: {
+      type: Date,
+      default: Date.now
+    },
     content: String,
-    attachment_url: {
-
+    attachment: {
+      type: mongoose.Types.ObjectId,
+      ref: 'File'
     },
     status: {
-
+      type: String,
+      validate: {
+        validator: function(newStatus) {
+          return ['SENT', 'DELIVERED', 'SEEN'].includes(newStatus);
+      },
+      message: "Invalid Status! Status must be 'SENT', DELIVERED or 'SEEN'"
+    }
     }
 }
 )

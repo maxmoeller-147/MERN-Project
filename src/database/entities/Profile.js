@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 let ProfileSchema = new mongoose.Schema(
   {
-    imgage: {
+    image: {
       data: Buffer,
       contentType: String 
     },
