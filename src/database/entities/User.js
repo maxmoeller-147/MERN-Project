@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
+const validator = require('validator');
 
-const UserSchema = new mongoose.Schema({
-  email: {
+let UserSchema = new mongoose.Schema({
+  profile_id: {
+		type: mongoose.Types.ObjectId,
+		ref: 'Profile'
+	},
+	email: {
     type: String,
-    required: true,
-    unique: true,
+    required: [true, 'email is required!'],
+    unique: [true, 'this email already existed'],
     validate: {
       validator: function(newEmail) {
         return validator.isEmail(newEmail)
@@ -13,10 +18,15 @@ const UserSchema = new mongoose.Schema({
     }
   },
   verified: Boolean,
-  username: String,
+  username: {
+    type: String,
+    required: [true, 'username is required!'],
+    unique: [true, 'this username already existed'],
+		minLength: [4, 'Username must have minimum 4 characters']
+  },
   password: {
 			type: String,
-			required: true,
+			required: [true, 'password is required!'],
 			minLength: 8,
 			validate: {
 				validator: function (newPassword) {
@@ -36,8 +46,17 @@ const UserSchema = new mongoose.Schema({
 					};
 					return validator.isStrongPassword(newPassword, passwordStrengthRules);
 				},
-				message: validatorError => `${validatorError.value} is not a suitable password!`
+				message: validatorError => `${validatorError.value} is not a strong password! Choose another password!`
 			}
 		},
-    creation_date: Date
-})
+  creation_date: {
+		type: Date,
+		default: Date.now
+	}
+});
+
+const UserModel = mongoose.model("User", UserSchema);
+
+module.exports = {
+	UserSchema, UserModel
+}
