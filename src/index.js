@@ -1,4 +1,5 @@
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
 const { dbConnect } = require("./database/connectionManager.js");
 const {app} = require("./server.js");
 

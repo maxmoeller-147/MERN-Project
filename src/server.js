@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
+const { default: mongoose } = require("mongoose");
 
 
 app.use(helmet());
@@ -21,6 +22,20 @@ app.use(express.urlencoded({extended: true}));
 app.get("/", (request,response) => {
     response.json({message: " Welcome to Dating App"});
 });
+
+app.get("/databaseHealth", (request, response) => {
+    let databaseState = mongoose.connection.readyState;
+    let databaseName = mongoose.connection.name;
+    let databaseModels = mongoose.connection.modelNames();
+    let databaseHost = mongoose.connection.host;
+
+    response.json({
+    readyState: databaseState,
+    dbName: databaseName,
+    dbModels: databaseModels,
+    dbHost: databaseHost
+    })
+})
 
 
 app.all(/.*/, (request,response)=> {
