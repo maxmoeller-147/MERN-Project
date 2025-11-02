@@ -53,6 +53,29 @@ async function verifyBasicUserAuth (request, response, next) {
 }
 
 
+//Create a JWT
+async function createJwt (request, response, next){
+	// createJwt is used in a middleware chain after verifyBasicUserAuth has been called.
+
+	//The ? is used here to make sure that request.authentication exists before finding .user
+	if (!request.authentication?.user){
+		return next (new Error("Something went wrong with your session, please sign out and log in again later."));
+	}
+
+	// Create a new JWT based on the user established earlier
+	let newJwt = generateJWT(request.authentication.user);
+
+  //Add jwt to the authenticatrion
+	request.authentication = {
+		...request.authentication,
+		jwt: newJwt
+	}
+
+	// the last endpoint should handle sending the JWT to the user
+	next();
+}
+
+
 
 
 async function validateRegisterData (request, response, next) {
