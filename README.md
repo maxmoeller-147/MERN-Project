@@ -57,3 +57,5 @@ Style guide: Follow this https://www.w3schools.com/js/js_conventions.asp
   - jwtFunctions.js (**Jack**)
 - index.js (**Phuong**)
 - server.js (**Phuong**)
+
+4. Routes

@@ -11,10 +11,7 @@ let MessageSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User'
     },
-    date_sent: {
-      type: Date,
-      default: Date.now
-    },
+    timestamps: true,
     content: String,
     attachment: {
       type: mongoose.Types.ObjectId,

@@ -3,6 +3,7 @@ const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
+const userController = require("./controllers/UserController")
 
 
 app.use(helmet());
@@ -37,12 +38,21 @@ app.get("/databaseHealth", (request, response) => {
     })
 })
 
+app.use("/users", userController)
+
+app.use((error, request, response, next) => {
+    response.json({
+        error: error.message
+    })
+});
+
+
 
 app.all(/.*/, (request,response)=> {
     response.status(404).json({ message: " Route not found in this API",
-        targetPath: request.path
+    targetPath: request.path
     })
-})
+});
 
 module.exports = {
     app
