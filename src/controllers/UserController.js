@@ -16,7 +16,7 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           username: newUserData.username.trim(),
           password: newUserData.password.trim()
         })
-        await newUser.save();
+        //await newUser.save();
         
         //Create a jwt for the new user
         let jwt = generateJWT(newUser);

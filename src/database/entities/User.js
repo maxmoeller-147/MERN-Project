@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const validator = require('validator');
 const { ProfileModel } = require("./Profile");
+const crypto = require("node:crypto");
 
 let UserSchema = new mongoose.Schema({
 	email: {
@@ -49,6 +50,13 @@ let UserSchema = new mongoose.Schema({
   creation_date: {
 		type: Date,
 		default: Date.now
+	},
+	salt: {
+		type: String,
+		required: false,
+		default: function () {
+			return crypto.randomBytes(64).toString("hex");
+		}
 	}
 });
 // TO BE FIXED, PROFILE DOES NOT DELETE WHEN USER DELETED
@@ -62,6 +70,31 @@ UserSchema.pre("findByIdAndDelete", async function (next) {
 		next(new Error(error))
 	}
 })
+
+UserSchema.pre(
+	"save",
+	async function (next) {
+		if (!this.salt){
+			// make a salt for the user.
+			this.salt = crypto.randomBytes(64).toString("hex");
+			// This will be saved into the user document at the end of the middleware.
+		}
+
+		// If the password has not been changed, skip the rest of this middleware function.
+		if (!this.isModified("password")) return next();
+
+		//Salt the updated password
+		this.password = crypto.scryptSync(this.password, this.salt, 64).toString("hex");
+
+		next();
+	}
+);
+
+
+
+UserSchema.methods.isMatchingPassword = async function (passwordToCheck) {
+	return crypto.scryptSync(passwordToCheck, this.salt, 64).toString("hex") == this.password;
+}
 
 const UserModel = mongoose.model("User", UserSchema);
 
