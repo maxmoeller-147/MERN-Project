@@ -1,10 +1,16 @@
 const express = require("express");
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const helmet = require("helmet");
 const cors = require("cors");
 
 
 app.use(helmet());
+
+app.use(express.static(__dirname + '/public'));
 
 
 let corsOption = { origin: [
@@ -19,7 +25,13 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.get("/", (request,response) => {
-    response.json({message: " Welcome to Dating App"});
+    response.sendFile(__dirname + '/index.html');
+});
+
+require('../sockets/websocket.js')(server);
+
+server.listen(3000, () => {
+  console.log('listening on *:3000');
 });
 
 
@@ -29,6 +41,4 @@ app.all(/.*/, (request,response)=> {
     })
 })
 
-module.exports = {
-    app
-}
+module.exports = { app };
