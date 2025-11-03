@@ -1,6 +1,7 @@
 const express = require("express");
 const { UserModel } = require("../database/entities/User");
 const { validateRegisterData } = require("../middleware/UserCRUDValidation");
+const { generateJWT } = require("../utils/jwtFunctions");
 const router = express.Router();
 
 // user register route
@@ -16,8 +17,16 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           password: newUserData.password.trim()
         })
         await newUser.save();
-        response.json(newUser);
+        
+        //Create a jwt for the new user
+        let jwt = generateJWT(newUser);
+
+        response.json({
+          data : newUser, 
+          jwt : jwt
+      });
         next();
+
       } catch(error) {
           return next(new Error(error));
       }
