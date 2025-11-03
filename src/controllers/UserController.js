@@ -3,7 +3,8 @@ const { UserModel } = require("../database/entities/User");
 const { validateRegisterData } = require("../middleware/UserCRUDValidation");
 const router = express.Router();
 
-// user register route
+
+// POST: user register route
 router.post("/register", validateRegisterData, async (request, response, next)=> {
   if (request.errors.length > 0) {
     return next(new Error(request.errors));
@@ -20,21 +21,20 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
         next();
       } catch(error) {
           return next(new Error(error));
-      }
-}
-  
-})
+      }}
+});
 
-// user login route
+
+// POST: user login route
 router.post(
   "/login", (request, response) => {
     response.json({
 		  message:"placeholder for user POST endpoint"
 	})
-  }
-);
+});
 
-// update an user, only for user
+
+//PUT: update an user, only for user
 router.put(
   "/:targetUserId", async (request, response,next) => {
     // need to add verify user authentication data here, request.authentication.id === request.params.targetUserId
@@ -47,26 +47,27 @@ router.put(
       } catch(error) {
         return next(new Error("User not found!"));
       }
-      });
+});
 
-// view an user, none should be able to see this?
+
+// GET: view an user, none should be able to see this?
 router.get(
   "/:targetUserId", (request, response) => {
     response.json({
 		  message:"placeholder for user GET endpoint"
 	})
-  }
-);
+});
 
-// view all users, for admin to view, for development purpose
+
+// GET: view all users, for admin to view, for development purpose
 router.get(
   "/", async (request, response) => {
     let allUsers = await UserModel.find({})
-    response.json(allUsers
-	)
-  }
-);
-// delete an user
+    response.json(allUsers)
+});
+
+
+// DELETE: delete an user
 router.delete(
   "/:targetUserId", async (request, response,next) => {
     try {

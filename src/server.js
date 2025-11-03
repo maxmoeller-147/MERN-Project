@@ -7,17 +7,12 @@ const io = new Server(server);
 const helmet = require("helmet");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
-<<<<<<< HEAD
-const userController = require("./controllers/UserController");
-const path = require("path")
-=======
 const userController = require("./controllers/UserController")
 const profileController = require("./controllers/ProfileController");
-const connectionController = require("./controllers/ConnectionController")
-const roomChatController = require("./controllers/RoomChatController")
+const connectionController = require("./controllers/ConnectionController");
+const roomChatController = require("./controllers/RoomChatController");
 const multer = require("multer");
->>>>>>> f2e910ec74f7192561437b87509ea6cba787cd70
-
+const path = require("path");
 
 
 // Serve files from "public" folder
@@ -46,6 +41,7 @@ app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+
 // image storage 
 let storage = multer.diskStorage({
     destination: (request, fie, cb) => {
@@ -55,8 +51,6 @@ let storage = multer.diskStorage({
         cb(null, file.fieldname+ '-' + Date.now())
     }
 });
-
-
 
 
 // Route to send the chat html page
@@ -90,16 +84,10 @@ app.get("/databaseHealth", (request, response) => {
     })
 })
 
-<<<<<<< HEAD
-
-// User Routes
-app.use("/users", userController)
-=======
 app.use("/users", userController);
 app.use("/profiles", profileController);
 app.use("/connection", connectionController);
 app.use("/rooms", roomChatController);
->>>>>>> f2e910ec74f7192561437b87509ea6cba787cd70
 
 
 // Error handler Middleware
@@ -117,12 +105,9 @@ app.all(/.*/, (request,response)=> {
     })
 });
 
-<<<<<<< HEAD
 
 // Export the app
-module.exports = { app };
-=======
 module.exports = {
     app, storage
 }
->>>>>>> f2e910ec74f7192561437b87509ea6cba787cd70
+
