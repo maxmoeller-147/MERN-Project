@@ -1,7 +1,7 @@
 const express = require("express");
 const { UserModel } = require("../database/entities/User");
-const { validateRegisterData } = require("../middleware/UserCRUDValidation");
-const { generateJWT } = require("../utils/jwtFunctions");
+const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt  } = require("../middleware/UserCRUDValidation");
+const { generateJWT } = require("../middleware/jwtFunctions");
 const router = express.Router();
 
 // user register route
@@ -36,7 +36,10 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
 
 // user login route
 router.post(
-  "/login", (request, response) => {
+  "/login",
+  verifyBasicUserAuth,
+  createJwt,
+  async (request, response) => {
     response.json({
 		  message:"placeholder for user POST endpoint"
 	})
@@ -45,7 +48,9 @@ router.post(
 
 // update an user, only for user
 router.put(
-  "/:targetUserId", async (request, response,next) => {
+  "/:targetUserId", 
+  verifyJwt,
+  async (request, response,next) => {
     // need to add verify user authentication data here, request.authentication.id === request.params.targetUserId
     try {
       let updateData = {...request.body};
@@ -77,7 +82,9 @@ router.get(
 );
 // delete an user
 router.delete(
-  "/:targetUserId", async (request, response,next) => {
+  "/:targetUserId", 
+  verifyJwt,
+  async (request, response,next) => {
     try {
       deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
       // verifyFindDataAndReturn(deleteUser,"User")
