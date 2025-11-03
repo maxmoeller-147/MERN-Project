@@ -1,11 +1,8 @@
 const { default: mongoose } = require("mongoose");
 const validator = require('validator');
+const { ProfileModel } = require("./Profile");
 
 let UserSchema = new mongoose.Schema({
-  profile_id: {
-		type: mongoose.Types.ObjectId,
-		ref: 'Profile'
-	},
 	email: {
     type: String,
     required: [true, 'email is required!'],
@@ -54,6 +51,17 @@ let UserSchema = new mongoose.Schema({
 		default: Date.now
 	}
 });
+// TO BE FIXED, PROFILE DOES NOT DELETE WHEN USER DELETED
+UserSchema.pre("findByIdAndDelete", async function (next) {
+	try {
+		// const deleteProfile = await ProfileModel.find({user_id: this._id});
+		await ProfileModel.findOneAndDelete({user_id: this._id}).exec();
+		console.log(`Profile with user id ${this._id} also deleted`)
+		next()
+	} catch(error) {
+		next(new Error(error))
+	}
+})
 
 const UserModel = mongoose.model("User", UserSchema);
 
