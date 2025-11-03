@@ -65,7 +65,9 @@ router.put(
 
 // view an user, none should be able to see this?
 router.get(
-  "/:targetUserId", (request, response) => {
+  "/:targetUserId",
+  verifyJwt,
+  (request, response) => {
     response.json({
 		  message:"placeholder for user GET endpoint"
 	})

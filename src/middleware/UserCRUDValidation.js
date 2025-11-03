@@ -156,6 +156,10 @@ async function validateRegisterData (request, response, next) {
     };
     
 
+async function canUserViewRoom(request, response, next) {
+  
+}
+
   module.exports = {
     validateRegisterData,
     verifyBasicUserAuth,
