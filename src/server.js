@@ -8,6 +8,10 @@ const helmet = require("helmet");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
 const userController = require("./controllers/UserController")
+const profileController = require("./controllers/ProfileController");
+const connectionController = require("./controllers/ConnectionController")
+const roomChatController = require("./controllers/RoomChatController")
+const multer = require("multer");
 
 
 app.use(helmet());
@@ -24,6 +28,18 @@ app.use(cors(corsOption));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+// image storage 
+let storage = multer.diskStorage({
+    destination: (request, fie, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (request, file, cb) => {
+        cb(null, file.fieldname+ '-' + Date.now())
+    }
+});
+
+
 
 
 app.get("/", (request,response) => {
@@ -50,7 +66,10 @@ app.get("/databaseHealth", (request, response) => {
     })
 })
 
-app.use("/users", userController)
+app.use("/users", userController);
+app.use("/profiles", profileController);
+app.use("/connection", connectionController);
+app.use("/rooms", roomChatController);
 
 app.use((error, request, response, next) => {
     response.json({
@@ -66,4 +85,6 @@ app.all(/.*/, (request,response)=> {
     })
 });
 
-module.exports = { app };
+module.exports = {
+    app, storage
+}
