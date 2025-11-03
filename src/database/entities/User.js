@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { default: mongoose } = require("mongoose");
 const validator = require('validator');
 
 let UserSchema = new mongoose.Schema({
@@ -27,7 +27,7 @@ let UserSchema = new mongoose.Schema({
   password: {
 			type: String,
 			required: [true, 'password is required!'],
-			minLength: 8,
+			minLength: [8, 'password must have minimum 8 characters'],
 			validate: {
 				validator: function (newPassword) {
 					let passwordStrengthRules = {
