@@ -1,6 +1,7 @@
 const express = require("express");
 const { UserModel } = require("../database/entities/User");
-const { validateRegisterData } = require("../middleware/UserCRUDValidation");
+const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt  } = require("../middleware/UserCRUDValidation");
+const { generateJWT } = require("../middleware/jwtFunctions");
 const router = express.Router();
 
 
@@ -16,9 +17,17 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           username: newUserData.username.trim(),
           password: newUserData.password.trim()
         })
-        await newUser.save();
-        response.json(newUser);
+        //await newUser.save();
+        
+        //Create a jwt for the new user
+        let jwt = generateJWT(newUser);
+
+        response.json({
+          data : newUser, 
+          jwt : jwt
+      });
         next();
+
       } catch(error) {
           return next(new Error(error));
       }}
@@ -27,7 +36,10 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
 
 // POST: user login route
 router.post(
-  "/login", (request, response) => {
+  "/login",
+  verifyBasicUserAuth,
+  createJwt,
+  async (request, response) => {
     response.json({
 		  message:"placeholder for user POST endpoint"
 	})
@@ -36,7 +48,9 @@ router.post(
 
 //PUT: update an user, only for user
 router.put(
-  "/:targetUserId", async (request, response,next) => {
+  "/:targetUserId", 
+  verifyJwt,
+  async (request, response,next) => {
     // need to add verify user authentication data here, request.authentication.id === request.params.targetUserId
     try {
       let updateData = {...request.body};
@@ -52,7 +66,9 @@ router.put(
 
 // GET: view an user, none should be able to see this?
 router.get(
-  "/:targetUserId", (request, response) => {
+  "/:targetUserId",
+  verifyJwt,
+  (request, response) => {
     response.json({
 		  message:"placeholder for user GET endpoint"
 	})
@@ -69,7 +85,9 @@ router.get(
 
 // DELETE: delete an user
 router.delete(
-  "/:targetUserId", async (request, response,next) => {
+  "/:targetUserId", 
+  verifyJwt,
+  async (request, response,next) => {
     try {
       deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
       // verifyFindDataAndReturn(deleteUser,"User")
