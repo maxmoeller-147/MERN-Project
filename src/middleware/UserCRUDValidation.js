@@ -75,6 +75,52 @@ async function createJwt (request, response, next){
 	next();
 }
 
+async function verifyJwt (request, response, next) {
+
+  //Get the authorization header from an request
+  let authHeader = request.headers["authorization"] ?? null;
+
+  //if no header is provided, exit
+  if (authHeader == null){
+    return next(new Error("No auth data given"));_
+  }
+
+	// Confirm it's a Bearer auth string, 
+  if (authHeader.startsWith("Bearer ")) {
+      authHeader = authHeader.substring(7).trim();
+  }
+
+
+	try {
+    //Validate the JWT
+		let tokenVerificationResult = await validateJWT(authHeader);
+
+		// If all is good, no errors will be thrown.
+    //Now refresh the jwt so that the users session lasts longer
+		let fresherJwt = generateJWT(tokenVerificationResult.tokenUser);
+
+		// Attach the new JWT to the request.authentication object,
+		// send this back to the user at the end
+		request.authentication = {
+			...request.authentication,
+			jwt: fresherJwt,
+			id: tokenVerificationResult.tokenUser.id,
+			user: tokenVerificationResult.tokenUser
+		}
+
+    //Next middleware
+		next();
+
+	} catch (error) {
+		// We can check for different errors based on their names, and the `jsonwebtoken` package
+		if (error.name == "TokenExpiredError"){
+			return next(new Error("Session expired, please log in again."));
+		} else {
+			return next(new Error("Something went wrong with the session, please sign out and log in again later."));
+		}
+	}
+}
+
 
 
 
@@ -111,5 +157,8 @@ async function validateRegisterData (request, response, next) {
     
 
   module.exports = {
-    validateRegisterData
+    validateRegisterData,
+    verifyBasicUserAuth,
+    createJwt,
+    verifyJwt
   }
