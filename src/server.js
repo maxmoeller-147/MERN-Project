@@ -7,14 +7,26 @@ const io = new Server(server);
 const helmet = require("helmet");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
-const userController = require("./controllers/UserController")
+const userController = require("./controllers/UserController");
+const path = require("path")
 
 
-app.use(helmet());
 
-app.use(express.static(__dirname + '/public'));
+// Serve files from "public" folder
+app.use(express.static(path.join(__dirname, "public")));
 
 
+// Middleware Security Settings
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: false,
+  })
+);
+
+
+// Allow requests only from this origins
 let corsOption = { origin: [
     "http://localhost:5000",
     "https://DatingApp.com"
@@ -22,20 +34,28 @@ let corsOption = { origin: [
 app.use(cors(corsOption));
 
 
+// Json and form data
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
+// Route to send the chat html page
 app.get("/", (request,response) => {
-    response.sendFile(__dirname + '/index.html');
+    response.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-require('../sockets/websocket.js')(server);
 
+// Start the server on port 3000
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
+
+// Import and use the websocket.js file
+require('../sockets/websocket.js')(server);
+
+
+// Route to check MongoDB status
 app.get("/databaseHealth", (request, response) => {
     let databaseState = mongoose.connection.readyState;
     let databaseName = mongoose.connection.name;
@@ -50,8 +70,12 @@ app.get("/databaseHealth", (request, response) => {
     })
 })
 
+
+// User Routes
 app.use("/users", userController)
 
+
+// Error handler Middleware
 app.use((error, request, response, next) => {
     response.json({
         error: error.message
@@ -59,11 +83,13 @@ app.use((error, request, response, next) => {
 });
 
 
-
+// 404 route  
 app.all(/.*/, (request,response)=> {
     response.status(404).json({ message: " Route not found in this API",
     targetPath: request.path
     })
 });
 
+
+// Export the app
 module.exports = { app };
