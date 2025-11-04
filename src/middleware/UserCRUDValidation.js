@@ -1,3 +1,4 @@
+const { BlackListModel } = require("../database/entities/BlackListJwt");
 const { UserModel } = require("../database/entities/User");
 const { generateJWT, validateJWT} = require("./jwtFunctions");
 
@@ -64,7 +65,7 @@ async function createJwt (request, response, next){
 
 	// Create a new JWT based on the user established earlier
 	let newJwt = generateJWT(request.authentication.user);
-  
+
   //Add jwt to the authenticatrion
 	request.authentication = {
 		...request.authentication,
@@ -89,7 +90,6 @@ async function verifyJwt (request, response, next) {
   if (authHeader.startsWith("Bearer ")) {
       authHeader = authHeader.substring(7).trim();
   }
-
 
 	try {
     //Validate the JWT

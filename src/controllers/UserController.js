@@ -3,9 +3,11 @@ const { UserModel } = require("../database/entities/User");
 const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { generateJWT } = require("../middleware/jwtFunctions");
 const { ProfileModel } = require("../database/entities/Profile");
+const { BlackListModel } = require("../database/entities/BlackListJwt");
 const router = express.Router();
 
-// user register route
+
+// POST: user register route
 router.post("/register", validateRegisterData, async (request, response, next)=> {
   if (request.errors.length > 0) {
     return next(new Error(request.errors));
@@ -30,12 +32,11 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
 
       } catch(error) {
           return next(new Error(error));
-      }
-}
-  
-})
+      }}
+});
 
-// user login route
+
+// POST: user login route
 router.post(
   "/login",
   verifyBasicUserAuth,
@@ -43,21 +44,35 @@ router.post(
   async (request, response) => {
 
     response.json({
-		  message:"Login successfully!"
-	})
-  }
-);
-
-router.post("/logout", verifyJwt, async (request, response) => {
-  try {
-    response.clearCookie("access_token");
-    response.json({message: "Logged out successfully"})
-  } catch(error) {
-    return next(new Error("Error when logging out!"));
-  }
+		  message:"login successfully!"
+  })
 });
 
-// update an user, only for user
+// router.post("/logout", verifyJwt, async (request, response,next) => {
+//   try {
+//   //   //Get the authorization header from an request
+//   //   let authHeader = request.headers["authorization"] ?? null;
+
+//   //   //if no header is provided, exit
+//   //   if (authHeader == null){
+//   //     return next(new Error("No auth data given"));_
+//   //   }
+
+// 	//   // Confirm it's a Bearer auth string, 
+//   //   if (authHeader.startsWith("Bearer ")) {
+//   //       authHeader = authHeader.substring(7).trim();
+//   //   }
+
+//     JwtToDelete = await BlackListModel.create({oldjwt: request.authentication.jwt})
+//     await JwtToDelete.save();
+
+//     response.json({message: "Logged out successfully"})
+//   } catch(error) {
+//     return next(new Error(error));
+//   }
+// });
+
+//PUT: update an user, only for user
 router.put(
   "/:targetUserId", 
   verifyJwt,
@@ -72,28 +87,18 @@ router.put(
       } catch(error) {
         return next(new Error("User not found!"));
       }
-      });
+});
 
-// view an user, none should be able to see this?
-router.get(
-  "/:targetUserId",
-  verifyJwt,
-  (request, response) => {
-    response.json({
-		  message:"placeholder for user GET endpoint"
-	})
-  }
-);
 
-// view all users, for admin to view, for development purpose
+// GET: view all users, for admin to view, for development purpose
 router.get(
   "/", async (request, response) => {
     let allUsers = await UserModel.find({})
-    response.json(allUsers
-	)
-  }
-);
-// delete an user
+    response.json(allUsers)
+});
+
+
+// DELETE: delete an user
 router.delete(
   "/:targetUserId", verifyJwt,
   async (request, response,next) => {

@@ -8,13 +8,12 @@ const io = new Server(server);
 const helmet = require("helmet");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
-const path = require("path");
-const userController = require("./controllers/UserController");
+const userController = require("./controllers/UserController")
 const profileController = require("./controllers/ProfileController");
 const connectionController = require("./controllers/ConnectionController");
 const roomChatController = require("./controllers/RoomChatController");
 const multer = require("multer");
-
+const path = require("path");
 
 
 
@@ -46,6 +45,7 @@ app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+
 // image storage 
 let storage = multer.diskStorage({
     destination: (request, fie, cb) => {
@@ -55,8 +55,6 @@ let storage = multer.diskStorage({
         cb(null, file.fieldname+ '-' + Date.now())
     }
 });
-
-
 
 
 // Route to send the chat html page
@@ -111,6 +109,9 @@ app.all(/.*/, (request,response)=> {
     })
 });
 
+
+// Export the app
 module.exports = {
     app, storage
 }
+
