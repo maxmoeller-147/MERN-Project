@@ -7,6 +7,7 @@ const fs = require("fs");
 const { ProfileModel } = require("../database/entities/Profile");
 const { ConnectionModel } = require("../database/entities/Connection");
 
+
 // view user profile for anyone in connection
 // TODO: USE CONNECTION CONDITION LOGIC FOR AUTHORISATION, TO FIX
 router.get('/:userId', async (request, response) => {

@@ -1,9 +1,12 @@
 const express = require("express");
 const { RoomChatModel } = require("../database/entities/RoomChat");
 const { MessageModel } = require("../database/entities/Message");
+const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const router = express.Router();
 
-router.post('/', async  (request, response,next) => {
+router.post('/', 
+  verifyJwt,
+  async  (request, response,next) => {
   newRoomData = {...request.body};
   try {
     newRoom = await RoomChatModel.create({

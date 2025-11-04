@@ -1,5 +1,6 @@
 const express = require("express");
 const { ConnectionModel } = require("../database/entities/Connection");
+
 const router = express.Router();
 
 router.post('/', async (request, response,next) => {
