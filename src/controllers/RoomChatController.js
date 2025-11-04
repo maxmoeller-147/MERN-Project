@@ -23,21 +23,29 @@ router.post('/',
   newRoomData = {...request.body};
 
   try {
+    
     let participants =  newRoomData.participants;
     let includes_creator = false;
+
+    //Go through all given participants and make sure they are valid
     for(let i =0; i < participants.length; i ++){
+      //If any are not valid throw an error
       if (!mongoose.Types.ObjectId.isValid(participants[i])){
          throw new Error('Invalid participant id');
       } else{
+        //if the found user is the same as the user calling, we dont have to add the user calling to the array
         if (participants[i] == user){
           includes_creator = true
         }
       }
     }
 
+    //If the room participants doesnt include the user who made the request, add it to the room
     if (!includes_creator){
       participants.push(user);
     }
+
+    //Create the room model
     newRoom = await RoomChatModel.create({
       name: newRoomData.name,
       participants: participants,
@@ -46,6 +54,7 @@ router.post('/',
     await newRoom.save();
     response.json(newRoom);
     next();
+
   } catch(error) {
     return next(new Error(error));
   }
