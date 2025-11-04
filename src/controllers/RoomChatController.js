@@ -1,5 +1,6 @@
 const express = require("express");
 const { RoomChatModel } = require("../database/entities/RoomChat");
+const { MessageModel } = require("../database/entities/Message");
 const router = express.Router();
 
 router.post('/', async  (request, response,next) => {
@@ -20,9 +21,12 @@ router.post('/', async  (request, response,next) => {
 
 router.get('/:roomChatId', async  (request, response,next) => {
   try {
-    findRoom = await RoomChatModel.findById(request.params.roomChatId);
+    findRoom = await RoomChatModel.findById(request.params.roomChatId).exec();
+    findMessage = await MessageModel.find({room_id:request.params.roomChatId}).exec();
     if (findRoom) {
-      response.json(findRoom);
+      response.json({
+        roomchat:findRoom,
+        messages: findMessage});
       next();
     } else {
       return next(new Error("Room not found!"))
@@ -47,7 +51,6 @@ router.put('/:roomChatId', async  (request, response,next) => {
 router.delete('/:roomChatId', async  (request, response,next) => {
     try {
       deleteRoom = await RoomChatModel.findByIdAndDelete(request.params.roomChatId).exec()
-      // verifyFindDataAndReturn(deleteUser,"User")
       if (deleteRoom) {
       response.json({
         message: 'Room is deleted successfully',

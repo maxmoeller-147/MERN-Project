@@ -64,7 +64,7 @@ async function createJwt (request, response, next){
 
 	// Create a new JWT based on the user established earlier
 	let newJwt = generateJWT(request.authentication.user);
-
+  
   //Add jwt to the authenticatrion
 	request.authentication = {
 		...request.authentication,
@@ -116,11 +116,10 @@ async function verifyJwt (request, response, next) {
 		if (error.name == "TokenExpiredError"){
 			return next(new Error("Session expired, please log in again."));
 		} else {
-			return next(new Error("Something went wrong with the session, please sign out and log in again later."));
+			return next(new Error(error));
 		}
 	}
 }
-
 
 
 

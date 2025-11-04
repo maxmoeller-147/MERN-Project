@@ -11,7 +11,6 @@ let MessageSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User'
     },
-    timestamps: true,
     content: String,
     attachment: {
       type: mongoose.Types.ObjectId,
@@ -26,7 +25,8 @@ let MessageSchema = new mongoose.Schema(
       message: "Invalid Status! Status must be 'SENT', DELIVERED or 'SEEN'"
     }
     }
-}
+},
+{ timestamps: true }
 )
 
 const MessageModel = mongoose.model("Message", MessageSchema);

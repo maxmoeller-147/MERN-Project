@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -16,7 +17,8 @@ const multer = require("multer");
 
 
 
-// Serve files from "public" folder
+
+// // Serve files from "public" folder
 app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -28,6 +30,8 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
+
+app.use(cookieParser());
 
 
 // Allow requests only from this origins

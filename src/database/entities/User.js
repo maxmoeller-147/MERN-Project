@@ -59,17 +59,6 @@ let UserSchema = new mongoose.Schema({
 		}
 	}
 });
-// TO BE FIXED, PROFILE DOES NOT DELETE WHEN USER DELETED
-UserSchema.pre("findByIdAndDelete", async function (next) {
-	try {
-		// const deleteProfile = await ProfileModel.find({user_id: this._id});
-		await ProfileModel.findOneAndDelete({user_id: this._id}).exec();
-		console.log(`Profile with user id ${this._id} also deleted`)
-		next()
-	} catch(error) {
-		next(new Error(error))
-	}
-})
 
 UserSchema.pre(
 	"save",

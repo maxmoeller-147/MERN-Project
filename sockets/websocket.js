@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const { MessageModel } = require("../src/database/entities/Message");
 
 
 // Initiates Socket.IO with the HTTP server with cors that defines the origins that can connect via WebSocket
@@ -21,8 +22,9 @@ io.on('connection', (socket) => {
   console.log('a user connected:', socket.id);
 
   // Event chat message starts when a client sends a chat message. Message is logged and broadcast to all connected clients  
-  socket.on('chat message', (msg) => {
+  socket.on('chat message', async (msg) => {
     console.log('message: ' + msg);
+
     io.emit("chat message", msg);
   });
 

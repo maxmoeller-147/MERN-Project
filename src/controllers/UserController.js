@@ -2,6 +2,7 @@ const express = require("express");
 const { UserModel } = require("../database/entities/User");
 const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { generateJWT } = require("../middleware/jwtFunctions");
+const { ProfileModel } = require("../database/entities/Profile");
 const router = express.Router();
 
 // user register route
@@ -22,7 +23,7 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
         let jwt = generateJWT(newUser);
 
         response.json({
-          data : newUser, 
+          data: newUser, 
           jwt : jwt
       });
         next();
@@ -40,11 +41,21 @@ router.post(
   verifyBasicUserAuth,
   createJwt,
   async (request, response) => {
+
     response.json({
-		  message:"placeholder for user POST endpoint"
+		  message:"Login successfully!"
 	})
   }
 );
+
+router.post("/logout", verifyJwt, async (request, response) => {
+  try {
+    response.clearCookie("access_token");
+    response.json({message: "Logged out successfully"})
+  } catch(error) {
+    return next(new Error("Error when logging out!"));
+  }
+});
 
 // update an user, only for user
 router.put(
@@ -84,12 +95,11 @@ router.get(
 );
 // delete an user
 router.delete(
-  "/:targetUserId", 
-  verifyJwt,
+  "/:targetUserId", verifyJwt,
   async (request, response,next) => {
     try {
       deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
-      // verifyFindDataAndReturn(deleteUser,"User")
+      await ProfileModel.findOneAndDelete({user_id: request.params.targetUserId}).exec()
       if (deleteUser) {
       response.json({
         message: 'User deleted successfully',

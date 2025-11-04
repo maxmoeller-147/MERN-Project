@@ -42,7 +42,6 @@ router.post('/:userId/create', upload.single('image'), async (request, response,
     user_id: request.params.userId,
     image: {
       data: request.body.image.data,
-      // data: fs.readFileSync(path.join(__dirname+ 'uploads' + request.file.filename)),
       contentType: 'image/png'
     },
     description: request.body.description
@@ -71,10 +70,18 @@ router.put('/:userId', async (request, response,next) => {
       }
 });
 
-// router.delete('/:targetProfileId', (request, response) => {
+// for dev, to be deleted
+router.get('/', async (request, response) => {
+  allProfiles = await ProfileModel.find({})
+  response.json(allProfiles)
+});
+
+// router.delete("/:profileId", async(request, response) => {
+//   deleteProfile = await ProfileModel.findByIdAndDelete(request.params.profileId)
 //   response.json({
-// 		  message:"placeholder for endpoint"
+//         message: 'profile deleted successfully',
+//         deleteData: deleteProfile
+//       })
 // })
-// });
 
 module.exports = router;

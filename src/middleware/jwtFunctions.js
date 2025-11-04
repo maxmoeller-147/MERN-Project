@@ -34,6 +34,7 @@ function generateJWT(targetUser){
 
 
 
+
 /**
  * Returns an object and user for a given JWT, if the JWT is valid.
  */
@@ -47,7 +48,7 @@ async function validateJWT(targetJwt){
 	console.log(JSON.stringify(validJwt, null, 4));
 
 	// Make sure the JWT is a valid user and not a random one
-	let tokenUser = await UserModel.findOne({_id: validJwt.validJwt.userId});
+	let tokenUser = await UserModel.findOne({_id: validJwt.userId});
 
 	if (!tokenUser || tokenUser == null){
 		throw new Error("User not found for provided token.");
