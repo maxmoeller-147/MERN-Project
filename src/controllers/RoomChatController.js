@@ -1,17 +1,46 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const { RoomChatModel } = require("../database/entities/RoomChat");
 const { MessageModel } = require("../database/entities/Message");
+const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const router = express.Router();
 
 router.post('/', 
   verifyJwt,
   async  (request, response,next) => {
+
+  let userId = request.authentication.id
+
+  // Validate that its a valid id
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw new Error('Invalid user id');
+  }
+
+  //Find the user creating the room
+  const user = await UserModel.findById(userId).exec();
+
   newRoomData = {...request.body};
+
   try {
+    let participants =  newRoomData.participants;
+    let includes_creator = false;
+    for(let i =0; i < participants.length; i ++){
+      if (!mongoose.Types.ObjectId.isValid(participants[i])){
+         throw new Error('Invalid participant id');
+      } else{
+        if (participants[i] == user){
+          includes_creator = true
+        }
+      }
+    }
+
+    if (!includes_creator){
+      participants.push(user);
+    }
     newRoom = await RoomChatModel.create({
       name: newRoomData.name,
-      participants: newRoomData.participants,
+      participants: participants,
       type: newRoomData.type
     });
     await newRoom.save();

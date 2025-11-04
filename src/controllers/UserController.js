@@ -44,7 +44,8 @@ router.post(
   async (request, response) => {
 
     response.json({
-		  message:"login successfully!"
+		  message:"login successfully!",
+      jwt : request.authentication.jwt
   })
 });
 
