@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require("express");
 const mongoose = require("mongoose");
 const { RoomChatModel } = require("../database/entities/RoomChat");
@@ -64,12 +65,25 @@ router.get('/:roomChatId',
   verifyJwt,
   canViewRoom,
   async  (request, response,next) => {
-  response.json({
-		  message:"Joined room!"
-  })
+
+  //No html version
+  //response.json({ message:"Joined room!" })
+
+  try {
+    // Serve the chatroom HTML page
+    response.sendFile(
+      path.join(__dirname, '..', 'public', 'chatroom.html')
+    );
+  } catch (error) {
+    next(error);
+  }
+  
 });
 
-router.put('/:roomChatId', async  (request, response,next) => {
+router.put('/:roomChatId', 
+  verifyJwt,
+  canViewRoom,
+  async  (request, response,next) => {
   try {
     let updateData = {...request.body};
     updateRoom = await RoomChatModel.findByIdAndUpdate(request.params.roomChatId, updateData, {returnDocument: "after"}).exec()
@@ -81,7 +95,10 @@ router.put('/:roomChatId', async  (request, response,next) => {
     };
 });
 
-router.delete('/:roomChatId', async  (request, response,next) => {
+router.delete('/:roomChatId', 
+  verifyJwt,
+  canViewRoom,
+  async  (request, response,next) => {
     try {
       deleteRoom = await RoomChatModel.findByIdAndDelete(request.params.roomChatId).exec()
       if (deleteRoom) {
