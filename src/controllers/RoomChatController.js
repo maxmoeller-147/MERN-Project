@@ -4,6 +4,7 @@ const { RoomChatModel } = require("../database/entities/RoomChat");
 const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
+const { canViewRoom  } = require("../middleware/RoomChatValidations");
 const router = express.Router();
 
 router.post('/', 
@@ -24,25 +25,24 @@ router.post('/',
 
   try {
     
-    let participants =  newRoomData.participants;
-    let includes_creator = false;
+    let imported_participants = newRoomData.participants;
+    let participants = [user.id]
 
     //Go through all given participants and make sure they are valid
-    for(let i =0; i < participants.length; i ++){
+    for(let i =0; i < imported_participants.length; i ++){
       //If any are not valid throw an error
-      if (!mongoose.Types.ObjectId.isValid(participants[i])){
+      
+      let new_participant = await UserModel.findById(imported_participants[i]).exec();
+      if (new_participant == null){
          throw new Error('Invalid participant id');
       } else{
         //if the found user is the same as the user calling, we dont have to add the user calling to the array
-        if (participants[i] == user){
-          includes_creator = true
+        if (new_participant== user){
+          continue
         }
-      }
-    }
 
-    //If the room participants doesnt include the user who made the request, add it to the room
-    if (!includes_creator){
-      participants.push(user);
+        participants.push(imported_participants[i])
+      }
     }
 
     //Create the room model
@@ -60,21 +60,13 @@ router.post('/',
   }
 });
 
-router.get('/:roomChatId', async  (request, response,next) => {
-  try {
-    findRoom = await RoomChatModel.findById(request.params.roomChatId).exec();
-    findMessage = await MessageModel.find({room_id:request.params.roomChatId}).exec();
-    if (findRoom) {
-      response.json({
-        roomchat:findRoom,
-        messages: findMessage});
-      next();
-    } else {
-      return next(new Error("Room not found!"))
-    }
-  } catch {
-    return next(new Error("Room id is not valid!"))
-  }
+router.get('/:roomChatId', 
+  verifyJwt,
+  canViewRoom,
+  async  (request, response,next) => {
+  response.json({
+		  message:"Joined room!"
+  })
 });
 
 router.put('/:roomChatId', async  (request, response,next) => {
