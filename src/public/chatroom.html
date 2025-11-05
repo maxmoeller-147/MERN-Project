@@ -1,0 +1,23 @@
+<!-- 
+  Main front end page to test the Socket.IO connection and Chat function.
+  It's a temporarily simple page just for testing.
+  
+  Connects the user's browser to the Server via WebSockets.
+-->
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Chat</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/chat.js"></script>
+  </body>
+</html>
