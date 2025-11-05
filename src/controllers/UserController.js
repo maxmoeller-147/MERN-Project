@@ -20,7 +20,7 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           password: newUserData.password.trim()
         })
         //await newUser.save();
-        
+
         //Create a jwt for the new user
         let jwt = generateJWT(newUser);
 
@@ -42,7 +42,6 @@ router.post(
   verifyBasicUserAuth,
   createJwt,
   async (request, response) => {
-
     response.json({
 		  message:"login successfully!"
   })

@@ -125,7 +125,7 @@ async function verifyJwt (request, response, next) {
 
 async function validateRegisterData (request, response, next) {
     let errors = [];
-    
+
     if (request.body.username) {
       let newUsername = request.body.username.trim().toLowerCase()
       let findUsername = await UserModel.findOne({ username: newUsername }).exec()
