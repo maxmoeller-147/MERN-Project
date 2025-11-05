@@ -88,9 +88,13 @@ async function verifyJwt (request, response, next) {
 
 	// Confirm it's a Bearer auth string, 
   if (authHeader.startsWith("Bearer ")) {
-      authHeader = authHeader.substring(7).trim();
+    authHeader = authHeader.substring(7).trim();
   }
 
+  findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
+  if (findJwtInBlackList) {
+    return next(new Error("User has logged out, please log in again!"))
+  }
 	try {
     //Validate the JWT
 		let tokenVerificationResult = await validateJWT(authHeader);
@@ -121,6 +125,29 @@ async function verifyJwt (request, response, next) {
 	}
 }
 
+async function logout(request, response, next) {
+  let authHeader = request.headers["authorization"] ?? null;
+
+  //if no header is provided, exit
+  if (authHeader == null){
+    return next(new Error("No auth data given"));_
+  }
+
+	// Confirm it's a Bearer auth string, 
+  if (authHeader.startsWith("Bearer ")) {
+    authHeader = authHeader.substring(7).trim();
+  }
+  try {
+    //Validate the JWT
+		token = await validateJWT(authHeader);
+
+    expired_jwt = await BlackListModel.create({oldjwt: authHeader});
+    next();
+
+  } catch(error) {
+    return next(new Error(error))
+  }
+  };
 
 
 async function validateRegisterData (request, response, next) {
@@ -163,5 +190,6 @@ async function canUserViewRoom(request, response, next) {
     validateRegisterData,
     verifyBasicUserAuth,
     createJwt,
-    verifyJwt
+    verifyJwt,
+    logout
   }

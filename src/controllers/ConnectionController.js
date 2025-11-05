@@ -37,7 +37,7 @@ router.delete('/:connectionId', async (request, response,next) => {
   }
 });
 
-// for development purpose, to be deleted
+// VIEW ALL FRIENDS IN CONNECTION, TO BE EDITED
 router.get('/', async  (request, response) => {
   allConnection = await ConnectionModel.find({});
   response.json(allConnection);

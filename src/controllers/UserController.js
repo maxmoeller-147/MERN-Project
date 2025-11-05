@@ -1,6 +1,6 @@
 const express = require("express");
 const { UserModel } = require("../database/entities/User");
-const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt  } = require("../middleware/UserCRUDValidation");
+const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt, logout  } = require("../middleware/UserCRUDValidation");
 const { generateJWT } = require("../middleware/jwtFunctions");
 const { ProfileModel } = require("../database/entities/Profile");
 const { BlackListModel } = require("../database/entities/BlackListJwt");
@@ -19,7 +19,7 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           username: newUserData.username.trim(),
           password: newUserData.password.trim()
         })
-        //await newUser.save();
+        await newUser.save();
 
         //Create a jwt for the new user
         let jwt = generateJWT(newUser);
@@ -48,29 +48,9 @@ router.post(
   })
 });
 
-// router.post("/logout", verifyJwt, async (request, response,next) => {
-//   try {
-//   //   //Get the authorization header from an request
-//   //   let authHeader = request.headers["authorization"] ?? null;
-
-//   //   //if no header is provided, exit
-//   //   if (authHeader == null){
-//   //     return next(new Error("No auth data given"));_
-//   //   }
-
-// 	//   // Confirm it's a Bearer auth string, 
-//   //   if (authHeader.startsWith("Bearer ")) {
-//   //       authHeader = authHeader.substring(7).trim();
-//   //   }
-
-//     JwtToDelete = await BlackListModel.create({oldjwt: request.authentication.jwt})
-//     await JwtToDelete.save();
-
-//     response.json({message: "Logged out successfully"})
-//   } catch(error) {
-//     return next(new Error(error));
-//   }
-// });
+router.post("/logout", logout, async (request, response) => {
+  response.json({message: "Logout successfully"})
+});
 
 //PUT: update an user, only for user
 router.put(

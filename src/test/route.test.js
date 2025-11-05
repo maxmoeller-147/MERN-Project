@@ -6,33 +6,35 @@ const { UserModel } = require("../database/entities/User");
 describe("Users route works.", () => {
   it("Register route works ", async () => {
     // Spy on UserModel.findOne and mock its resolution
+    register_user = {
+      email: "abcd@gmail.com",
+      username: "abcdef",
+      password: "Abcd2335!"
+    }
     jest.spyOn(UserModel, 'findOne').mockResolvedValue(false);
 
     let response = await request(app)
       .post("/users/register")
-      .send({
-        email: "abcd@gmail.com",
-        username: "abcdef",
-        password: "Abcd2335!",
-      });
-
-    console.log("flag 3");
+      .send(register_user);
     expect(response.status).toEqual(200);
   });
 
-  it("Register route works ", async () => {
+  it("Login route works ", async () => {
     // Spy on UserModel.findOne and mock its resolution
-    jest.spyOn(UserModel, 'findOne').mockResolvedValue(false);
-
+    mock_user = {
+      email: "jack12@gmail.com",
+      username: "jack12",
+      password: "Jack1234!"
+    }
+    jest.spyOn(UserModel, 'findOne').mockResolvedValue(true);
     let response = await request(app)
-      .post("/users/register")
+      .post("/users/login")
       .send({
-        email: "abcd@gmail.com",
-        username: "abcdef",
-        password: "Abcd2335!",
+        email: "jack12@gmail.com",
+        username: "jack12",
+        password: "Jack1234!"
       });
 
-    console.log("flag 3");
     expect(response.status).toEqual(200);
   });
 });
