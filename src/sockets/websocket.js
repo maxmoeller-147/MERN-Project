@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 const { MessageModel } = require("../database/entities/Message");
-
+const { validateJWT } = require("../middleware/jwtFunctions");
 
 // Initiates Socket.IO with the HTTP server with cors that defines the origins that can connect via WebSocket
 module.exports = (server) => {
@@ -18,7 +18,21 @@ module.exports = (server) => {
 
 
   // Event Connection that triggers each time a new client connects to the server.
-  io.on('connection', (socket) => {
+  io.on('connection',async (socket) => {
+
+    const token = socket.handshake.auth.token;
+    console.log('jwt token received', token);
+
+    try{
+      const userData = await validateJWT(token);
+      socket.user = userData.userId; 
+      console.log('User verified:', socket.user);
+    } catch (error){
+      console.error('Invalid JWT:', error);
+      socket.disconnect(true);
+      return;
+    }
+    
     console.log('a user connected:', socket.id);
 
     socket.on("Message", async (msg) => {

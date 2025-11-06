@@ -9,6 +9,9 @@ const { promises } = require('dns');
 const { resolve } = require('path');
 
 
+jest.mock('../middleware/jwtFunctions', () => ({
+  validateJWT: jest.fn().mockResolvedValue({ id: 1, name: 'TestUser' }),
+}));
 
 
 // Avoids calls to the Database 
@@ -34,9 +37,12 @@ describe('Websocket Test', () => {
     io = initSocketServer(httpServer);
     httpServer.listen(() => {
       const port = httpServer.address().port;
-      clientSocket = new Client (`http://localhost:${httpServer.address().port}`);
-      clientSocket.on('connect', done);
+      clientSocket = new Client (`http://localhost:${httpServer.address().port}`, {
+      auth: { token: 'FAKE_TOKEN' }, 
     });
+    
+    clientSocket.on('connect', done);
+   });
   });
 
   // Close io and server
