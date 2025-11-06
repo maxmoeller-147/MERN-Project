@@ -3,7 +3,6 @@ const { UserModel } = require("../database/entities/User");
 const { validateRegisterData, verifyBasicUserAuth, createJwt, verifyJwt, logout  } = require("../middleware/UserCRUDValidation");
 const { generateJWT } = require("../middleware/jwtFunctions");
 const { ProfileModel } = require("../database/entities/Profile");
-const { BlackListModel } = require("../database/entities/BlackListJwt");
 const router = express.Router();
 
 
@@ -84,7 +83,7 @@ router.delete(
   async (request, response,next) => {
     try {
       deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
-      await ProfileModel.findOneAndDelete({user_id: request.params.targetUserId}).exec()
+      await ProfileModel.findOneAndDelete({userId: request.params.targetUserId}).exec()
       if (deleteUser) {
       response.json({
         message: 'User deleted successfully',

@@ -15,15 +15,15 @@ router.get('/:userId', async (request, response) => {
   userConnection = await ConnectionModel.find({
     $or: [
       {$and: [
-        {user_id: requestUserId},
-        {friend_id: request.params.userId}
+        {userId: requestUserId},
+        {friendId: request.params.userId}
       ]},
       {$and: [
-        {friend_id: requestUserId},
-        {user_id: request.params.userId}
+        {friendId: requestUserId},
+        {userId: request.params.userId}
       ]}
     ]
-  });
+  })
 
   // if (userConnection) {
   //   targetUserProfile = await ProfileModel.findOne({user_id: request.params.userId});
@@ -40,7 +40,7 @@ router.get('/:userId', async (request, response) => {
 router.post('/:userId/create', upload.single('image'), async (request, response,next) => {
 
   let newProfileData = {
-    user_id: request.params.userId,
+    userId: request.params.userId,
     image: {
       data: request.body.image.data,
       contentType: 'image/png'
@@ -61,14 +61,15 @@ router.post('/:userId/create', upload.single('image'), async (request, response,
 // TODO: ADD USER AUTHORISATION
 router.put('/:userId', async (request, response,next) => {
  try {
-      let updateData = {...request.body};
-      updateProfile = await ProfileModel.findOneAndUpdate({user_id:request.params.userId}, updateData, {returnDocument: "after"}).exec();
-      await updateProfile.save();
-      response.json(updateProfile);
-      next();
-      } catch(error) {
-        return next(new Error("Profile not found!"));
-      }
+  let updateData = {...request.body};
+  updateProfile = await ProfileModel.findOneAndUpdate({
+    userId:request.params.userId}, updateData, {returnDocument: "after"}).exec();
+  await updateProfile.save();
+  response.json(updateProfile);
+  next();
+  } catch(error) {
+    return next(new Error("Profile not found!"));
+  }
 });
 
 // for dev, to be deleted

@@ -2,7 +2,6 @@ const path = require('path');
 const express = require("express");
 const mongoose = require("mongoose");
 const { RoomChatModel } = require("../database/entities/RoomChat");
-const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { canViewRoom  } = require("../middleware/RoomChatValidations");
@@ -26,23 +25,23 @@ router.post('/',
 
   try {
     
-    let imported_participants = newRoomData.participants;
+    let importedParticipants = newRoomData.participants;
     let participants = [user.id]
 
     //Go through all given participants and make sure they are valid
-    for(let i =0; i < imported_participants.length; i ++){
+    for(let i = 0; i < importedParticipants.length; i ++) {
       //If any are not valid throw an error
       
-      let new_participant = await UserModel.findById(imported_participants[i]).exec();
-      if (new_participant == null){
+      let newParticipant = await UserModel.findById(importedParticipants[i]).exec();
+      if (newParticipant == null){
          throw new Error('Invalid participant id');
       } else{
         //if the found user is the same as the user calling, we dont have to add the user calling to the array
-        if (new_participant== user){
+        if (newParticipant== user){
           continue
         }
 
-        participants.push(imported_participants[i])
+        participants.push(importedParticipants[i])
       }
     }
 

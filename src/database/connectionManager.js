@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 
 
-async function dbConnect(){
+async function dbConnect() {
 	try {
 		let targetDatabaseUrl = process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/DatingAppDatabase";
 		console.log("Connecting to database: " + targetDatabaseUrl);
@@ -13,7 +13,7 @@ async function dbConnect(){
 }
 
 
-async function dbClose(){
+async function dbClose() {
 	await mongoose.connection.close();
 	console.log("Database disconnected!");
 }

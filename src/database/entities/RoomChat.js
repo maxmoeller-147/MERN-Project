@@ -3,7 +3,7 @@ const validator = require('validator');
 
 let RoomChatSchema = new mongoose.Schema(
   {
-  creation_date: {
+  creationDate: {
     type: Date,
     default: Date.now()
   },

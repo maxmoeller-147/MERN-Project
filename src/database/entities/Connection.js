@@ -3,15 +3,15 @@ const validator = require('validator');
 
 let ConnectionSchema = new mongoose.Schema(
   {
-  user_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User'
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
   },
-  friend_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User'
+  friendId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
   },
-  connection_status: {
+  connectionStatus: {
     type: String,
     validate: {
       validator: function(newStatus) {

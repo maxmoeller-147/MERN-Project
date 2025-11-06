@@ -47,7 +47,7 @@ let UserSchema = new mongoose.Schema({
 				message: validatorError => `${validatorError.value} is not a strong password! Choose another password!`
 			}
 		},
-  creation_date: {
+  creationDate: {
 		type: Date,
 		default: Date.now
 	},

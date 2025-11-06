@@ -71,4 +71,4 @@ io.on('connection', async (socket) => {
     const newMessage = await MessageModel.create(msg);
     io.to(roomId).emit("roomMessage", newMessage);
   });
-});}
+})};
