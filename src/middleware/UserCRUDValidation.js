@@ -10,8 +10,8 @@ async function verifyBasicUserAuth (request, response, next) {
   let authHeader = request.headers["authorization"] ?? null;
 
   //if no header is provided, exit
-  if (authHeader == null){
-    return next(new Error("No auth data given"));_
+  if (authHeader == null) {
+    return next(new Error("No auth data given"));
   }
   
   //Check its a basic auth string
@@ -30,13 +30,13 @@ async function verifyBasicUserAuth (request, response, next) {
 	// Check if a user exists for the given login email.
 	let foundUser = await UserModel.findOne({email: objDecodedAuth.email});
 
-	if (!foundUser || foundUser == null){
+	if (!foundUser || foundUser == null) {
 		return next(new Error("No user found for the given auth data."));
 	}
 
   //Check if the password matches the found user
 	let doesPasswordMatch = await foundUser.isMatchingPassword(objDecodedAuth.password);
-	if (!doesPasswordMatch){
+	if (!doesPasswordMatch) {
     //Do not let the error know that the password is incorrect
 		return next(new Error("No user matches the given auth data."));
 	}
@@ -55,11 +55,11 @@ async function verifyBasicUserAuth (request, response, next) {
 
 
 //Create a JWT
-async function createJwt (request, response, next){
+async function createJwt (request, response, next) {
 	// createJwt is used in a middleware chain after verifyBasicUserAuth has been called.
 
 	//The ? is used here to make sure that request.authentication exists before finding .user
-	if (!request.authentication?.user){
+	if (!request.authentication?.user) {
 		return next (new Error("Something went wrong with your session, please sign out and log in again later."));
 	}
 
@@ -83,7 +83,7 @@ async function verifyJwt (request, response, next) {
 
   //if no header is provided, exit
   if (authHeader == null){
-    return next(new Error("No auth data given"));_
+    return next(new Error("No auth data given"));
   }
 
 	// Confirm it's a Bearer auth string, 
@@ -91,10 +91,10 @@ async function verifyJwt (request, response, next) {
     authHeader = authHeader.substring(7).trim();
   }
 
-  findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
-  if (findJwtInBlackList) {
-    return next(new Error("User has logged out, please log in again!"))
-  }
+  //findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
+  // if (findJwtInBlackList) {
+  //  return next(new Error("User has logged out, please log in again!"))
+  //}
 	try {
     //Validate the JWT
 		let tokenVerificationResult = await validateJWT(authHeader);
@@ -130,7 +130,7 @@ async function logout(request, response, next) {
 
   //if no header is provided, exit
   if (authHeader == null){
-    return next(new Error("No auth data given"));_
+    return next(new Error("No auth data given"));
   }
 
 	// Confirm it's a Bearer auth string, 
@@ -141,7 +141,7 @@ async function logout(request, response, next) {
     //Validate the JWT
 		token = await validateJWT(authHeader);
 
-    expired_jwt = await BlackListModel.create({oldjwt: authHeader});
+    expiredJwt = await BlackListModel.create({oldjwt: authHeader});
     next();
 
   } catch(error) {
@@ -181,11 +181,6 @@ async function validateRegisterData (request, response, next) {
     next()
     };
     
-
-async function canUserViewRoom(request, response, next) {
-  
-}
-
   module.exports = {
     validateRegisterData,
     verifyBasicUserAuth,

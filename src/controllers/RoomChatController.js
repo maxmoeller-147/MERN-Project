@@ -2,7 +2,6 @@ const path = require('path');
 const express = require("express");
 const mongoose = require("mongoose");
 const { RoomChatModel } = require("../database/entities/RoomChat");
-const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { canViewRoom  } = require("../middleware/RoomChatValidations");
@@ -26,23 +25,23 @@ router.post('/',
 
   try {
     
-    let imported_participants = newRoomData.participants;
+    let importedParticipants = newRoomData.participants;
     let participants = [user.id]
 
     //Go through all given participants and make sure they are valid
-    for(let i =0; i < imported_participants.length; i ++){
+    for(let i = 0; i < importedParticipants.length; i ++) {
       //If any are not valid throw an error
       
-      let new_participant = await UserModel.findById(imported_participants[i]).exec();
-      if (new_participant == null){
+      let newParticipant = await UserModel.findById(importedParticipants[i]).exec();
+      if (newParticipant == null){
          throw new Error('Invalid participant id');
       } else{
         //if the found user is the same as the user calling, we dont have to add the user calling to the array
-        if (new_participant== user){
+        if (newParticipant== user){
           continue
         }
 
-        participants.push(imported_participants[i])
+        participants.push(importedParticipants[i])
       }
     }
 
@@ -79,6 +78,26 @@ router.get('/:roomChatId',
   }
   
 });
+
+//Debugging room joining
+router.get('/debug/join/:roomChatId', 
+  verifyJwt,
+  canViewRoom,
+  async  (request, response, next) => {
+    const jwt = request.authentication.jwt; // from your verifyJwt middleware
+    const roomId = request.params.roomChatId;
+    response.redirect(`http://localhost:3000/rooms/debug/${roomId}?jwt=${jwt}`);
+});
+//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI0MDAwNzQsImV4cCI6MTc2MjQ4NjQ3NH0.feCnzTl5ImALf9dSmZp5Ex0FjR1SXrqdDcPJZwAlayE
+
+//Debugging room joining
+router.get('/debug/:roomChatId', 
+  async  (request, response, next) => {
+    response.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
+
+
+
 
 router.put('/:roomChatId', 
   verifyJwt,

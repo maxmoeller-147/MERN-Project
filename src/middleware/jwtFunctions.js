@@ -8,7 +8,7 @@ const { UserModel } = require("../database/entities/User");
  * 
  * JWTs made in this function will expire after 24 hours.
  */
-function generateJWT(targetUser){
+function generateJWT(targetUser) {
 	let tokenBody = {
 		userId: targetUser.id
 	}
@@ -38,7 +38,7 @@ function generateJWT(targetUser){
 /**
  * Returns an object and user for a given JWT, if the JWT is valid.
  */
-async function validateJWT(targetJwt){
+async function validateJWT(targetJwt) {
 	if (!process.env.JWT_SECRET) {
 		throw new Error("Server environment configuration failure on token validation.");
 	}
@@ -50,7 +50,7 @@ async function validateJWT(targetJwt){
 	// Make sure the JWT is a valid user and not a random one
 	let tokenUser = await UserModel.findOne({_id: validJwt.userId});
 
-	if (!tokenUser || tokenUser == null){
+	if (!tokenUser || tokenUser == null) {
 		throw new Error("User not found for provided token.");
 	}
 

@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 
 let ProfileSchema = new mongoose.Schema(
   {
-    user_id: {
+    userId: {
       type: mongoose.Types.ObjectId,
 		  ref: 'User'
     },

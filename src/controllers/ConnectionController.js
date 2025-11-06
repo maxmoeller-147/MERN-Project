@@ -7,12 +7,12 @@ router.post('/', async (request, response,next) => {
   let newConnectionData = {...request.body};
   try {
     newConnection = await ConnectionModel.create({
-      user_id: newConnectionData.user_id,
-      friend_id: newConnectionData.friend_id,
-      connection_status: newConnectionData.connection_status
-    })
+      userId: newConnectionData.userid,
+      friendId: newConnectionData.friendid,
+      connectionStatus: newConnectionData.connectionstatus
+    });
     await newConnection.save();
-    response.json(newConnection)
+    response.json(newConnection);
     next();
   } catch(error){
     return next(new Error(error));
@@ -35,7 +35,7 @@ router.delete('/:connectionId', async (request, response,next) => {
   } catch(error) {
     return next(new Error("Connection id is not valid!"));
   }
-});
+})
 
 // VIEW ALL FRIENDS IN CONNECTION, TO BE EDITED
 router.get('/', async  (request, response) => {
