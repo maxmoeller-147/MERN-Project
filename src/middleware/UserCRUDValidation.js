@@ -91,10 +91,10 @@ async function verifyJwt (request, response, next) {
     authHeader = authHeader.substring(7).trim();
   }
 
-  findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
-  if (findJwtInBlackList) {
-    return next(new Error("User has logged out, please log in again!"))
-  }
+  //findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
+  // if (findJwtInBlackList) {
+  //  return next(new Error("User has logged out, please log in again!"))
+  //}
 	try {
     //Validate the JWT
 		let tokenVerificationResult = await validateJWT(authHeader);
@@ -181,11 +181,6 @@ async function validateRegisterData (request, response, next) {
     next()
     };
     
-
-async function canUserViewRoom(request, response, next) {
-  
-}
-
   module.exports = {
     validateRegisterData,
     verifyBasicUserAuth,

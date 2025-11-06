@@ -80,6 +80,26 @@ router.get('/:roomChatId',
   
 });
 
+//Debugging room joining
+router.get('/debug/join/:roomChatId', 
+  verifyJwt,
+  canViewRoom,
+  async  (request, response, next) => {
+    const jwt = request.authentication.jwt; // from your verifyJwt middleware
+    const roomId = request.params.roomChatId;
+    response.redirect(`http://localhost:3000/rooms/debug/${roomId}?jwt=${jwt}`);
+});
+//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI0MDAwNzQsImV4cCI6MTc2MjQ4NjQ3NH0.feCnzTl5ImALf9dSmZp5Ex0FjR1SXrqdDcPJZwAlayE
+
+//Debugging room joining
+router.get('/debug/:roomChatId', 
+  async  (request, response, next) => {
+    response.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
+
+
+
+
 router.put('/:roomChatId', 
   verifyJwt,
   canViewRoom,
