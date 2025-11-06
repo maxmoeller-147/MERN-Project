@@ -70,7 +70,7 @@ server.listen(3000, () => {
 
 
 // Import and use the websocket.js file
-require('../sockets/websocket.js')(server);
+require('./sockets/websocket.js')(server);
 
 
 // Route to check MongoDB status
