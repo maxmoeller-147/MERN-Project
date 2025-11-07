@@ -52,7 +52,7 @@ module.exports = (server) => {
 
     // Event chat message starts when a client sends a chat message. Message is logged and broadcast to all connected clients  
     socket.on('chat message', async (msg) => {
-      console.log('message: ' + msg);
+      console.log('message: ' + msg.message);
       io.emit("chat message", msg);
     });
 
