@@ -6,7 +6,7 @@ const { UserModel } = require("../database/entities/User");
 describe("Users route works.", () => {
   it("Register route works ", async () => {
     // Spy on UserModel.findOne and mock its resolution
-    register_user = {
+    registerUser = {
       email: "abcd@gmail.com",
       username: "abcdef",
       password: "Abcd2335!"
@@ -15,13 +15,13 @@ describe("Users route works.", () => {
 
     let response = await request(app)
       .post("/users/register")
-      .send(register_user);
+      .send(registerUser);
     expect(response.status).toEqual(200);
   });
 
   it("Login route works ", async () => {
     // Spy on UserModel.findOne and mock its resolution
-    mock_user = {
+    mockUser = {
       email: "jack12@gmail.com",
       username: "jack12",
       password: "Jack1234!"

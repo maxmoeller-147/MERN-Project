@@ -3,11 +3,11 @@ const validator = require("validator");
 
 let MessageSchema = new mongoose.Schema(
   {
-    room_id: {
+    roomId: {
       type: mongoose.Types.ObjectId,
       ref: 'RoomChat'
     },
-    sender_id: {
+    senderId: {
       type: mongoose.Types.ObjectId,
       ref: 'User'
     },

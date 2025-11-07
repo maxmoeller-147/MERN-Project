@@ -15,7 +15,7 @@ jest.mock('../middleware/jwtFunctions', () => ({
 
 
 // Avoids calls to the Database 
-jest.mock('../database/entities/Message', () =>({
+jest.mock('../database/entities/Message', () => ({
   
   MessageModel: {
     create: jest.fn().mockImplementation(async (msg) => ({

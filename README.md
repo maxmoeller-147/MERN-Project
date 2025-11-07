@@ -1,7 +1,7 @@
-# DATING APP (MERN Project)
+# MESSAGE APP (MERN Project)
 
 This project is a **backend API** that provides profile management, connections, user authotentication and real time chats. 
-Is built for a MERN (MongoDB, Express, React, NodeJS) based Dating and chatting app.
+Is built for a MERN (MongoDB, Express, React, NodeJS) based Message app.
  
 ---
 

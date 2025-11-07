@@ -6,12 +6,13 @@ const router = express.Router();
 const fs = require("fs");
 const { ProfileModel } = require("../database/entities/Profile");
 const { ConnectionModel } = require("../database/entities/Connection");
+const { verifyJwt } = require("../middleware/UserCRUDValidation");
 
 
-// view user profile for anyone in connection
+// view user profile for only people in connection
 // TODO: USE CONNECTION CONDITION LOGIC FOR AUTHORISATION, TO FIX
 router.get('/:userId', async (request, response) => {
-  let requestUserId = "abcd";
+  let requestUserId = request.authentication.id;
   userConnection = await ConnectionModel.find({
     $or: [
       {$and: [
@@ -37,7 +38,7 @@ router.get('/:userId', async (request, response) => {
 
 // create user profile
 // TODO: ADD AUTHORISATION
-router.post('/:userId/create', upload.single('image'), async (request, response,next) => {
+router.post('/:userId/create', verifyJwt, upload.single('image'), async (request, response,next) => {
 
   let newProfileData = {
     userId: request.params.userId,
@@ -59,7 +60,7 @@ router.post('/:userId/create', upload.single('image'), async (request, response,
 
 // update profile, with user authorisation
 // TODO: ADD USER AUTHORISATION
-router.put('/:userId', async (request, response,next) => {
+router.put('/:userId', verifyJwt, async (request, response,next) => {
  try {
   let updateData = {...request.body};
   updateProfile = await ProfileModel.findOneAndUpdate({
@@ -73,17 +74,9 @@ router.put('/:userId', async (request, response,next) => {
 });
 
 // for dev, to be deleted
-router.get('/', async (request, response) => {
-  allProfiles = await ProfileModel.find({})
-  response.json(allProfiles)
-});
-
-// router.delete("/:profileId", async(request, response) => {
-//   deleteProfile = await ProfileModel.findByIdAndDelete(request.params.profileId)
-//   response.json({
-//         message: 'profile deleted successfully',
-//         deleteData: deleteProfile
-//       })
-// })
+// router.get('/', async (request, response) => {
+//   allProfiles = await ProfileModel.find({})
+//   response.json(allProfiles)
+// });
 
 module.exports = router;
