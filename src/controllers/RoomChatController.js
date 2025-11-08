@@ -37,7 +37,7 @@ router.post('/',
          throw new Error('Invalid participant id');
       } else{
         //if the found user is the same as the user calling, we dont have to add the user calling to the array
-        if (newParticipant== user){
+        if (newParticipant.id == user.id){
           continue
         }
 
