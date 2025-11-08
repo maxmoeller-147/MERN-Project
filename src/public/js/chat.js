@@ -40,6 +40,6 @@ form.addEventListener('submit', (e) => {
 // Chat message event
 socket.on('roomMessage', (msg) => {
   const li = document.createElement('li');
-  li.textContent = msg;
+  li.textContent = msg.content;
   messages.appendChild(li);
 });

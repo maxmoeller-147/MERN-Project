@@ -60,12 +60,6 @@ module.exports = (server) => {
       socket.join(roomId);
     });
 
-    socket.on("Message", async (msg) => {
-      const newMessage = await MessageModel.create(msg);
-      io.emit("Message", newMessage)    
-    });
-
-
     // Notify when user is typing
     socket.on('typing', (data) => {
       socket.broadcast.emit("userTyping", data)
@@ -113,7 +107,16 @@ module.exports = (server) => {
 
         const msg = `${user.username} says: ${data.msg}`
         console.log(msg);
-        io.to(roomId).emit("roomMessage", msg);
+        
+        const fullMessage = await MessageModel.create({
+          roomId: roomId,
+          senderId: userId,
+          content: msg,
+          status: 'SENT'
+        })
+
+        io.to(roomId).emit("roomMessage", fullMessage);
+
       } catch (error){
         console.log('Error handling chat message:', err);
         socket.disconnect(true);
