@@ -1,8 +1,8 @@
 const { UserModel } = require("../database/entities/User");
 const { RoomChatModel } = require("../database/entities/RoomChat");
 
-async function canViewRoom(request, response, next){
-    try{
+async function canViewRoom(request, response, next) {
+    try {
         const userID = request.authentication?.id;
 
         if (!userID) {

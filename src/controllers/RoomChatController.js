@@ -5,8 +5,10 @@ const { RoomChatModel } = require("../database/entities/RoomChat");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { canViewRoom  } = require("../middleware/RoomChatValidations");
+const { MessageModel } = require('../database/entities/Message');
 const router = express.Router();
 
+// Create a room chat
 router.post('/', 
   verifyJwt,
   async  (request, response,next) => {
@@ -60,6 +62,7 @@ router.post('/',
   }
 });
 
+// view room chat
 router.get('/:roomChatId', 
   verifyJwt,
   canViewRoom,
@@ -71,7 +74,7 @@ router.get('/:roomChatId',
   try {
     // Serve the chatroom HTML page
     response.sendFile(
-      path.join(__dirname, '..', 'public', 'chatroom.html')
+      path.join(__dirname, '..', 'public', 'index.html')
     );
   } catch (error) {
     next(error);
@@ -79,20 +82,27 @@ router.get('/:roomChatId',
   
 });
 
-//Debugging room joining
+/*
+This is for testing on websocket for instant chat feature between 2 users in a room chat. 
+using jwt from 2 users, this route is for testing purpose only, and will be removed in final app deployment
+route for user 1: http://localhost:3000/rooms/debug/roomId?jwt=user1Jwt
+route for user 2: http://localhost:3000/rooms/debug/roomId?jwt=user2Jwt 
+Note: to be able to test this, you will need to resgiter 2 new users using '/users/register' route, 
+log in these users using '/users/login' route to get new generated Jwt 
+*/
 router.get('/debug/join/:roomChatId', 
   verifyJwt,
   canViewRoom,
   async  (request, response, next) => {
-    const jwt = request.authentication.jwt; // from your verifyJwt middleware
+    const jwt = request.authentication.jwt; // from verifyJwt middleware
     const roomId = request.params.roomChatId;
     response.redirect(`http://localhost:3000/rooms/debug/${roomId}?jwt=${jwt}`);
 });
-//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTBhZTBkNjhkNmYzNDg0NzcyYmZjZGEiLCJpYXQiOjE3NjI1NzEwMDIsImV4cCI6MTc2MjY1NzQwMn0.NapRXPQ1zo8d8JuOtlcxeSSo3_Emq325M9eNV_2o23s
-//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
-
-//http://localhost:3000/rooms/debug/690ebf1f54a02c4f2510c1d3?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4N2ZkNzVlODA0NjYxYzk2MmUyN2IiLCJpYXQiOjE3NjI1NzQwOTEsImV4cCI6MTc2MjY2MDQ5MX0.cgRKVenBx_E3a3cxTh_raFYN9yua65NpDHFwAwvuPS0
-//http://localhost:3000/rooms/debug/690ebf1f54a02c4f2510c1d3?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
+/*
+examples for routes to test
+user 1 : http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTBhZTBkNjhkNmYzNDg0NzcyYmZjZGEiLCJpYXQiOjE3NjI1NzEwMDIsImV4cCI6MTc2MjY1NzQwMn0.NapRXPQ1zo8d8JuOtlcxeSSo3_Emq325M9eNV_2o23s
+user 2: http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
+*/
 
 //Debugging room joining
 router.get('/debug/:roomChatId', 
@@ -102,7 +112,7 @@ router.get('/debug/:roomChatId',
 
 
 
-
+// Update room chat information
 router.put('/:roomChatId', 
   verifyJwt,
   canViewRoom,
@@ -118,6 +128,7 @@ router.put('/:roomChatId',
     };
 });
 
+// delete a room chat
 router.delete('/:roomChatId', 
   verifyJwt,
   canViewRoom,
@@ -137,10 +148,15 @@ router.delete('/:roomChatId',
   }
 });
 
-// for development purpose, TO BE DELETED
-router.get('/', async  (request, response) => {
-  allRoom = await RoomChatModel.find({});
-  response.json(allRoom);
+// for development testing purpose only
+// router.get('/', async  (request, response) => {
+//   allRoom = await RoomChatModel.find({});
+//   response.json(allRoom);
+// });
+
+router.get('/messages', async  (request, response) => {
+  allMessages = await MessageModel.find({});
+  response.json(allMessages);
 });
 
 module.exports = router;

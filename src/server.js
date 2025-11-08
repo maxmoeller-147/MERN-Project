@@ -35,8 +35,8 @@ app.use(cookieParser());
 
 // Allow requests only from this origins
 let corsOption = { origin: [
-    "http://localhost:5000",
-    "https://DatingApp.com"
+  "http://localhost:5000",
+  "https://DatingApp.com"
 ], optionsSuccessStatus: 200}
 app.use(cors(corsOption));
 
@@ -48,24 +48,24 @@ app.use(express.urlencoded({extended: true}));
 
 // image storage 
 let storage = multer.diskStorage({
-    destination: (request, fie, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (request, file, cb) => {
-        cb(null, file.fieldname+ '-' + Date.now())
+  destination: (request, fie, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (request, file, cb) => {
+    cb(null, file.fieldname+ '-' + Date.now())
     }
 });
 
 
 // Route to send the chat html page
 app.get("/", (request,response) => {
-    response.sendFile(path.join(__dirname, "public", "index.html"));
+  response.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 
 // Start the server on port 3000
 server.listen(3000, () => {
-  console.log('listening on *:3000');
+  console.log('listening on port :3000');
 });
 
 
@@ -75,17 +75,17 @@ require('./sockets/websocket.js')(server);
 
 // Route to check MongoDB status
 app.get("/databaseHealth", (request, response) => {
-    let databaseState = mongoose.connection.readyState;
-    let databaseName = mongoose.connection.name;
-    let databaseModels = mongoose.connection.modelNames();
-    let databaseHost = mongoose.connection.host;
+  let databaseState = mongoose.connection.readyState;
+  let databaseName = mongoose.connection.name;
+  let databaseModels = mongoose.connection.modelNames();
+  let databaseHost = mongoose.connection.host;
 
-    response.json({
-    readyState: databaseState,
-    dbName: databaseName,
-    dbModels: databaseModels,
-    dbHost: databaseHost
-    })
+  response.json({
+  readyState: databaseState,
+  dbName: databaseName,
+  dbModels: databaseModels,
+  dbHost: databaseHost
+})
 })
 
 app.use("/users", userController);
@@ -96,22 +96,22 @@ app.use("/rooms", roomChatController);
 
 // Error handler Middleware
 app.use((error, request, response, next) => {
-    response.json({
-        error: error.message
-    })
+  response.json({
+    error: error.message
+  })
 });
 
 
 // 404 route  
 app.all(/.*/, (request,response)=> {
-    response.status(404).json({ message: " Route not found in this API",
-    targetPath: request.path
-    })
+  response.status(404).json({ message: " Route not found in this API",
+  targetPath: request.path
+  })
 });
 
 
 // Export the app
 module.exports = {
-    app, storage
+  app, storage
 }
 

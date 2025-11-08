@@ -12,15 +12,16 @@ let ProfileSchema = new mongoose.Schema(
       contentType: String 
     },
     description: String,
-    privacySetting: {
-      type: String,
-      validate: {
-        validator: function(setting) {
-          return ['PUBLIC', 'PRIVATE', 'FRIENDS ONLY'].includes(setting);
-      },
-      message: "Invalid privacy setting! Setting must be 'PUBLIC', 'PRIVATE' or 'FRIENDS ONLY'"
-    }
-    }
+    // for additional feature might be developed in later stage
+    // privacySetting: {
+    //   type: String,
+    //   validate: {
+    //     validator: function(setting) {
+    //       return ['PUBLIC', 'PRIVATE', 'FRIENDS ONLY'].includes(setting);
+    //   },
+    //   message: "Invalid privacy setting! Setting must be 'PUBLIC', 'PRIVATE' or 'FRIENDS ONLY'"
+    // }
+    // }
   }
 )
 

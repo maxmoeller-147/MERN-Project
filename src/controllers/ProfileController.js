@@ -9,35 +9,13 @@ const { ConnectionModel } = require("../database/entities/Connection");
 const { verifyJwt } = require("../middleware/UserCRUDValidation");
 
 
-// view user profile for only people in connection
-// TODO: USE CONNECTION CONDITION LOGIC FOR AUTHORISATION, TO FIX
+// view user profile 
 router.get('/:userId', async (request, response) => {
-  let requestUserId = request.authentication.id;
-  userConnection = await ConnectionModel.find({
-    $or: [
-      {$and: [
-        {userId: requestUserId},
-        {friendId: request.params.userId}
-      ]},
-      {$and: [
-        {friendId: requestUserId},
-        {userId: request.params.userId}
-      ]}
-    ]
-  })
-
-  // if (userConnection) {
-  //   targetUserProfile = await ProfileModel.findOne({user_id: request.params.userId});
-  //   response.json({})
-  //   next();
-  // } else {
-  //   return next(new Error("User profile does not exist!"))
-  //   // response.json({mesage: "user profile not found"})
-  // }
+  userProfile = ProfileModel.findOne({userId:request.params.userId});
+  response.json(userProfile);
 });
 
 // create user profile
-// TODO: ADD AUTHORISATION
 router.post('/:userId/create', verifyJwt, upload.single('image'), async (request, response,next) => {
 
   let newProfileData = {
@@ -59,7 +37,6 @@ router.post('/:userId/create', verifyJwt, upload.single('image'), async (request
 });
 
 // update profile, with user authorisation
-// TODO: ADD USER AUTHORISATION
 router.put('/:userId', verifyJwt, async (request, response,next) => {
  try {
   let updateData = {...request.body};
@@ -73,7 +50,7 @@ router.put('/:userId', verifyJwt, async (request, response,next) => {
   }
 });
 
-// for dev, to be deleted
+// for dev testing only
 // router.get('/', async (request, response) => {
 //   allProfiles = await ProfileModel.find({})
 //   response.json(allProfiles)

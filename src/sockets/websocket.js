@@ -65,7 +65,7 @@ module.exports = (server) => {
         //Find the user creating the room
         const room = await RoomChatModel.findById(roomId).exec();
         if (!room){
-          console.log('Cannot find room');
+          console.log('Cannot find room!');
           return;
         }
 
@@ -109,7 +109,7 @@ module.exports = (server) => {
 
         //Find the user creating the room
         const user = await UserModel.findById(userId).exec();
-        if (!user){
+        if (!user) {
           console.log('Cannot find user');
           return;
         }

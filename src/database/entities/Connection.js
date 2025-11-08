@@ -5,11 +5,13 @@ let ConnectionSchema = new mongoose.Schema(
   {
   userId: {
     type: mongoose.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    require: true
   },
   friendId: {
     type: mongoose.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    require: true
   },
   connectionStatus: {
     type: String,
@@ -19,6 +21,10 @@ let ConnectionSchema = new mongoose.Schema(
       },
       message: "Invalid Status! Status must be 'PENDING' or 'ACCEPTED'"
     }
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 }
 )

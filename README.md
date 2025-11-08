@@ -8,9 +8,10 @@ Is built for a MERN (MongoDB, Express, React, NodeJS) based Message app.
 ## Overview
 The app allows users to:
 - Connect with other users.
-- Chat in real time using Socket.IO
+- Create, update and delete room chat.
+- Join room chat and chat in real time using Socket.IO
 - Upload and update images for profiles using Multer.
-- Create and manage accounts.
+- Create, update and delete user profile.
 
 
 ## **Dependent Software and Packages**
@@ -63,3 +64,12 @@ Is used to manage file uploads in the application, primarily for profile images 
 ## Hardware and System Requirements
 To run this application you need minimal hardware. A 64-bit operation system (MacOS, Windows10 or Linux) with a at least 4gb of RAM to run Node.Js and MongoDB in comftable way, and a stable internet connection to support local server execution and Websocket communication. Plus a minimun of 2gb storage for dependencies and database storage.
 Node.JS and it's package manager
+
+---------------------
+## Programming style
+This project used W3school JavaScript style guide (link: https://www.w3schools.com/js/js_conventions.asp). The style guide describes the general Javascript code conventions, including:
+- Naming and declaration rules for variables and functions.
+- Rules for the use of white space, indentation, and comments.
+- Programming practices and principles.
+
+Please follow this style guide when you contribute to the project. This ensure code readbility and ensure coding style consistent. Thank you for your support!

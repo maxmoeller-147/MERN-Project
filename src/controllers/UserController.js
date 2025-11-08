@@ -51,7 +51,7 @@ router.post("/logout", logout, async (request, response) => {
   response.json({message: "Logout successfully"})
 });
 
-//PUT: update an user, only for user
+//PUT: update an user, only for verified user
 router.put(
   "/:targetUserId", 
   verifyJwt,
@@ -69,15 +69,15 @@ router.put(
 });
 
 
-// GET: view all users, for admin to view, for development purpose
-router.get(
-  "/", async (request, response) => {
-    let allUsers = await UserModel.find({})
-    response.json(allUsers)
-});
+// GET:  for development testing purpose
+// router.get(
+//   "/", async (request, response) => {
+//     let allUsers = await UserModel.find({})
+//     response.json(allUsers)
+// });
 
 
-// DELETE: delete an user
+// DELETE: delete an user, only for verified user
 router.delete(
   "/:targetUserId", verifyJwt,
   async (request, response,next) => {
