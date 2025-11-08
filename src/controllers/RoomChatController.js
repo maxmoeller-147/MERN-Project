@@ -91,6 +91,9 @@ router.get('/debug/join/:roomChatId',
 //http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTBhZTBkNjhkNmYzNDg0NzcyYmZjZGEiLCJpYXQiOjE3NjI1NzEwMDIsImV4cCI6MTc2MjY1NzQwMn0.NapRXPQ1zo8d8JuOtlcxeSSo3_Emq325M9eNV_2o23s
 //http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
 
+//http://localhost:3000/rooms/debug/690ebf1f54a02c4f2510c1d3?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4N2ZkNzVlODA0NjYxYzk2MmUyN2IiLCJpYXQiOjE3NjI1NzQwOTEsImV4cCI6MTc2MjY2MDQ5MX0.cgRKVenBx_E3a3cxTh_raFYN9yua65NpDHFwAwvuPS0
+//http://localhost:3000/rooms/debug/690ebf1f54a02c4f2510c1d3?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
+
 //Debugging room joining
 router.get('/debug/:roomChatId', 
   async  (request, response, next) => {

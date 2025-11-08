@@ -2,6 +2,7 @@ const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
+const { RoomChatModel } = require('../database/entities/RoomChat');
 const { validateJWT } = require("../middleware/jwtFunctions");
 
 // Initiates Socket.IO with the HTTP server with cors that defines the origins that can connect via WebSocket
@@ -34,27 +35,36 @@ module.exports = (server) => {
 
       console.log('User verified:', socket.user);
     } catch (error){
-      console.error('Invalid JWT:', error);
+      console.log('Invalid JWT:', error);
       socket.disconnect(true);
       return;
     }
     
     //Check if the user is already connected
     if (connectedUsers.has(socket.user)) {
-      // disconnect the socket 
-      console.error('Already connected from another window');
+      // disconnect the socket
+      console.log('Already connected from another window');
       socket.disconnect(true);
       return;
     }
 
+    
     //If not add user to the socket map
     connectedUsers.set(socket.user, socket.id);
     console.log('a user connected:', socket.id);
+
+
+    socket.on("joinRoom", (roomId) =>{
+      //Group all sockets in the same room together
+       console.log(`${socket.id} joined ${roomId}`);
+      socket.join(roomId);
+    });
 
     socket.on("Message", async (msg) => {
       const newMessage = await MessageModel.create(msg);
       io.emit("Message", newMessage)    
     });
+
 
     // Notify when user is typing
     socket.on('typing', (data) => {
@@ -67,30 +77,45 @@ module.exports = (server) => {
     });
 
     // Event chat message starts when a client sends a chat message. Message is logged and broadcast to all connected clients  
-    socket.on('chat message', async (msg) => {
+    socket.on('roomMessage', async (data) => {
       try {
         //Get the user who sent the message
-        console.log(msg);
         const userId = socket.user;
 
         // Validate that its a valid id
         if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
-          console.error('Invalid user id');
+          console.log('Invalid user id');
           return;
         }
 
         //Find the user creating the room
         const user = await UserModel.findById(userId).exec();
         if (!user){
-          console.error('Cannot find user');
+          console.log('Cannot find user');
           return;
         }
 
-        msg = `${user.username} says: ${msg}`
+        const roomId = data.roomId;
+        
+        // Validate that its a valid id
+        if (!roomId || !mongoose.Types.ObjectId.isValid(roomId)) {
+          console.log('Invalid room id');
+          return;
+        }
+
+        //Find the user creating the room
+        const room = await RoomChatModel.findById(roomId).exec();
+        if (!room){
+          console.log('Cannot find room');
+          return;
+        }
+
+
+        const msg = `${user.username} says: ${data.msg}`
         console.log(msg);
-        io.emit("chat message", msg);
+        io.to(roomId).emit("roomMessage", msg);
       } catch (error){
-        console.error('Error handling chat message:', err);
+        console.log('Error handling chat message:', err);
         socket.disconnect(true);
       }
     });
@@ -111,10 +136,6 @@ module.exports = (server) => {
       console.log(" User has joined the room")
     });
 
-    socket.on("roomMessage", async ({ roomId, msg}) => {
-      const newMessage = await MessageModel.create(msg);
-      io.to(roomId).emit("roomMessage", newMessage);
-    });
   });
 
   return io;
