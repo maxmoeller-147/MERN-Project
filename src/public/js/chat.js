@@ -22,6 +22,8 @@ const input = document.getElementById('input');
 const messages = document.getElementById('messages');
 
 
+
+
 // Enter or Click to Send 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -34,6 +36,15 @@ form.addEventListener('submit', (e) => {
   }
 
 
+});
+
+//Restore chat history after joining room
+socket.on('restoreChatHistory', (messageHistory) => {
+  messageHistory.forEach(msg => {
+    const li = document.createElement('li');
+    li.textContent = msg.content;
+    messages.appendChild(li);
+  });
 });
 
 

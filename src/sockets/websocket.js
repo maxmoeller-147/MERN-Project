@@ -54,10 +54,35 @@ module.exports = (server) => {
     console.log('a user connected:', socket.id);
 
 
-    socket.on("joinRoom", (roomId) =>{
-      //Group all sockets in the same room together
-       console.log(`${socket.id} joined ${roomId}`);
-      socket.join(roomId);
+    socket.on("joinRoom", async (roomId) =>{
+      try{
+        // Validate that its a valid id
+        if (!roomId || !mongoose.Types.ObjectId.isValid(roomId)) {
+          console.log('Invalid room id');
+          return;
+        }
+
+        //Find the user creating the room
+        const room = await RoomChatModel.findById(roomId).exec();
+        if (!room){
+          console.log('Cannot find room');
+          return;
+        }
+
+        console.log(`${socket.id} joined ${roomId}`);       
+        
+        //Group all sockets in the same room together
+        socket.join(roomId);
+
+        //Get the current rooms message history and sort it by date
+        const messageHistory = await MessageModel.find({ roomId })
+        .sort({ createdAt: 1 });
+
+        //Send the chat history to the socket
+        socket.emit("restoreChatHistory", messageHistory);
+      }catch(error){
+        console.log(error);
+      }
     });
 
     // Notify when user is typing
@@ -117,6 +142,7 @@ module.exports = (server) => {
 
         io.to(roomId).emit("roomMessage", fullMessage);
 
+        
       } catch (error){
         console.log('Error handling chat message:', err);
         socket.disconnect(true);
