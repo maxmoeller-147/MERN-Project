@@ -18,6 +18,8 @@ module.exports = (server) => {
     }
   });
 
+  //Using a map for fast lookup
+  const connectedUsers = new Map();
 
   // Event Connection that triggers each time a new client connects to the server.
   io.on('connection',async (socket) => {
@@ -37,6 +39,16 @@ module.exports = (server) => {
       return;
     }
     
+    //Check if the user is already connected
+    if (connectedUsers.has(socket.user)) {
+      // disconnect the socket 
+      console.error('Already connected from another window');
+      socket.disconnect(true);
+      return;
+    }
+
+    //If not add user to the socket map
+    connectedUsers.set(socket.user, socket.id);
     console.log('a user connected:', socket.id);
 
     socket.on("Message", async (msg) => {
@@ -85,6 +97,11 @@ module.exports = (server) => {
 
     // Event Disconnect that triggers when a client disconnects.  
     socket.on('disconnect', () => {
+      //Remove the connection from the map if it is found
+      if (connectedUsers.get(socket.user) === socket.id) {
+        connectedUsers.delete(socket.user);
+      }
+
       console.log('user disconnected:', socket.id);
     });
 
