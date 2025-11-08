@@ -88,7 +88,8 @@ router.get('/debug/join/:roomChatId',
     const roomId = request.params.roomChatId;
     response.redirect(`http://localhost:3000/rooms/debug/${roomId}?jwt=${jwt}`);
 });
-//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI0MDAwNzQsImV4cCI6MTc2MjQ4NjQ3NH0.feCnzTl5ImALf9dSmZp5Ex0FjR1SXrqdDcPJZwAlayE
+//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTBhZTBkNjhkNmYzNDg0NzcyYmZjZGEiLCJpYXQiOjE3NjI1NzEwMDIsImV4cCI6MTc2MjY1NzQwMn0.NapRXPQ1zo8d8JuOtlcxeSSo3_Emq325M9eNV_2o23s
+//http://localhost:3000/rooms/debug/690ae443d184e176f8c18522?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTA4ODIwMzM3MDZhYTE5ZWVjYzU5MzEiLCJpYXQiOjE3NjI1NjgyNzgsImV4cCI6MTc2MjY1NDY3OH0.49C83eF_SRWtxzwg4os4zfttD_m3dnZ0jjnHxZr-bp4
 
 //Debugging room joining
 router.get('/debug/:roomChatId', 

@@ -22,10 +22,7 @@ form.addEventListener('submit', (e) => {
   if (input.value.trim()) {
     const msgText = input.value
     
-    socket.emit('chat message', {
-      message : msgText,
-      userId : socket.user?.userId || "unknown"
-    });
+    socket.emit('chat message', msgText);
     input.value = '';
   }
 

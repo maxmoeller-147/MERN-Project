@@ -1,5 +1,7 @@
 const { Server } = require("socket.io");
+const mongoose = require("mongoose");
 const { MessageModel } = require("../database/entities/Message");
+const { UserModel } = require('../database/entities/User');
 const { validateJWT } = require("../middleware/jwtFunctions");
 
 // Initiates Socket.IO with the HTTP server with cors that defines the origins that can connect via WebSocket
@@ -25,7 +27,9 @@ module.exports = (server) => {
 
     try{
       const userData = await validateJWT(token);
-      socket.user = userData.userId; 
+      
+      socket.user = userData.decodedValidToken.userId;
+
       console.log('User verified:', socket.user);
     } catch (error){
       console.error('Invalid JWT:', error);
@@ -52,8 +56,31 @@ module.exports = (server) => {
 
     // Event chat message starts when a client sends a chat message. Message is logged and broadcast to all connected clients  
     socket.on('chat message', async (msg) => {
-      console.log('message: ' + msg.message);
-      io.emit("chat message", msg);
+      try {
+        //Get the user who sent the message
+        console.log(msg);
+        const userId = socket.user;
+
+        // Validate that its a valid id
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+          console.error('Invalid user id');
+          return;
+        }
+
+        //Find the user creating the room
+        const user = await UserModel.findById(userId).exec();
+        if (!user){
+          console.error('Cannot find user');
+          return;
+        }
+
+        msg = `${user.username} says: ${msg}`
+        console.log(msg);
+        io.emit("chat message", msg);
+      } catch (error){
+        console.error('Error handling chat message:', err);
+        socket.disconnect(true);
+      }
     });
 
     // Event Disconnect that triggers when a client disconnects.  
