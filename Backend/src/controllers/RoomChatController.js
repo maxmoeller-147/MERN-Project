@@ -154,9 +154,4 @@ router.delete('/:roomChatId',
 //   response.json(allRoom);
 // });
 
-router.get('/messages', async  (request, response) => {
-  allMessages = await MessageModel.find({});
-  response.json(allMessages);
-});
-
 module.exports = router;

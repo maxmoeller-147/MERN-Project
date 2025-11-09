@@ -55,9 +55,9 @@ router.get('/', verifyJwt, viewAllConnection, () => {
 });
 
 // view all connection in database, for development testing purpose
-router.get('/all', async (request, response) => {
-  allConnection = await ConnectionModel.find({})
-  response.json(allConnection)
-});
+// router.get('/all', async (request, response) => {
+//   allConnection = await ConnectionModel.find({})
+//   response.json(allConnection)
+// });
 
 module.exports = router;
