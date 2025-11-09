@@ -36,6 +36,7 @@ module.exports = (server) => {
       console.log('User verified:', socket.user);
     } catch (error){
       console.log('Invalid JWT:', error);
+      socket.emit("forceDisconnect", "invalid jwt");
       socket.disconnect(true);
       return;
     }
@@ -44,6 +45,7 @@ module.exports = (server) => {
     if (connectedUsers.has(socket.user)) {
       // disconnect the socket
       console.log('Already connected from another window');
+      socket.emit("forceDisconnect", 'Already connected with this account');
       socket.disconnect(true);
       return;
     }
@@ -145,6 +147,7 @@ module.exports = (server) => {
         
       } catch (error){
         console.log('Error handling chat message:', err);
+        socket.emit("forceDisconnect", "something went wrong when sending the message. Please reconnect");
         socket.disconnect(true);
       }
     });
