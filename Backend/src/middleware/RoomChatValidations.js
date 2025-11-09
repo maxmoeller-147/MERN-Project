@@ -33,7 +33,8 @@ async function canViewRoom(request, response, next) {
             p => (p.equals ? p.equals(userID) : String(p) === String(userID))
         );
 
-        if (!isParticipant) {
+        //If the user is an admin, they can enter rooms they are not apart of
+        if (!isParticipant && (findUser.admin == null || findUser.admin == false)) {
             return next(new Error("Forbidden to visit room"));
         };
 

@@ -16,6 +16,7 @@ let UserSchema = new mongoose.Schema({
     }
   },
   verified: Boolean,
+  admin: Boolean,
   username: {
     type: String,
     required: [true, 'username is required!'],
