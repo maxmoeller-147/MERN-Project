@@ -51,6 +51,7 @@ router.post("/logout", logout, async (request, response) => {
   response.json({message: "Logout successfully"})
 });
 
+
 //PUT: update an user, only for verified user
 router.put(
   "/:targetUserId", 

@@ -82,7 +82,7 @@ async function verifyJwt (request, response, next) {
   let authHeader = request.headers["authorization"] ?? null;
 
   //if no header is provided, exit
-  if (authHeader == null){
+  if (authHeader == null) {
     return next(new Error("No auth data given"));
   }
 
@@ -91,13 +91,17 @@ async function verifyJwt (request, response, next) {
     authHeader = authHeader.substring(7).trim();
   }
 
-  //findJwtInBlackList = BlackListModel.findOne({oldjwt:authHeader});
-  // if (findJwtInBlackList) {
-  //  return next(new Error("User has logged out, please log in again!"))
-  //}
 	try {
     //Validate the JWT
 		let tokenVerificationResult = await validateJWT(authHeader);
+
+    //Check if the jwt has been logged out
+    findJwtInBlackList = await BlackListModel.findOne({oldjwt: authHeader});
+ 
+    if (findJwtInBlackList) {
+      return next(new Error("User has logged out, please log in again!"))
+    }
+
 
 		// If all is good, no errors will be thrown.
     //Now refresh the jwt so that the users session lasts longer
@@ -147,7 +151,7 @@ async function logout(request, response, next) {
   } catch(error) {
     return next(new Error(error))
   }
-  };
+};
 
 
 async function validateRegisterData (request, response, next) {
