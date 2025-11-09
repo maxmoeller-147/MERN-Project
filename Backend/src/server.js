@@ -1,5 +1,4 @@
 const express = require("express");
-const cookieParser = require('cookie-parser');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -29,9 +28,6 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
-
-app.use(cookieParser());
-
 
 // Allow requests only from this origins
 let corsOption = { origin: [

@@ -24,6 +24,16 @@ let RoomChatSchema = new mongoose.Schema(
 }
 )
 
+RoomChatSchema.pre('save', function(next) {
+  if (this.participants && this.participants.length === 2){
+    this.type = 'DIRECT'
+  }else{
+    this.type = 'GROUP'
+  }
+
+  next();
+})
+
 const RoomChatModel = mongoose.model("RoomChat", RoomChatSchema);
 
 module.exports = {
