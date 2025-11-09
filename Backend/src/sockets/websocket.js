@@ -165,6 +165,46 @@ module.exports = (server) => {
       console.log(" User has joined the room")
     });
 
+
+    // Notify when user read the ,message
+    socket.on("messageDelete", async (msgId) => {
+      try{
+        //Get the user who sent the message
+        const userId = socket.user;
+
+        // Validate that its a valid id
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+          console.log('Invalid user id');
+          return;
+        }
+
+        //Find the user creating the room
+        const user = await UserModel.findById(userId).exec();
+        if (!user) {
+          console.log('Cannot find user');
+          return;
+        }
+        
+        // Validate that its a valid id
+        if (!msgId || !mongoose.Types.ObjectId.isValid(msgId)) {
+          console.log('Message id');
+          return;
+        }
+
+        //Find the user creating the room
+        const msg = await MessageModel.findById(msgId).exec();
+        if (!msg){
+          console.log('Cannot find message');
+          return;
+        }
+
+        //Delete from the database?
+        await MessageModel.findByIdAndDelete(msgId).exec()
+      }catch(error){
+        console.log('Error handling chat message:', err);
+      }
+    });
+
   });
 
   return io;
