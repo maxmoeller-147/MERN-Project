@@ -34,8 +34,6 @@ form.addEventListener('submit', (e) => {
     // socket.emit('chat message', msgText);
     input.value = '';
   }
-
-
 });
 
 //Restore chat history after joining room
@@ -53,4 +51,12 @@ socket.on('roomMessage', (msg) => {
   const li = document.createElement('li');
   li.textContent = msg.content;
   messages.appendChild(li);
+});
+
+
+socket.on("forceDisconnect", (reason) => {
+  //If we are disconnected, send the user back to the homepage (or an error page)
+  //Can send the reason in the future as well
+  alert(reason);
+  window.location.replace(`http://localhost:3000/`);
 });

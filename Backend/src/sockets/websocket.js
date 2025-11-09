@@ -36,6 +36,7 @@ module.exports = (server) => {
       console.log('User verified:', socket.user);
     } catch (error){
       console.log('Invalid JWT:', error);
+      socket.emit("forceDisconnect", "invalid jwt");
       socket.disconnect(true);
       return;
     }
@@ -44,6 +45,7 @@ module.exports = (server) => {
     if (connectedUsers.has(socket.user)) {
       // disconnect the socket
       console.log('Already connected from another window');
+      socket.emit("forceDisconnect", 'Already connected with this account');
       socket.disconnect(true);
       return;
     }
@@ -145,6 +147,7 @@ module.exports = (server) => {
         
       } catch (error){
         console.log('Error handling chat message:', err);
+        socket.emit("forceDisconnect", "something went wrong when sending the message. Please reconnect");
         socket.disconnect(true);
       }
     });
@@ -163,6 +166,46 @@ module.exports = (server) => {
     socket.on("joinRoom", (roomId) => {
       socket.join(roomId);
       console.log(" User has joined the room")
+    });
+
+
+    // Notify when user read the ,message
+    socket.on("messageDelete", async (msgId) => {
+      try{
+        //Get the user who sent the message
+        const userId = socket.user;
+
+        // Validate that its a valid id
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+          console.log('Invalid user id');
+          return;
+        }
+
+        //Find the user creating the room
+        const user = await UserModel.findById(userId).exec();
+        if (!user) {
+          console.log('Cannot find user');
+          return;
+        }
+        
+        // Validate that its a valid id
+        if (!msgId || !mongoose.Types.ObjectId.isValid(msgId)) {
+          console.log('Message id');
+          return;
+        }
+
+        //Find the user creating the room
+        const msg = await MessageModel.findById(msgId).exec();
+        if (!msg){
+          console.log('Cannot find message');
+          return;
+        }
+
+        //Delete from the database?
+        await MessageModel.findByIdAndDelete(msgId).exec()
+      }catch(error){
+        console.log('Error handling chat message:', err);
+      }
     });
 
   });
