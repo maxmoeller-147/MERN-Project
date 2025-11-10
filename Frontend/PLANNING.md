@@ -11,7 +11,7 @@ Register page - somewebsite.com/users/register
 - verfify email? 
 - register successfully message
 
-
+Jack
 Sign in page - somewebsite.com/users/signin
 - Email, password
 - Forgot password/ reset password?
@@ -39,6 +39,7 @@ Friend page - somewebsite.com/connection
   - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user
 
 
+Jack
 Room chat page - somewebsite.com/rooms/:roomId
 - all history messages
 - Button to send message
