@@ -21,7 +21,7 @@ Sign in page - somewebsite.com/users/signin
 Homepage - somewebsite.com/home
 - Friends list show all friends in connection, also show who is online with GREEN dot? Click on any friend with direct to their profile
 - Button for connecting new friend -> direct to "somewebsite.com/connection/search" for creating new connection
-- List of group chat, click on any group chat will direct to the chat
+- List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
 
 Friend search page - somewebsite.com/connection/search
 - Search button
@@ -34,7 +34,7 @@ Friend page - somewebsite.com/connection
 - show all friends in connection. GREEN (or sth else) for PENDING connection
 - Click on any friend will show a list of options:
   - Message -> direct to chat
-  - Create Group -> direct to "somewebsite.com/rooms/:roomId" with this friend
+  - Create Group -> direct to "somewebsite.com/rooms/create" with this friend
   - View profile -> direct to profile page "somewebsite.com/profiles/:userId"
   - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user
 
