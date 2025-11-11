@@ -12,11 +12,6 @@ Homepage - somewebsite.com/home
 - Button for connecting new friend -> direct to "somewebsite.com/connection/search" for creating new connection
 - List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
 
-Friend search page - somewebsite.com/connection/search
-- Search button
-- search results
-- Button for sending friend request
-- After request sent, Button changes to "SENT"
 
 
 **MAX**
