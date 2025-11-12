@@ -30,10 +30,10 @@ export default defineConfig([
       }],
       "react/prefer-es6-class": [true, "always"],
       "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
-      "react/jsx-pascal-case": [1, { allowAllCaps: false, allowNamespace: false }],
+      "react/jsx-pascal-case": [2, { allowAllCaps: false, allowNamespace: false }],
       "react/jsx-closing-bracket-location": [true],
       "jsx-quotes": ["error", "prefer-double"],
-      "react/jsx-tag-spacing": [{ 
+      "react/jsx-tag-spacing": [2, { 
         "closingSlash": "never", 
         "beforeSelfClosing": "always",
         "afterOpening": "never",

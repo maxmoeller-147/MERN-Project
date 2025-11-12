@@ -10,7 +10,8 @@ const { UserModel } = require("../database/entities/User");
  */
 function generateJWT(targetUser) {
 	let tokenBody = {
-		userId: targetUser.id
+		userId: targetUser.id,
+		username: targetUser.username
 	}
 
     //Make sure a JWT_SECRET key has been added to the .env
