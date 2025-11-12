@@ -1,3 +1,5 @@
+**Style guide: https://javascript.airbnb.tech/react/**
+
 Routes
 
 **MAX**
@@ -51,8 +53,14 @@ Friend search page - somewebsite.com/connection/search
 **PHUONG**
 Profile page - somewebsite.com/profiles/:userId
   - Avatar image
+  - Username
   - Bio description
-  - Button for edit profile (for profile owner only) -> change UI to profile edit form, with image upload and writing bio desciption and save button
+  - Button for edit profile (for profile owner only) -> direct to "/profiles/:userId/edit"
+  
+Profile edit page - somewebsite.com/profiles/:userId/edit
+  - image upload
+  - username and desciption  edit
+  - save button
 
 **PHUONG**
 Room chat page - somewebsite.com/rooms/:roomId

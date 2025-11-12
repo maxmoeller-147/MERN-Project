@@ -24,6 +24,24 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      "react/self-closing-comp": ["error", {
+        "component": true,
+        "html": true
+      }],
+      "react/prefer-es6-class": [true, "always"],
+      "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+      "react/jsx-pascal-case": [1, { allowAllCaps: false, allowNamespace: false }],
+      "react/jsx-closing-bracket-location": [true],
+      "jsx-quotes": ["error", "prefer-double"],
+      "react/jsx-tag-spacing": [{ 
+        "closingSlash": "never", 
+        "beforeSelfClosing": "always",
+        "afterOpening": "never",
+        "beforeClosing": "allow"}],
+      "react/jsx-boolean-value": ["never"],
+      "jsx-a11y/alt-text": [2, {
+            "elements": [ "img", "object", "area", "input[type=\"image\"]" ]}],
+      "react/jsx-wrap-multilines": [true]
     },
   },
 ])
