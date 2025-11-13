@@ -11,7 +11,7 @@ Welcome page - somewebsite.com/
 **MAX**
 Homepage - somewebsite.com/home
 - Friends list show all friends in connection, also show who is online with GREEN dot? Click on any friend with direct to their profile
-- Button for connecting new friend -> direct to "somewebsite.com/connection/search" for creating new connection
+- Button for log out -> ask "do you want to log out, YES/NO", then direct to welcome page "somewebsite.com/"
 - List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
 
 
@@ -28,8 +28,8 @@ Friend page - somewebsite.com/connection
 
 
 
-**JACK**
-Sign in page - somewebsite.com/users/signin
+**JACK/PHUONG**
+Sign in page - somewebsite.com/users/login
   - Email, password
   - Forgot password/ reset password?
   - Sign in successfully message

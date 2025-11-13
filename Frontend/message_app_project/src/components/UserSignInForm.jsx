@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function UserSignInForm() {
   const [email, setEmail] = useState("");
@@ -13,29 +14,36 @@ export default function UserSignInForm() {
     setPassword(e.target.value);
   };
 
+  const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    let headers = new Headers();
-    // set up authorisation bearer token
-    headers.set(
-      "Authorization",
-      "Basic" + btoa(email + ":" + password)
-    );
-    // send to api for authentication verify, ERROR OCCURRED, TO BE FIXED
-    const response = await axios.post("http://localhost:3000/users/signin",{
+    // let headers = new Headers();
+    // // set up authorisation bearer token
+    // headers.set(
+    //   "Authorization",
+    //   "Basic " + btoa(email + ":" + password)
+    // );
+
+    let headers = {
+      "Authorization": "Basic " + btoa(email + ":" + password)
+    };
+    // send to api for authentication verify, then give response, if status 200, display sucessfull message
+    const response = await axios.post("http://localhost:3000/users/login",{
       email: email,
       password: password
-      }, {
+    }, {
       headers: headers,
-    }).then((response) => console.log(response));
-
-    // give response, if status 200, display sucessfull message, TO BE REVIEWED
-    if (response.status === 200) {
-      alert("Log in succesfully")
-    } else {
-      alert("Incorrect email or password, please try again!")
-    }
+    })
+    .then((response) => {
+      if (response.data.error) {
+        alert("Incorrect email or password, please try again!");
+      } else {
+        alert("Log in successfully!");
+        navigate("/home"); // navigate to home page
+      }
+    })
+    .catch((error) => console.log(error));
   
   }
 
