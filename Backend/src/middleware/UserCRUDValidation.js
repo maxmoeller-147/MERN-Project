@@ -61,16 +61,16 @@ async function createJwt (request, response, next) {
 	//The ? is used here to make sure that request.authentication exists before finding .user
 	if (!request.authentication?.user) {
 		return next (new Error("Something went wrong with your session, please sign out and log in again later."));
-	}
+	};
 
 	// Create a new JWT based on the user established earlier
-	let newJwt = generateJWT(request.authentication.user);
+	let newJwt = generateJWT(request.authentication.user, response);
 
   //Add jwt to the authenticatrion
 	request.authentication = {
 		...request.authentication,
 		jwt: newJwt
-	}
+	};
 
 	// the last endpoint should handle sending the JWT to the user
 	next();
@@ -105,7 +105,7 @@ async function verifyJwt (request, response, next) {
 
 		// If all is good, no errors will be thrown.
     //Now refresh the jwt so that the users session lasts longer
-		let fresherJwt = generateJWT(tokenVerificationResult.tokenUser);
+		let fresherJwt = generateJWT(tokenVerificationResult.tokenUser, response);
 
 		// Attach the new JWT to the request.authentication object,
 		// send this back to the user at the end

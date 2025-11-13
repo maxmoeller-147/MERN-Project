@@ -13,6 +13,7 @@ const connectionController = require("./controllers/ConnectionController");
 const roomChatController = require("./controllers/RoomChatController");
 const multer = require("multer");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 
 
@@ -29,9 +30,13 @@ app.use(
   })
 );
 
+app.use(cookieParser());
+
 // Allow requests only from this origins
-let corsOption = { origin: [
-  "http://localhost:5000",
+let corsOption = { 
+  credentials: true,
+  origin: [
+  "http://localhost:5173",
   "https://DatingApp.com"
 ], optionsSuccessStatus: 200}
 app.use(cors(corsOption));

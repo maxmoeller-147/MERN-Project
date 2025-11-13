@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function UserSignInForm() {
@@ -8,7 +9,7 @@ export default function UserSignInForm() {
     setEmail(e.target.value);
   };
 
-  const onChangePassword = async (e) => {
+  const onChangePassword = (e) => {
     setPassword(e.target.value);
   };
 
@@ -19,27 +20,41 @@ export default function UserSignInForm() {
     // set up authorisation bearer token
     headers.set(
       "Authorization",
-      "Basic" + btoa(username + ":" + password)
+      "Basic" + btoa(email + ":" + password)
     );
-    // send to api for authentication verify
-    const response = await fetch("http://localhost:3000/users/signin", {
+    // send to api for authentication verify, ERROR OCCURRED, TO BE FIXED
+    const response = await axios.post("http://localhost:3000/users/signin",{
+      email: email,
+      password: password
+      }, {
       headers: headers,
-    });
+    }).then((response) => console.log(response));
 
-    const data = await response.json();
-    
-    const jwtToken = data.jwt;
-    // save jwt into cookie
-    // give response, if status 200, move to next step
+    // give response, if status 200, display sucessfull message, TO BE REVIEWED
+    if (response.status === 200) {
+      alert("Log in succesfully")
+    } else {
+      alert("Incorrect email or password, please try again!")
+    }
   
   }
 
   return (
-    <form>
-      <label></label>
-      <input />
-      <label></label>
-      <input />
-    </form>
+    <div>
+      <h1>Sign in</h1>
+      <form>
+        <div onChange={onChangeEmail}>
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email"/>
+        </div>
+        
+        <div onChange={onChangePassword}>
+           <label htmlFor="password">Password:</label>
+          <input type="text" id="password" name="password" />
+        </div>
+
+        <button onClick={onSubmit}>Sign in</button>
+      </form>
+    </div>
   )
 }

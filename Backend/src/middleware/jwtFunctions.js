@@ -8,7 +8,7 @@ const { UserModel } = require("../database/entities/User");
  * 
  * JWTs made in this function will expire after 24 hours.
  */
-function generateJWT(targetUser) {
+function generateJWT(targetUser, response) {
 	let tokenBody = {
 		userId: targetUser.id,
 		username: targetUser.username
@@ -29,6 +29,14 @@ function generateJWT(targetUser) {
 			expiresIn: "1d"
 		}
 	);
+
+	// save new jwt to cookie
+	response.cookie("authcookie", freshJwt, {
+		httpOnly: true,
+		maxAge: 3600000,
+		secure: true,	
+		sameSite: "Strict"
+	});	
 
 	return freshJwt;
 }
