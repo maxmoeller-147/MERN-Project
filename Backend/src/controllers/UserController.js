@@ -45,7 +45,7 @@ router.post(
 
     response.json({
 		  message:"login successfully!",
-      jwt : request.authentication.jwt
+      // jwt : request.authentication.jwt
   })
 });
 
@@ -60,16 +60,20 @@ router.put(
   "/:targetUserId", 
   verifyJwt,
   async (request, response,next) => {
-    // need to add verify user authentication data here, request.authentication.id === request.params.targetUserId
-    try {
-      let updateData = {...request.body};
-      updateUser = await UserModel.findByIdAndUpdate(request.params.targetUserId, updateData, {returnDocument: "after"}).exec()
-      await updateUser.save();
-      response.json(updateUser);
-      next();
-      } catch(error) {
-        return next(new Error("User not found!"));
-      }
+    requestUserId = request.authentication.id;
+    if (requestUserId === request.params.targetUserId) {
+      try {
+        let updateData = {...request.body};
+        updateUser = await UserModel.findByIdAndUpdate(request.params.targetUserId, updateData, {returnDocument: "after"}).exec()
+        await updateUser.save();
+        response.json(updateUser);
+        next();
+        } catch(error) {
+          return next(new Error("User not found!"));
+        }
+    } else {
+      return next(new Error("Invalid request!"))
+    }
 });
 
 
@@ -85,20 +89,25 @@ router.put(
 router.delete(
   "/:targetUserId", verifyJwt,
   async (request, response,next) => {
-    try {
-      deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
-      await ProfileModel.findOneAndDelete({userId: request.params.targetUserId}).exec()
-      if (deleteUser) {
-      response.json({
-        message: 'User deleted successfully',
-        deleteData: deleteUser
-      });
-      } else {
-        return next(new Error("User not found!"))
+    requestUserId = request.authentication.id;
+    if (requestUserId === request.params.targetUserId) {
+      try {
+        deleteUser = await UserModel.findByIdAndDelete(request.params.targetUserId).exec()
+        await ProfileModel.findOneAndDelete({userId: request.params.targetUserId}).exec()
+        if (deleteUser) {
+        response.json({
+          message: 'User deleted successfully',
+          deleteData: deleteUser
+        });
+        } else {
+          return next(new Error("User not found!"))
+        }
+      } catch {
+        return next(new Error("User id is not valid!"));
       }
-  } catch {
-    return next(new Error("User id is not valid!"));
-  }
+    } else {
+      return next(new Error("Invalid request!"))
+    }
 });
 
 module.exports = router;

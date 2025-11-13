@@ -78,25 +78,27 @@ async function createJwt (request, response, next) {
 
 async function verifyJwt (request, response, next) {
 
-  //Get the authorization header from an request
-  let authHeader = request.headers["authorization"] ?? null;
+  const authCookie = request?.cookies?.authcookie ?? null;
 
-  //if no header is provided, exit
-  if (authHeader == null) {
-    return next(new Error("No auth data given"));
+  //Get the authorization header from an request
+  // let authHeader = request.headers["authorization"] ?? null;
+
+  //if no auth cookie is provided, exit
+  if (authCookie == null) {
+    return next(new Error("No auth cookie data given"));
   }
 
 	// Confirm it's a Bearer auth string, 
-  if (authHeader.startsWith("Bearer ")) {
-    authHeader = authHeader.substring(7).trim();
-  }
+  // if (authHeader.startsWith("Bearer ")) {
+  //   authHeader = authHeader.substring(7).trim();
+  // }
 
 	try {
     //Validate the JWT
-		let tokenVerificationResult = await validateJWT(authHeader);
+		let tokenVerificationResult = await validateJWT(authCookie);
 
     //Check if the jwt has been logged out
-    findJwtInBlackList = await BlackListModel.findOne({oldjwt: authHeader});
+    findJwtInBlackList = await BlackListModel.findOne({oldjwt: authCookie});
  
     if (findJwtInBlackList) {
       return next(new Error("User has logged out, please log in again!"))
@@ -111,9 +113,9 @@ async function verifyJwt (request, response, next) {
 		// send this back to the user at the end
 		request.authentication = {
 			...request.authentication,
-			jwt: fresherJwt,
-			id: tokenVerificationResult.tokenUser.id,
-			user: tokenVerificationResult.tokenUser
+			// jwt: fresherJwt,
+			// id: tokenVerificationResult.tokenUser.id,
+			// user: tokenVerificationResult.tokenUser
 		}
 
     //Next middleware
@@ -130,22 +132,23 @@ async function verifyJwt (request, response, next) {
 }
 
 async function logout(request, response, next) {
-  let authHeader = request.headers["authorization"] ?? null;
+  // let authHeader = request.headers["authorization"] ?? null;
+  const authCookie = request?.cookies?.authcookie ?? null;
 
   //if no header is provided, exit
-  if (authHeader == null){
-    return next(new Error("No auth data given"));
+  if (authCookie == null){
+    return next(new Error("No auth cookie data given"));
   }
 
 	// Confirm it's a Bearer auth string, 
-  if (authHeader.startsWith("Bearer ")) {
-    authHeader = authHeader.substring(7).trim();
-  }
+  // if (authHeader.startsWith("Bearer ")) {
+  //   authHeader = authHeader.substring(7).trim();
+  // }
   try {
     //Validate the JWT
-		token = await validateJWT(authHeader);
+		token = await validateJWT(authCookie);
 
-    expiredJwt = await BlackListModel.create({oldjwt: authHeader});
+    expiredJwt = await BlackListModel.create({oldjwt: authCookie});
     next();
 
   } catch(error) {

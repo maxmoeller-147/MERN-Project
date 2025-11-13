@@ -29,7 +29,7 @@ Friend page - somewebsite.com/connection
 
 
 **JACK/PHUONG**
-Sign in page - somewebsite.com/users/login
+Log in page - somewebsite.com/users/login
   - Email, password
   - Forgot password/ reset password?
   - Sign in successfully message

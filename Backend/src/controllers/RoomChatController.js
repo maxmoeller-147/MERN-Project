@@ -13,7 +13,7 @@ router.post('/',
   verifyJwt,
   async  (request, response,next) => {
 
-  let userId = request.authentication.id
+  let userId = request.authentication.id;
 
   // Validate that its a valid id
   if (!mongoose.Types.ObjectId.isValid(userId)) {

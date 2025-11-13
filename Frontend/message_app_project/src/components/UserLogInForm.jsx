@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import api from "../api";
 
-export default function UserSignInForm() {
+
+export default function UserLogInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,21 +20,11 @@ export default function UserSignInForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // let headers = new Headers();
-    // // set up authorisation bearer token
-    // headers.set(
-    //   "Authorization",
-    //   "Basic " + btoa(email + ":" + password)
-    // );
-
     let headers = {
       "Authorization": "Basic " + btoa(email + ":" + password)
     };
     // send to api for authentication verify, then give response, if status 200, display sucessfull message
-    const response = await axios.post("http://localhost:3000/users/login",{
-      email: email,
-      password: password
-    }, {
+    const response = await api.post("http://localhost:3000/users/login",{}, {
       headers: headers,
     })
     .then((response) => {
