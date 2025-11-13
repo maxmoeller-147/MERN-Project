@@ -3,13 +3,16 @@
 Routes
 
 **MAX**
-Welcome page - somewebsite.com/ 
-  - Welcome message and app logo
-  - Sign in button, to direct to sign in page
-  - Register button, to direct to register page
+Welcome page - somewebsite.com/ **DONE**
+  - Welcome message and app logo **DONE**
+  - Sign in button, to direct to sign in page **DONE**
+  - Register button, to direct to register page **DONE**
+
+
+
 
 **MAX**
-Homepage - somewebsite.com/home
+Homepage - somewebsite.com/home **DONE**
 - Friends list show all friends in connection, also show who is online with GREEN dot? Click on any friend with direct to their profile
 - Button for log out -> ask "do you want to log out, YES/NO", then direct to welcome page "somewebsite.com/"
 - List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
