@@ -11,9 +11,9 @@ import { Homepage } from './pages/Homepage.jsx';
 import { NavBar } from './components/NavBar.jsx';
 import { WelcomePage } from './pages/WelcomePage.jsx';
 import { Friends } from './pages/Friends.jsx';
-// import { NotFoundPage } from './pages/NotFoundPage.jsx';
+import { NotFoundPage } from './pages/NotFoundPage.jsx';
 
-
+import { Navigate } from "react-router-dom";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,7 +30,10 @@ createRoot(document.getElementById('root')).render(
         <Route path='/profiles/:userId' element={<ProfilePage />} />
         <Route path='/profiles/edit' element={<ProfileEditPage />} />
         <Route path='/rooms/:roomId' element={<div>TODO! User room chat page</div>} />
-        {/* <Route path='*' element={<NotFoundPage />} /> */}
+
+        <Route path="/404" element={<NotFoundPage />} />
+        
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </BrowserRouter>
 
