@@ -10,14 +10,23 @@ const { UserModel } = require("../database/entities/User");
 
 
 // view user profile 
-router.get('/:userId', verifyJwt, async (request, response) => {
-  const userProfile = ProfileModel.findOne({ userId: request.params.userId });
-  const username = UserModel.findById(request.params.userId);
-  console.log({...userProfile})
+router.get('/:userId', verifyJwt, async (request, response, next) => {
+  const profile = await ProfileModel.findOne({ userId: request.params.userId }).exec();
+  const user = await UserModel.findById(request.params.userId).exec();
+  if (!user) {
+    return next(new Error("User is not valid!"))
+  };
+  if (!profile) {
+    return next(new Error("User profile is not available!"))
+  }
+
   response.json({
-    ...userProfile,
-    username: username,
-  });
+    username: user.username,
+    description: profile.description,
+    image: profile.image,
+  })
+
+
 });
 
 // create user profile
@@ -67,9 +76,9 @@ router.put('/:userId', verifyJwt, async (request, response,next) => {
 });
 
 // for dev testing only
-// router.get('/', async (request, response) => {
-//   allProfiles = await ProfileModel.find({})
-//   response.json(allProfiles)
-// });
+router.get('/', async (request, response) => {
+  allProfiles = await ProfileModel.find({})
+  response.json(allProfiles)
+});
 
 module.exports = router;

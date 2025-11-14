@@ -78,11 +78,11 @@ router.put(
 
 
 // GET:  for development testing purpose
-// router.get(
-//   "/", async (request, response) => {
-//     let allUsers = await UserModel.find({})
-//     response.json(allUsers)
-// });
+router.get(
+  "/", async (request, response) => {
+    let allUsers = await UserModel.find({})
+    response.json(allUsers)
+});
 
 
 // DELETE: delete an user, only for verified user

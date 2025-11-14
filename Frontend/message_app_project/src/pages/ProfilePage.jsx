@@ -14,19 +14,28 @@ export default function ProfilePage() {
   });
 
   const handleRedirect = () => {
-    navigate("/profiles/:userId/edit")
+    navigate(`/profiles/${params.userId}/edit`)
   }
 
   useEffect(() => {
     if (params.userId) {
-      api.get(`/profiles/${params.userId}`).then(console.log).then((response) => {
-        console.log(response.data);
+      api.get(`/profiles/${params.userId}`).then((response) => {
+        if (response.data.error) {
+          if (response.data.error === "User profile is not available!") {
+            navigate(`/profiles/${params.userId}/edit`)
+          } else {
+            navigate("/404")
+          }
+        }
+
         setProfile({
           username: response.data?.username,
+          userId: response.data?.userId,
           image: response.data?.image,
           description: response.data?.description,
         });
-      });
+      })
+      .catch((error) => console.log(error));
     }
   }, []);
 
@@ -36,7 +45,7 @@ export default function ProfilePage() {
         <button onClick = {handleRedirect}>Edit</button>
       <div>
         {
-          profile?.image && <img src="" />
+          profile?.image && <img src={profile.image} />
         }
         <h1>Username: { profile?.username }</h1> {/* to grab from Jwt in Cookie */}
       </div>
