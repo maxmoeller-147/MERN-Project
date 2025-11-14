@@ -88,11 +88,6 @@ async function verifyJwt (request, response, next) {
     return next(new Error("No auth cookie data given"));
   }
 
-	// Confirm it's a Bearer auth string, 
-  // if (authHeader.startsWith("Bearer ")) {
-  //   authHeader = authHeader.substring(7).trim();
-  // }
-
 	try {
     //Validate the JWT
 		let tokenVerificationResult = await validateJWT(authCookie);
@@ -107,16 +102,8 @@ async function verifyJwt (request, response, next) {
 
 		// If all is good, no errors will be thrown.
     //Now refresh the jwt so that the users session lasts longer
-		let fresherJwt = generateJWT(tokenVerificationResult.tokenUser, response);
+		generateJWT(tokenVerificationResult.tokenUser, response);
 
-		// Attach the new JWT to the request.authentication object,
-		// send this back to the user at the end
-		request.authentication = {
-			...request.authentication,
-			// jwt: fresherJwt,
-			// id: tokenVerificationResult.tokenUser.id,
-			// user: tokenVerificationResult.tokenUser
-		}
 
     //Next middleware
 		next();
@@ -140,10 +127,6 @@ async function logout(request, response, next) {
     return next(new Error("No auth cookie data given"));
   }
 
-	// Confirm it's a Bearer auth string, 
-  // if (authHeader.startsWith("Bearer ")) {
-  //   authHeader = authHeader.substring(7).trim();
-  // }
   try {
     //Validate the JWT
 		token = await validateJWT(authCookie);
