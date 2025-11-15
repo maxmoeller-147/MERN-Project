@@ -5,11 +5,17 @@ import api from "../api";
 
 
 export default function UserLogInForm({ setError }) {
+
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
+  };
+
+  const onChangeUsername = (e) => {
+    setUsername(e.target.value);
   };
 
   const onChangePassword = (e) => {
@@ -22,16 +28,32 @@ export default function UserLogInForm({ setError }) {
 
     try{
       // send to api for authentication verify, then give response, if status 200, display sucessfull message
-      const response = await api.post("http://localhost:3000/users/login",null, {
-        headers: {
-          Authorization: "Basic " + btoa(email + ":" + password),
-        },
-      });
+      const response = await api.post("http://localhost:3000/users/register",
+        {
+          username : username,
+          email : email,
+          password : password
+        }
+        , null);
 
       if (response.data.error){
-        setError("Incorrect email or password, please try again!")
+
+        let error_results = response.data.error
+
+        if (typeof error_results === "string") {
+          error_results = error_results
+          .replace("ValidationError:", "")
+          .replace("password:", "")
+          .replace("MongooseError:", "")
+          .split(",");
+
+          console.log(error_results);
+          setError(error_results[0]);
+        } else {
+          throw new Error("Website response is not a string");
+        }
       } else{
-        setError("");
+        console.log("sending home");
         navigate("/home");
       }
     } catch (error){
@@ -49,11 +71,16 @@ export default function UserLogInForm({ setError }) {
         </div>
         
         <div>
+          <label htmlFor="username">Username:</label>
+          <input type="text" id="username" name="username" onChange={onChangeUsername}/>
+        </div>
+
+        <div>
            <label htmlFor="password">Password:</label>
           <input type="text" id="password" name="password" onChange={onChangePassword} />
         </div>
 
-        <button onClick={onSubmit}>Sign in</button>
+        <button onClick={onSubmit}>Register</button>
       </form>
     </div>
   )

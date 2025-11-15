@@ -5,7 +5,6 @@ const { generateJWT } = require("../middleware/jwtFunctions");
 const { ProfileModel } = require("../database/entities/Profile");
 const router = express.Router();
 
-
 // POST: user register route
 router.post("/register", validateRegisterData, async (request, response, next)=> {
   if (request.errors.length > 0) {
@@ -18,10 +17,9 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           username: newUserData.username.trim(),
           password: newUserData.password.trim()
         })
-        await newUser.save();
 
         //Create a jwt for the new user
-        let jwt = generateJWT(newUser);
+        let jwt = generateJWT(newUser, response);
 
         response.json({
           data: newUser, 

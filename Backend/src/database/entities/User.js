@@ -20,17 +20,17 @@ let UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'username is required!'],
-    unique: [true, 'this username already existed'],
+    unique: [true, 'this username already exists'],
 		minLength: [4, 'Username must have minimum 4 characters']
   },
   password: {
 			type: String,
 			required: [true, 'password is required!'],
-			minLength: [8, 'password must have minimum 8 characters'],
+			minLength: [6, 'password must have minimum 8 characters'],
 			validate: {
 				validator: function (newPassword) {
 					let passwordStrengthRules = {
-						minLength: 8,
+						minLength: 6,
 						minLowercase: 1,
 						minUppercase: 1,
 						minNumbers: 1,
@@ -45,7 +45,7 @@ let UserSchema = new mongoose.Schema({
 					};
 					return validator.isStrongPassword(newPassword, passwordStrengthRules);
 				},
-				message: validatorError => `${validatorError.value} is not a strong password! Choose another password!`
+				message: "This is not a strong password!"
 			}
 		},
   creationDate: {
