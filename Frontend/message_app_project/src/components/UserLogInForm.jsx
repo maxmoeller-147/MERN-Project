@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 
 
-export default function UserLogInForm() {
+export default function UserLogInForm({ setError }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,38 +19,39 @@ export default function UserLogInForm() {
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    let headers = {
-      "Authorization": "Basic " + btoa(email + ":" + password)
-    };
-    // send to api for authentication verify, then give response, if status 200, display sucessfull message
-    const response = await api.post("http://localhost:3000/users/login",{}, {
-      headers: headers,
-    })
-    .then((response) => {
-      if (response.data.error) {
-        alert("Incorrect email or password, please try again!");
-      } else {
-        alert("Log in successfully!");
-        navigate("/home"); // navigate to home page
+    try{
+      // send to api for authentication verify, then give response, if status 200, display sucessfull message
+      const response = await api.post("http://localhost:3000/users/login",{}, {
+        headers: {
+          Authorization: "Basic " + btoa(email + ":" + password),
+        },
+      });
+
+      if (response.data.error){
+        setError("Incorrect email or password, please try again!")
+      } else{
+        setError("");
+        navigate("/home");
       }
-    })
-    .catch((error) => console.log(error));
-  
+    } catch (error){
+      setError("An unknown error occured, please try again!")
+      console.log(error);
+    }
   }
 
   return (
     <div>
-      <h1>Sign in</h1>
       <form>
-        <div onChange={onChangeEmail}>
+        <div>
           <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email"/>
+          <input type="email" id="email" name="email" onChange={onChangeEmail}/>
         </div>
         
-        <div onChange={onChangePassword}>
+        <div>
            <label htmlFor="password">Password:</label>
-          <input type="text" id="password" name="password" />
+          <input type="text" id="password" name="password" onChange={onChangePassword} />
         </div>
 
         <button onClick={onSubmit}>Sign in</button>
