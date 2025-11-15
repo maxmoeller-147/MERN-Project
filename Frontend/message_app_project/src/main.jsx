@@ -2,7 +2,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "./index.css"
 import App from "./App.jsx"
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import LogInPage from "./pages/LogInPage.jsx";
@@ -13,7 +13,6 @@ import { WelcomePage } from "./pages/WelcomePage.jsx";
 import { Friends } from "./pages/Friends.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 
-import { Navigate } from "react-router-dom";
 import { BaseLayout } from "./templates/BaseLayout.jsx";
 
 createRoot(document.getElementById("root")).render(
