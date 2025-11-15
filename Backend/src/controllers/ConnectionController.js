@@ -50,9 +50,8 @@ router.delete('/:connectionId', verifyJwt, async (request, response,next) => {
 })
 
 // VIEW all connection the user has
-router.get('/', verifyJwt, viewAllConnection, () => {
-  next()
-});
+router.get('/', verifyJwt, viewAllConnection);
+
 
 // view all connection in database, for development testing purpose
 // router.get('/all', async (request, response) => {

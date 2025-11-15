@@ -10,7 +10,7 @@ async function viewAllConnection(request, response, next) {
       return next(new Error("No user ID found"))
     };
 
-    const findUser = await UserModel.findById(requestUserID).exec();
+    const findUser = await UserModel.findById(requestUserId).exec();
         
     if (findUser == null) {
       return next(new Error("Invalid jwt/userID"));
@@ -19,10 +19,14 @@ async function viewAllConnection(request, response, next) {
     
     const findConnection = await ConnectionModel.find({
       $or: [
-        {userId: requestUserID},
-        {friendId: requestUserID}
+        {userId: requestUserId},
+        {friendId: requestUserId}
       ]
-      }).exec();
+      })
+      .populate("userId")
+      .populate("friendId")
+      .exec();
+      
 
     if (findConnection == null) {
       return next(new Error("You have no connection at the moment!"));

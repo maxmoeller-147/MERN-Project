@@ -10,7 +10,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import { Homepage } from "./pages/Homepage.jsx";
 import { NavBar } from "./components/NavBar.jsx";
 import { WelcomePage } from "./pages/WelcomePage.jsx";
-import { Friends } from "./pages/Friends.jsx";
+import { FriendsPage } from "./pages/FriendsPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 
 import { BaseLayout } from "./templates/BaseLayout.jsx";
@@ -24,7 +24,7 @@ createRoot(document.getElementById("root")).render(
         
           <Route path="/" element={<WelcomePage />} />
           <Route path="/home" element={<Homepage />} />
-          <Route path="/friends" element={<Friends />} />
+          <Route path="/friends" element={<FriendsPage />} />
           <Route path="/users/register" element={<RegisterPage />} />
           <Route path="/users/login" element={<LogInPage />} />
           <Route path="/profiles/" element={<ProfilePage />} />
