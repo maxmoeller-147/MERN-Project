@@ -1,4 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import { LogoutButton } from "./LogoutBttm";
+
+
 
 export function NavBar() {
   const loc = useLocation();
@@ -16,6 +19,8 @@ export function NavBar() {
       <Link to="/search">Search</Link>
       {" | "}
       <Link to="/friends">Friends</Link>
+      {" | "}
+      <LogoutButton/>
     </nav>
   );
 }

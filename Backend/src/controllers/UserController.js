@@ -96,6 +96,23 @@ router.get(
 // });
 
 
+router.get("/me", verifyJwt, async (request, response, next) => {
+  try {
+    const currentUserId = request.authentication.id;
+    const currentUser = await UserModel.findById(currentUserId).exec();
+
+    if (!currentUser) {
+      return next(new Error("User not found"));
+    }
+
+    response.json(currentUser); 
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 // DELETE: delete an user, only for verified user
 router.delete(
   "/:targetUserId", verifyJwt,
