@@ -22,6 +22,11 @@ module.exports = (server) => {
   //Using a map for fast lookup
   const connectedUsers = new Map();
 
+  function broadcastOnlineUsers() {
+    const onlineList = Array.from(connectedUsers.keys());
+    io.emit("onlineUsers, onlineList")
+  }
+
   // Event Connection that triggers each time a new client connects to the server.
   io.on('connection',async (socket) => {
 
@@ -54,6 +59,8 @@ module.exports = (server) => {
     //If not add user to the socket map
     connectedUsers.set(socket.user, socket.id);
     console.log('a user connected:', socket.id);
+
+    broadcastOnlineUsers();
 
 
     socket.on("joinRoom", async (roomId) =>{
@@ -160,6 +167,8 @@ module.exports = (server) => {
       }
 
       console.log('user disconnected:', socket.id);
+
+      broadcastOnlineUsers();
     });
 
 

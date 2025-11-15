@@ -13,38 +13,39 @@ Welcome page - somewebsite.com/ **DONE**
 
 **MAX**
 Homepage - somewebsite.com/home **DONE**
-- Friends list show all friends in connection, also show who is online with GREEN dot? Click on any friend with direct to their profile
-- Button for log out -> ask "do you want to log out, YES/NO", then direct to welcome page "somewebsite.com/"
-- List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
+  - Button for log out -> ask "do you want to log out, YES/NO", then direct to welcome page "somewebsite.com/" **DONE**
+  - Friends list show all friends in connection, also show who is online with GREEN dot? Click on any friend with direct to their profile
+  - List of group chat, click on any group chat will direct to the chat "somewebsite.com/rooms/:roomId"
 
 
 
 **MAX**
 Friend page - somewebsite.com/connection **DONE**
-  - show all friends in connection. GREEN (or sth else) for PENDING connection
+  
   - Click on any friend will show a list of options: **DONE**
+  - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user **DONE**
   - Message -> direct to chat **WAITING FOR CHAT PAGE**
   - Create Group -> direct to "somewebsite.com/rooms/create" with this friend **WAITING FOR ROOM PAGE**
   - View profile -> direct to profile page "somewebsite.com/profiles/:userId" **WAITING FOR PROFILE PAGE**
-  - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user **DONE**
+  - show all friends in connection. GREEN (or sth else) for PENDING connection
 
 
 
 
 **JACK/PHUONG**
-Log in page - somewebsite.com/users/login
-  - Email, password
-  - Forgot password/ reset password?
-  - Sign in successfully message
+Log in page - somewebsite.com/users/login **DONE**
+  - Email, password **DONE**
+  - Forgot password/ reset password? **DONE**
+  - Sign in successfully message **DONE**
 
 **JACK**
-Register page - somewebsite.com/users/register
-  - Username, email, password, confirm password
-  - verfify email? 
-  - register successfully message
+Register page - somewebsite.com/users/register **DONE**
+  - Username, email, password, confirm password **DONE** 
+  - register successfully message **DONE**
+  - verfify email?
 
 **JACK**
-Friend search page - somewebsite.com/connection/search
+Friend search page - somewebsite.com/connection/search 
   - Search button
   - search results
   - Button for sending friend request
@@ -54,7 +55,7 @@ Friend search page - somewebsite.com/connection/search
 
 
 **PHUONG**
-Profile page - somewebsite.com/profiles/:userId
+Profile page - somewebsite.com/profiles/:userId **DONE??**
   - Avatar image
   - Username
   - Bio description
@@ -77,8 +78,8 @@ Room chat page - somewebsite.com/rooms/:roomId
 **PHUONG**
 Global context for page layout
 
-Nav bar
-verify who the user is (CurrentUserContext)
+Nav bar **DONE**
+verify who the user is (CurrentUserContext) **MAX: I done some logic about this for FriendsPage**
 
 
 
