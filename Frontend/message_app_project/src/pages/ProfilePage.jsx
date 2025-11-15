@@ -2,51 +2,50 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"
 import api from "../api";
 
+// Make url, and remove any boolean value
 const createUrl = (...partsArray) => partsArray.filter(Boolean).join('/');
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const params = useParams();
-  const userId = params?.userId || "";
+  const userIdParams = params?.userId || ""; 
 
   const [profile, setProfile] = useState({
     username: "",
+    email: "",
     image: "",
     description: "",
   });
 
-  const handleRedirect = () => {
+  const handleRedirectToProfileEdit = () => {
     navigate("/profiles/edit")
   }
 
   useEffect(() => {
-    api.get(createUrl('/profiles', userId)).then((response) => {
-      if(response.data.error) {
-        if (response.data.error === "Current user profile is not available!") {
-            navigate("/profiles/edit")
-          } else {
-            navigate("/404")
-          }
-      }
+    api.get(`profiles/${userIdParams}`).then((response) => {
+      if (response.data.error) {
+          navigate("/404");
+        } else {
+          setProfile({
+            username: response.data?.username || "",
+            email: response.data?.email || "",
+            image: response.data?.image || "",
+            description: response.data?.description || "",
+          });
+        }
 
-      setProfile({
-        username: response.data?.username,
-        userId: response.data?.userId,
-        image: response.data?.image,
-        description: response.data?.description,
-        });
     })
-  }, []);
+  }, [userIdParams]);
 
             
 
   return (
     <main>
       <h1>User profile</h1>
-      {/* make button only visible for user owning profile */}
+      {/* button only visible for user owning profile */}
         {
-        !userId &&
-        <button onClick = {handleRedirect}>Edit</button>
+        !userIdParams &&
+        <button onClick = {handleRedirectToProfileEdit}>Edit</button>
         }
       <div>
         {
@@ -56,7 +55,7 @@ export default function ProfilePage() {
       </div>
       <section>
         <h2>Description</h2>
-        <p>{ profile.description }</p>
+        <p>{ profile?.description }</p>
       </section>
     </main>
   )

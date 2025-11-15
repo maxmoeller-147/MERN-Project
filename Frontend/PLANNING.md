@@ -78,7 +78,7 @@ Room chat page - somewebsite.com/rooms/:roomId
 Global context for page layout
 
 Nav bar
-verify who the user is (CurrentUserContext)
+Make all pages (except welcome page) to be only available to logged in user
 
 
 
