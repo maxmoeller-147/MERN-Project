@@ -1,18 +1,11 @@
-import { useNavigate } from "react-router-dom";
-
+import { FriendOptionsMenu } from "./FriendsOptionsMenu";
+import { useState } from "react";
 
 export function FriendUser({ friend, currentUserId }) {
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   
-  const friendData = friend.userId._Id === currentUserId ? friend.friendId: friend.userId;
-  
-  const openOptions = () => {
-    navigate(`/friends/${friendData._id}/options`);
-    };
-
-  
-
-
+  const friendData =
+   friend.userId._id === currentUserId ? friend.friendId: friend.userId;
   
   return (
     <div>
@@ -21,7 +14,18 @@ export function FriendUser({ friend, currentUserId }) {
         {friend.connectionStatus === "pending" && "(PENDING)"}
       </span>
       
-      <button onClick= { openOptions}>Options</button>
-    </div>
+        <button onClick={() => setOpen(!open)}>
+        Options
+      </button>
+
+      {open && (
+        <FriendOptionsMenu
+          friend={friend}
+          friendData={friendData}
+          onClose={() => setOpen(false)}
+        />
+      )}
+</div>
+
   );
 };

@@ -20,13 +20,13 @@ Homepage - somewebsite.com/home **DONE**
 
 
 **MAX**
-Friend page - somewebsite.com/connection
+Friend page - somewebsite.com/connection **DONE**
   - show all friends in connection. GREEN (or sth else) for PENDING connection
-  - Click on any friend will show a list of options:
-  - Message -> direct to chat
-  - Create Group -> direct to "somewebsite.com/rooms/create" with this friend
-  - View profile -> direct to profile page "somewebsite.com/profiles/:userId"
-  - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user
+  - Click on any friend will show a list of options: **DONE**
+  - Message -> direct to chat **WAITING FOR CHAT PAGE**
+  - Create Group -> direct to "somewebsite.com/rooms/create" with this friend **WAITING FOR ROOM PAGE**
+  - View profile -> direct to profile page "somewebsite.com/profiles/:userId" **WAITING FOR PROFILE PAGE**
+  - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user **DONE**
 
 
 
