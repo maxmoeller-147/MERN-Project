@@ -28,8 +28,9 @@ createRoot(document.getElementById("root")).render(
           <Route path="/friends" element={<Friends />} />
           <Route path="/users/register" element={<RegisterPage />} />
           <Route path="/users/login" element={<LogInPage />} />
+          <Route path="/profiles/" element={<ProfilePage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/profiles/:userId/edit" element={<ProfileEditPage />} />
+          <Route path="/profiles/edit" element={<ProfileEditPage />} />
           <Route path="/rooms/:roomId" element={<div>TODO! User room chat page</div>} />
 
           <Route path="/404" element={<NotFoundPage />} />

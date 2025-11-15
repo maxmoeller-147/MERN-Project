@@ -99,7 +99,10 @@ async function verifyJwt (request, response, next) {
       return next(new Error("User has logged out, please log in again!"))
     }
 
-
+    request.authentication = {
+      ...request.authentication,
+      id: tokenVerificationResult.tokenUser.id
+    };
 		// If all is good, no errors will be thrown.
     //Now refresh the jwt so that the users session lasts longer
 		generateJWT(tokenVerificationResult.tokenUser, response);

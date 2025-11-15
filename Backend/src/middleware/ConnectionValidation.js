@@ -4,9 +4,9 @@ const { UserModel } = require("../database/entities/User");
 
 async function viewAllConnection(request, response, next) {
   try {
-    const requestUserID = request.authentication?.id;
+    const requestUserId = request.authentication?.id;
 
-    if (!requestUserID) {
+    if (!requestUserId) {
       return next(new Error("No user ID found"))
     };
 

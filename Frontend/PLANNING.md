@@ -78,6 +78,7 @@ Room chat page - somewebsite.com/rooms/:roomId
 Global context for page layout
 
 Nav bar
+verify who the user is (CurrentUserContext)
 
 
 

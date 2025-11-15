@@ -10,7 +10,8 @@ export function NavBar() {
     <nav>
       <Link to="/home">Home</Link>
       {" | "}
-      <Link to="/profiles/:userId">Profile</Link>
+      {/* need to find out who is current user */}
+      <Link to="/profiles">Profile</Link> 
       {" | "}
       <Link to="/search">Search</Link>
       {" | "}

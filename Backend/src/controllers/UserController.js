@@ -84,6 +84,19 @@ router.get(
     response.json(allUsers)
 });
 
+// GET and verify current user
+// router.get(
+//   "/me", verifyJwt, async (request, response, next) => {
+//     try {
+//       let currentUserId = request.authentication.id;
+//       let currentUser = await UserModel.findById(currentUserId);
+//       response.json({username: currentUser.username});
+//       next();
+//     } catch(error) {
+//       return next(new Error(error));
+//     }
+// });
+
 
 // DELETE: delete an user, only for verified user
 router.delete(
