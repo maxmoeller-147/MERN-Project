@@ -34,11 +34,10 @@ createRoot(document.getElementById("root")).render(
           <Route path="/profiles/" element={<OnlyLoggedUsers><ProfilePage /></OnlyLoggedUsers>} />
           <Route path="/profiles/:userId" element={<OnlyLoggedUsers><ProfilePage /></OnlyLoggedUsers>} />
           <Route path="/profiles/edit" element={<OnlyLoggedUsers><ProfileEditPage /></OnlyLoggedUsers>} />
-          <Route path="/rooms/:roomId" element={<div>TODO! User room chat page</div>} />
           <Route path="/profiles/" element={<ProfilePage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
           <Route path="/profiles/edit" element={<ProfileEditPage />} />
-          <Route path="/rooms" element={<RoomChatPage />} />
+          <Route path="/rooms/:roomChatId" element={<RoomChatPage />} />
 
           <Route path="/404" element={<NotFoundPage />} />
           

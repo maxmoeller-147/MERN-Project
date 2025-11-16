@@ -66,20 +66,11 @@ router.post('/',
 router.get('/:roomChatId', 
   verifyJwt,
   canViewRoom,
-  async  (request, response,next) => {
-
-  //No html version
-  //response.json({ message:"Joined room!" })
-
-  try {
-    // Serve the chatroom HTML page
-    response.sendFile(
-      path.join(__dirname, '..', 'public', 'index.html')
-    );
-  } catch (error) {
-    next(error);
-  }
-  
+  async  (request, response,next) => { 
+    response.json({
+      message:"Joined room!",
+      room: request.room 
+     })  
 });
 
 /*
