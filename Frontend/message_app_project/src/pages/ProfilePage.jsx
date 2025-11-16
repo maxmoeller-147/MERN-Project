@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"
 import api from "../api";
 
-// Make url, and remove any boolean value
-const createUrl = (...partsArray) => partsArray.filter(Boolean).join('/');
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -35,7 +33,7 @@ export default function ProfilePage() {
         }
 
     })
-  }, [userIdParams]);
+  }, []);
 
             
 

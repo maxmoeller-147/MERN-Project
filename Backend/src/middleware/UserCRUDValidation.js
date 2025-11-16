@@ -80,9 +80,6 @@ async function verifyJwt (request, response, next) {
 
   const authCookie = request?.cookies?.authcookie ?? null;
 
-  //Get the authorization header from an request
-  // let authHeader = request.headers["authorization"] ?? null;
-
   //if no auth cookie is provided, exit
   if (authCookie == null) {
     return next(new Error("No auth cookie data given"));
