@@ -49,9 +49,13 @@ app.use(express.urlencoded({extended: true}));
 
 
 // image storage 
-let storage = multer.diskStorage({
-  destination: (request, fie, cb) => {
-    cb(null, 'uploads')
+const storage = multer.diskStorage({
+  destination: function (request, fie, cb) {
+    try {
+    cb(null, '../src/public/uploads/')
+    } catch (err) {
+      console.log(err);
+    }
   },
   filename: (request, file, cb) => {
     cb(null, file.fieldname+ '-' + Date.now())

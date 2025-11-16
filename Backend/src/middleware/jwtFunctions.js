@@ -53,7 +53,7 @@ async function validateJWT(targetJwt) {
 
 	// Synchronously confirm if the JWT is legitimate AND hasn't expired yet:
 	let validJwt = jwt.verify(targetJwt, process.env.JWT_SECRET);
-	console.log(JSON.stringify(validJwt, null, 4));
+	// console.log(JSON.stringify(validJwt, null, 4));
 
 	// Make sure the JWT is a valid user and not a random one
 	let tokenUser = await UserModel.findOne({_id: validJwt.userId});

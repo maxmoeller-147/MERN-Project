@@ -1,4 +1,4 @@
-import { OnlineFriendsList } from "../components/OnlineFriendsList";
+// import { FriendsList } from "../components/FriendsList";
 
 
 

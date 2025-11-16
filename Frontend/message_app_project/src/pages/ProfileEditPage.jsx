@@ -15,10 +15,16 @@ const [profile, setProfile] = useState({
 
 
 const putData = async (data) => {
+  // console.log(data?.image);
     await api.patch("/profiles/edit", {
       image: data?.image || "",
       description: data?.description || ""
-    }).then((response) => {
+    }, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
+    .then((response) => {
       if (!response?.data?.error) {
         alert("Profile saved!")
         navigate("/profiles")
@@ -26,12 +32,39 @@ const putData = async (data) => {
     });
 };
 
+
+
 const onChangeInput = (e) => {
-  setProfile((currentValue) => ({ ...currentValue, [e.target.name]: e.target.value}));
+  const fieldName = e?.target?.name;
+  let fieldValue = e?.target?.value;
+
+  if (fieldName === "image") {
+    // const formData = new FormData();
+    // const file = e.target.files[0];
+    // if (file) {
+    //   formData.append("image", )
+    // }
+    
+    fieldValue = e.target.files[0];
+  }
+  setProfile((currentValue) => ({ ...currentValue, [fieldName]: fieldValue }));
 };
 
 const onSave = (e) => {
   e.preventDefault();
+
+  //   if (file) {
+  //   // const reader = new FileReader();
+  //   // reader.onload = btoa(file.target.result);
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     const base64Image = 
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("image", file.value)
+
+  // }
+
   putData(profile);
 };
 
@@ -62,7 +95,7 @@ const onSave = (e) => {
         </div>
         <div>
           <label htmlFor="avatar">Profile image:</label>
-          <input type="file" id="avatar" name="avatar" onChange={onChangeInput}/>
+          <input type="file" id="avatar" name="image" accept="image/jpeg, image/png" onChange={onChangeInput}/>
         </div>
         <div>
           <label htmlFor="description">Bio description:</label>
