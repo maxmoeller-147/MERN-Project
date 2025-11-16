@@ -78,8 +78,13 @@ router.put(
 // GET:  for development testing purpose
 router.get(
   "/", async (request, response) => {
-    let allUsers = await UserModel.find({})
-    response.json(allUsers)
+    const allUsers = await UserModel.find({})
+    let userArray = [];
+    for (const user of allUsers){
+      userArray.push(user.username)
+    }
+    response.json({"allUsers":userArray})
+    
 });
 
 // GET and verify current user
@@ -107,7 +112,7 @@ router.get("/me", verifyJwt, async (request, response, next) => {
 
     response.json(currentUser); 
   } catch (error) {
-    next(error);
+    return next(new Error(error));
   }
 });
 

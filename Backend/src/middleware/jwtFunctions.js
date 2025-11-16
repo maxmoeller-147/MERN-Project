@@ -32,7 +32,7 @@ function generateJWT(targetUser, response) {
 	// save new jwt to cookie
 	response.cookie("authcookie", freshJwt, {
 		httpOnly: true,
-		maxAge: 3600000,
+		maxAge: 36000000,
 		secure: true,	
 		sameSite: "Strict"
 	});	

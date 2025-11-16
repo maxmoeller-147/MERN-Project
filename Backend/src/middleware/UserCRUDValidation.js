@@ -91,7 +91,7 @@ async function verifyJwt (request, response, next) {
 
     //Check if the jwt has been logged out
     findJwtInBlackList = await BlackListModel.findOne({oldjwt: authCookie});
- 
+    
     if (findJwtInBlackList) {
       return next(new Error("User has logged out, please log in again!"))
     }
@@ -132,6 +132,7 @@ async function logout(request, response, next) {
 		token = await validateJWT(authCookie);
 
     expiredJwt = await BlackListModel.create({oldjwt: authCookie});
+    response.clearCookie("authcookie");
     next();
 
   } catch(error) {

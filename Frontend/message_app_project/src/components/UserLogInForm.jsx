@@ -27,7 +27,6 @@ export default function UserLogInForm({ setError }) {
           Authorization: "Basic " + btoa(email + ":" + password),
         },
       });
-
       if (response.data.error){
         setError("Incorrect email or password, please try again!")
       } else{
