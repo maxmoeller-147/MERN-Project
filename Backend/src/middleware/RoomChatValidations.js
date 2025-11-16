@@ -38,6 +38,8 @@ async function canViewRoom(request, response, next) {
             return next(new Error("Forbidden to visit room"));
         };
 
+        request.room = findRoom;
+
     }catch (error) {
         return next(new Error(error));
     };
