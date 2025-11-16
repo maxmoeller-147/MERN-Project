@@ -66,17 +66,18 @@ module.exports = (server) => {
     socket.on("joinRoom", async (roomId) =>{
       try{
         // Validate that its a valid id
-        if (!roomId || !mongoose.Types.ObjectId.isValid(roomId)) {
-          console.log('Invalid room id');
-          return;
+        const findRoom = await RoomChatModel.findById(roomId).exec();
+        if (!roomId || !findRoom) {
+          // console.log('Invalid room id');
+          return new Error("Cannot find room");
         }
 
         //Find the user creating the room
-        const room = await RoomChatModel.findById(roomId).exec();
-        if (!room){
-          console.log('Cannot find room!');
-          return;
-        }
+        // const room = await RoomChatModel.findById(roomId).exec();
+        // if (!room){
+        //   console.log('Cannot find room!');
+        //   return;
+        // }
 
         console.log(`${socket.id} joined ${roomId}`);       
         
@@ -84,7 +85,7 @@ module.exports = (server) => {
         socket.join(roomId);
 
         //Get the current rooms message history and sort it by date
-        const messageHistory = await MessageModel.find({ roomId })
+        const messageHistory = await MessageModel.find({ roomId:roomId })
         .sort({ createdAt: 1 });
 
         //Send the chat history to the socket

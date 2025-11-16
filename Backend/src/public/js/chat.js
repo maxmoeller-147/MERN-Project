@@ -1,17 +1,24 @@
 // Get the JWT from the URL query string
-const url = new URL(window.location.href);
-const jwt = url.searchParams.get("jwt");
+// const url = new URL(window.location.href);
+// const jwt = url.searchParams.get("jwt");
 
-if (!jwt) {
-  throw new Error("No JWT token found in URL");
+const authCookie = request?.cookies?.authcookie ?? null;
+
+//if no auth cookie is provided, exit
+if (authCookie == null) {
+  return next(new Error("No auth cookie data given"));
 }
+
+// if (!jwt) {
+//   throw new Error("No JWT token found in URL");
+// }
 
 //Find the roomChatId
 const roomChatId = window.location.pathname.split("/").pop();
 
 // Connect to the server using Socket.IO, sending the JWT in auth
 window.socket = io("/", {
-  auth: { token: jwt }
+  auth: { token: authCookie }
 });
 
 //Join the room we are currently in

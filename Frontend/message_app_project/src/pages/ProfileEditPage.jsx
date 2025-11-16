@@ -6,16 +6,16 @@ export default function ProfileEditPage() {
 
   const navigate = useNavigate();
 
-const [profile, setProfile] = useState({
-  username: "",
-  email: "",
-  image: "",
-  description: ""
-})
+  const [profile, setProfile] = useState({
+    username: "",
+    email: "",
+    image: "",
+    description: ""
+  });
+  const [error, setError] = useState("");
 
 
-const putData = async (data) => {
-  // console.log(data?.image);
+  const putData = async (data) => {
     await api.patch("/profiles/edit", {
       image: data?.image || "",
       description: data?.description || ""
@@ -30,43 +30,37 @@ const putData = async (data) => {
         navigate("/profiles")
       }
     });
-};
+  };
 
 
 
-const onChangeInput = (e) => {
-  const fieldName = e?.target?.name;
-  let fieldValue = e?.target?.value;
+  const onChangeInput = (e) => {
+    const fieldName = e?.target?.name;
+    let fieldValue = e?.target?.value;
 
-  if (fieldName === "image") {
-    // const formData = new FormData();
-    // const file = e.target.files[0];
-    // if (file) {
-    //   formData.append("image", )
-    // }
-    
-    fieldValue = e.target.files[0];
-  }
-  setProfile((currentValue) => ({ ...currentValue, [fieldName]: fieldValue }));
-};
+    if (fieldName === "image") {    
+      fieldValue = e.target.files[0];
+      if (fieldValue) {
+        const allowTypes = ["image/jpeg", "image/png"];
 
-const onSave = (e) => {
-  e.preventDefault();
+        if (!allowTypes.includes(fieldValue.type)) {
+          setError("File type is not valid! Only accept .jpeg or .png file!");
+          fieldValue = "";
+          return;
+        }
+      }
+    }
+    setProfile((currentValue) => ({ ...currentValue, [fieldName]: fieldValue }));
+  };
 
-  //   if (file) {
-  //   // const reader = new FileReader();
-  //   // reader.onload = btoa(file.target.result);
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     const base64Image = 
-  //   }
-  //   const formData = new FormData();
-  //   formData.append("image", file.value)
-
-  // }
-
-  putData(profile);
-};
+  const onSave = (e) => {
+    e.preventDefault();
+    putData({
+      image: profile?.image,
+      description: profile?.description
+    }
+    );
+  };
 
 
 // Check if profile already available
@@ -94,6 +88,7 @@ const onSave = (e) => {
           <p>Email: {profile.email}</p>
         </div>
         <div>
+          {error && <p>{error}</p>}
           <label htmlFor="avatar">Profile image:</label>
           <input type="file" id="avatar" name="image" accept="image/jpeg, image/png" onChange={onChangeInput}/>
         </div>
@@ -104,5 +99,5 @@ const onSave = (e) => {
         <button type="submit" onClick={onSave}>Save</button>
       </form>
     </main>
-  )
-}
+    )
+  }

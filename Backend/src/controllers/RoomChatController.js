@@ -5,7 +5,7 @@ const { RoomChatModel } = require("../database/entities/RoomChat");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { canViewRoom  } = require("../middleware/RoomChatValidations");
-const { MessageModel } = require('../database/entities/Message');
+// const { MessageModel } = require('../database/entities/Message');
 const router = express.Router();
 
 // Create a room chat
@@ -27,7 +27,7 @@ router.post('/',
 
   try {
     
-    let importedParticipants = newRoomData.participants;
+    let importedParticipants = newRoomData?.participants;
     let participants = [user.id]
 
     //Go through all given participants and make sure they are valid
@@ -49,7 +49,7 @@ router.post('/',
 
     //Create the room model
     newRoom = await RoomChatModel.create({
-      name: newRoomData.name,
+      name: newRoomData?.name,
       participants: participants,
       type: newRoomData.type
     });
