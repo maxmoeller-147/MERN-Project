@@ -22,6 +22,7 @@ Homepage - somewebsite.com/home **DONE**
 **MAX**
 Friend page - somewebsite.com/connection **DONE**
   
+  - Button for adding friends -> direct to "friends/search" page
   - Click on any friend will show a list of options: **DONE**
   - Unfriend -> show alert/ confirm form "Are you sure?Yes/No", then delete connection with this user **DONE**
   - Message -> direct to chat **WAITING FOR CHAT PAGE**
@@ -43,7 +44,7 @@ Register page - somewebsite.com/users/register **DONE**
   - Username, email, password, confirm password **DONE** 
   - register successfully message **DONE**
 
-**JACK**
+**PHUONG**
 Friend search page - somewebsite.com/connection/search 
   - Search button
   - search results
@@ -65,7 +66,7 @@ Profile edit page - somewebsite.com/profiles/:userId/edit  **PENDING**
   - username and desciption  edit **DONE**
   - save button **DONE**
 
-**PHUONG**
+**JACK**
 Room chat page - somewebsite.com/rooms/:roomId
   - all history messages
   - Button to send message

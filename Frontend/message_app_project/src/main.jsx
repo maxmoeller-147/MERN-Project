@@ -14,6 +14,7 @@ import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { OnlyLoggedUsers } from "./components/OnlyLoggedUsers.jsx";
 import { BaseLayout } from "./templates/BaseLayout.jsx";
 import RoomChatPage from "./pages/RoomChatPage.jsx";
+import FriendSearchPage from "./pages/FriendSearchPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -28,11 +29,13 @@ createRoot(document.getElementById("root")).render(
 
             <Route path="/home" element={<Homepage />} />
             <Route path="/friends" element={<FriendsPage/>} />
+            <Route path="/friends/search" element={<FriendSearchPage/>} />
             <Route path="/profiles/" element={<ProfilePage />} />
             <Route path="/profiles/:userId" element={<ProfilePage />} />
             <Route path="/profiles/edit" element={<ProfileEditPage />} />
             <Route path="/rooms/:roomId" element={<div>TODO! User room chat page</div>} />
             <Route path="/rooms" element={<RoomChatPage />} />
+            
 
             <Route path="/404" element={<NotFoundPage />} />
             

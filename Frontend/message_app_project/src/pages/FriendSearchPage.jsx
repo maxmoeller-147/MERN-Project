@@ -1,12 +1,14 @@
 import { useEffect } from "react"
 import api from "../api"
+import { UserDisplay } from "../components/UsersDisplay";
 
 export default function FriendSearchPage() {
-
+  let allUsers;
   // fetch all user from database 
   useEffect(() => {
     api.get("/users").then((response) => {
-      allUsers = response.data.allUsers;
+      console.log(response.data)
+      allUsers = response.data;
     })
   },[])
 
@@ -15,9 +17,9 @@ export default function FriendSearchPage() {
       <h1>Connect with new Friends</h1>
       <input type="text" />
       <section>
-        {users.map(user => (
-          <FriendUser key={ friend._id } friend={ friend } currentUserId={currentUserId}/>
-          ))}
+        {allUsers.map((user) => 
+          UserDisplay(user.username, user.userId)
+          )}
       </section>
     </main>
   )

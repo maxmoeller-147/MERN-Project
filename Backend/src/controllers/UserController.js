@@ -81,9 +81,12 @@ router.get(
     const allUsers = await UserModel.find({})
     let userArray = [];
     for (const user of allUsers){
-      userArray.push(user.username)
+      userArray.push({
+        userId: user.id,
+        username: user.username,
+      })
     }
-    response.json({"allUsers":userArray})
+    response.json(userArray)
     
 });
 
