@@ -42,7 +42,6 @@ Log in page - somewebsite.com/users/login **DONE**
 Register page - somewebsite.com/users/register **DONE**
   - Username, email, password, confirm password **DONE** 
   - register successfully message **DONE**
-  - verfify email?
 
 **JACK**
 Friend search page - somewebsite.com/connection/search 

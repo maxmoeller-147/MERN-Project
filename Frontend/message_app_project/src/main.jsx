@@ -12,7 +12,7 @@ import { NavBar } from "./components/NavBar.jsx";
 import { WelcomePage } from "./pages/WelcomePage.jsx";
 import { FriendsPage } from "./pages/FriendsPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
-
+import { OnlyLoggedUsers } from "./components/OnlyLoggedUsers.jsx";
 import { BaseLayout } from "./templates/BaseLayout.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -22,14 +22,17 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route element={<BaseLayout />}>
         
+
+
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/home" element={<Homepage />} />
-          <Route path="/friends" element={<FriendsPage />} />
-          <Route path="/users/register" element={<RegisterPage />} />
           <Route path="/users/login" element={<LogInPage />} />
-          <Route path="/profiles/" element={<ProfilePage />} />
-          <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/profiles/edit" element={<ProfileEditPage />} />
+          <Route path="/users/register" element={<RegisterPage />} />
+
+          <Route path="/home" element={<OnlyLoggedUsers><Homepage /></OnlyLoggedUsers>} />
+          <Route path="/friends" element={<OnlyLoggedUsers><FriendsPage/></OnlyLoggedUsers>} />
+          <Route path="/profiles/" element={<OnlyLoggedUsers><ProfilePage /></OnlyLoggedUsers>} />
+          <Route path="/profiles/:userId" element={<OnlyLoggedUsers><ProfilePage /></OnlyLoggedUsers>} />
+          <Route path="/profiles/edit" element={<OnlyLoggedUsers><ProfileEditPage /></OnlyLoggedUsers>} />
           <Route path="/rooms/:roomId" element={<div>TODO! User room chat page</div>} />
 
           <Route path="/404" element={<NotFoundPage />} />
