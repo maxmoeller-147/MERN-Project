@@ -1,3 +1,5 @@
+import React, { useEffect, useState  } from "react";
+
 export default function ChatForm( { socket, roomChatId} ) {
 
     const [message, setMessage] = useState("");
@@ -8,6 +10,11 @@ export default function ChatForm( { socket, roomChatId} ) {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+
+        if (!socket || !socket.connected) {
+        console.warn("Socket not connected.");
+        return;
+        }
 
         if (message.trim().length === 0) return;
 
@@ -30,12 +37,12 @@ export default function ChatForm( { socket, roomChatId} ) {
         return () => { 
             socket.off("roomMessage",handleRoomMessage); 
         };
-    }, []); //make sure it only runs once, not every render
+    }, [socket]); //retrigger whenever socket changes (to remount the listeners)
 
   return (
     <div>
         <form id="form">
-            <input value={message} type="text" id="message" name="message" autocomplete="off" onChange={onChangeMessage}/>
+            <input value={message} type="text" id="message" name="message" autoComplete="off" onChange={onChangeMessage}/>
             <button onClick={onSubmit}>Send</button>
         </form>
     </div>

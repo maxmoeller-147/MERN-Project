@@ -1,0 +1,42 @@
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+        
+
+export default function UserJoiningRoom({ socket, roomChatId }) {
+
+    useEffect(() => {
+        //Try to connect and join the room
+        const onConnect =(() => {
+            socket.emit("joinRoom", roomChatId);
+        });
+        
+        socket.on("connect", onConnect);
+
+        const handleRestore = ((messageHistory) => {
+            messageHistory.forEach(msg => {
+                console.log(msg)
+            });
+        });
+        //Restore chat history after joining room
+        socket.on('restoreChatHistory', handleRestore);
+
+        const handleForceDisconnect = ((reason) =>{
+            //If we are disconnected, send the user back to the homepage (or an error page)
+            //Can send the reason in the future as well
+            alert(reason);
+            navigate("/404");
+        })
+
+        socket.on("forceDisconnect", handleForceDisconnect);
+
+        return () => {
+            socket.off("connect", onConnect);
+            socket.off("restoreChatHistory", handleRestore);
+            socket.off("forceDisconnect", handleForceDisconnect);
+        };  
+    },[socket, roomChatId])
+
+    return (
+        <div>user joined</div>
+    );
+}

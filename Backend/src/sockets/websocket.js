@@ -4,6 +4,7 @@ const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { RoomChatModel } = require('../database/entities/RoomChat');
 const { validateJWT } = require("../middleware/jwtFunctions");
+const cookie = require("cookie");
 
 // Initiates Socket.IO with the HTTP server with cors that defines the origins that can connect via WebSocket
 module.exports = (server) => {
@@ -13,9 +14,11 @@ module.exports = (server) => {
       origin: [
         "http://localhost:3000",
         "http://localhost:5000",
+        "http://localhost:5173",
         "http://DatingApp.com"
       ],
-      methods: [ "GET" , "POST" ]
+      methods: [ "GET" , "POST" ],
+      credentials: true //Do this to accept cookies with the socket connection
     }
   });
 
@@ -24,27 +27,45 @@ module.exports = (server) => {
 
   function broadcastOnlineUsers() {
     const onlineList = Array.from(connectedUsers.keys());
-    io.emit("onlineUsers, onlineList")
+    io.emit("onlineUsers", onlineList)
   }
+
+  //Use middleware to check jwt cookies
+  io.use( async (socket, next) => {
+    try {
+      const cookies = socket.request.headers.cookie;
+
+      if (cookies) {
+        const parsedCookies = cookie.parse(cookies);
+
+        //Find the auth cookie
+        const authcookie = parsedCookies.authcookie || null
+
+        if (!authcookie) {
+          return next(new Error("No auth cookie data given"));
+        }
+
+        const userData = await validateJWT(authCookie);
+        
+        socket.user = userData.decodedValidToken.userId;
+
+        console.log('User verified:', socket.user);
+
+        next(); 
+      } else {
+        next(new Error('No cookies provided'));
+      }
+
+    } catch (error) {
+      // reject connection
+      console.log("Socket Authentication failed:", error);
+      return next(new Error("Authentication error"));
+    }
+  })
 
   // Event Connection that triggers each time a new client connects to the server.
   io.on('connection',async (socket) => {
-
-    const token = socket.handshake.auth.token;
-    console.log('jwt token received', token);
-
-    try{
-      const userData = await validateJWT(token);
-      
-      socket.user = userData.decodedValidToken.userId;
-
-      console.log('User verified:', socket.user);
-    } catch (error){
-      console.log('Invalid JWT:', error);
-      socket.emit("forceDisconnect", "invalid jwt");
-      socket.disconnect(true);
-      return;
-    }
+    console.log('a user connected:', socket.id, 'user:', socket.user);
     
     //Check if the user is already connected
     if (connectedUsers.has(socket.user)) {
@@ -170,12 +191,6 @@ module.exports = (server) => {
       console.log('user disconnected:', socket.id);
 
       broadcastOnlineUsers();
-    });
-
-
-    socket.on("joinRoom", (roomId) => {
-      socket.join(roomId);
-      console.log(" User has joined the room")
     });
 
 
