@@ -35,27 +35,26 @@ module.exports = (server) => {
     try {
       const cookies = socket.request.headers.cookie;
 
-      if (cookies) {
-        const parsedCookies = cookie.parse(cookies);
+      if (!cookies) {
+        next(new Error('No cookies provided')); 
+      }
+      
+      const parsedCookies = cookie.parse(cookies);
 
-        //Find the auth cookie
-        const authcookie = parsedCookies.authcookie || null
+      //Find the auth cookie
+      const authCookie = parsedCookies.authcookie || null
 
-        if (!authcookie) {
-          return next(new Error("No auth cookie data given"));
-        }
-
-        const userData = await validateJWT(authCookie);
-        
-        socket.user = userData.decodedValidToken.userId;
-
-        console.log('User verified:', socket.user);
-
-        next(); 
-      } else {
-        next(new Error('No cookies provided'));
+      if (!authCookie) {
+        return next(new Error("No auth cookie data given"));
       }
 
+      const userData = await validateJWT(authCookie);
+        
+      socket.user = userData.decodedValidToken.userId;
+
+      console.log('User verified:', socket.user);
+
+      next(); 
     } catch (error) {
       // reject connection
       console.log("Socket Authentication failed:", error);
@@ -79,9 +78,9 @@ module.exports = (server) => {
     
     //If not add user to the socket map
     connectedUsers.set(socket.user, socket.id);
-    console.log('a user connected:', socket.id);
+    //console.log('a user connected:', socket.id);
 
-    broadcastOnlineUsers();
+    //broadcastOnlineUsers();
 
 
     socket.on("joinRoom", async (roomId) =>{
@@ -92,13 +91,6 @@ module.exports = (server) => {
           // console.log('Invalid room id');
           return new Error("Cannot find room");
         }
-
-        //Find the user creating the room
-        // const room = await RoomChatModel.findById(roomId).exec();
-        // if (!room){
-        //   console.log('Cannot find room!');
-        //   return;
-        // }
 
         console.log(`${socket.id} joined ${roomId}`);       
         

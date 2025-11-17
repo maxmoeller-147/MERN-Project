@@ -34,7 +34,7 @@ function generateJWT(targetUser, response) {
 		httpOnly: true,
 		maxAge: 36000000,
 		secure: true,	
-		sameSite: "Strict"
+		sameSite: "Lax"
 	});	
 
 	return freshJwt;

@@ -23,10 +23,14 @@ export default function RoomChatPage() {
 
       if (socket) return;
 
+
       // Connect to the server using Socket.IO, sending the JWT in auth
       const newSocket = io("http://localhost:3000", {
           withCredentials: true, //Do this to send the cookie to the websocket
       });
+
+      newSocket.on("connect", () => console.log("Socket connected!"));
+      newSocket.on("connect_error", (err) => console.error("Connect error:", err));
 
       setSocket(newSocket)
 
@@ -35,10 +39,10 @@ export default function RoomChatPage() {
         if (newSocket){
           newSocket.off();
           newSocket.disconnect();
-          //setSocket(null);
+          setSocket(null);
         }
       }
-    },[roomChatId, socket]); //Rerun this code if socket or roomChatId changes
+    },[]); //Rerun this code if socket or roomChatId changes
 
 
 
