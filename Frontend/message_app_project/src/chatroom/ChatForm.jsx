@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from "react";
+import React, { useState  } from "react";
 
 export default function ChatForm( { socket, roomChatId} ) {
 
@@ -25,19 +25,6 @@ export default function ChatForm( { socket, roomChatId} ) {
 
         setMessage("");
     }
-
-    useEffect(() => { 
-        const handleRoomMessage = (msg) => {
-            console.log(msg);
-        };
-
-        socket.on("roomMessage", handleRoomMessage); 
-        
-        //Unmount the socket listen here
-        return () => { 
-            socket.off("roomMessage",handleRoomMessage); 
-        };
-    }, [socket]); //retrigger whenever socket changes (to remount the listeners)
 
   return (
     <div>

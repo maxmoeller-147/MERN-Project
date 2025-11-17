@@ -12,14 +12,6 @@ export default function UserJoiningRoom({ socket, roomChatId }) {
         
         socket.on("connect", onConnect);
 
-        const handleRestore = ((messageHistory) => {
-            messageHistory.forEach(msg => {
-                console.log(msg)
-            });
-        });
-        //Restore chat history after joining room
-        socket.on('restoreChatHistory', handleRestore);
-
         const handleForceDisconnect = ((reason) =>{
             //If we are disconnected, send the user back to the homepage (or an error page)
             //Can send the reason in the future as well
@@ -31,7 +23,7 @@ export default function UserJoiningRoom({ socket, roomChatId }) {
 
         return () => {
             socket.off("connect", onConnect);
-            socket.off("restoreChatHistory", handleRestore);
+            
             socket.off("forceDisconnect", handleForceDisconnect);
         };  
     },[socket, roomChatId])

@@ -4,6 +4,7 @@ import UserJoiningRoom from "../chatroom/UserJoiningRoom";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import RoomMessages from "../chatroom/RoomMessages";
 
 
 export default function RoomChatPage() {
@@ -53,6 +54,7 @@ export default function RoomChatPage() {
           {socket ? (
             <>
               <UserJoiningRoom socket={socket} roomChatId={roomChatId} />
+              <RoomMessages socket={socket} />
               <ChatForm socket={socket} roomChatId={roomChatId} />
             </>
           ) : (
