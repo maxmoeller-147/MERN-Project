@@ -80,7 +80,7 @@ module.exports = (server) => {
     connectedUsers.set(socket.user, socket.id);
     //console.log('a user connected:', socket.id);
 
-    //broadcastOnlineUsers();
+    // broadcastOnlineUsers();
 
 
     socket.on("joinRoom", async (roomId) =>{
@@ -182,7 +182,7 @@ module.exports = (server) => {
 
       console.log('user disconnected:', socket.id);
 
-      //broadcastOnlineUsers();
+     // broadcastOnlineUsers();
     });
 
 
