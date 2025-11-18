@@ -25,6 +25,7 @@ let UserSchema = new mongoose.Schema({
   },
   password: {
 			type: String,
+			select: false,
 			required: [true, 'password is required!'],
 			minLength: [6, 'password must have minimum 8 characters'],
 			validate: {
@@ -54,6 +55,7 @@ let UserSchema = new mongoose.Schema({
 	},
 	salt: {
 		type: String,
+		select: false,
 		required: false,
 		default: function () {
 			return crypto.randomBytes(64).toString("hex");

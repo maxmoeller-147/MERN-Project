@@ -25,7 +25,12 @@ export function FriendOptionsMenu ({ friend }) {
 
   const createRoom = async () => {
     try {
-      // const newObjectId = new mongoose.Types.ObjectId;
+
+      // check if room for these user has been created
+
+      // if already exist, view existed room
+
+      // if not, create new room
       await api.post("rooms",{
         name: "New Room Chat",
         participants: [friend._id],
