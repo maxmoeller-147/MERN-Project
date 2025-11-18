@@ -5,45 +5,49 @@ import api from "../api";
 export const FriendDataContext = createContext();
 // export const CurrentUserContext = createContext();
 
+const fetchFriendList = async () => {
+  try {
+    const me = await api.get('/users/me');
+    const meId = me.data._id;
+
+    const connection = await api.get("/connection");
+
+    const connectionList = connection?.data?.length > 0 ? connection.data : [];
+    const connectionListSanitised = connectionList.map(connection => {
+      const sanitisedConnection = connection.userId._id === meId ? connection.friendId : connection.userId;
+
+      return {
+        ...sanitisedConnection,
+        connectionStatus: connection.connectionStatus,
+      };
+    });
+    
+    return Promise.resolve(connectionListSanitised);
+  } catch(error) {
+    console.log(error);
+    Promise.resolve([]);
+  }
+}
+
 export function FriendDataProvider({children}) {
   const [friends, setFriends] = useState([])
   // const [currentUserId, setCurrentUserId] = useState(null)
   
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const meResponse = await api.get('/users/me');
-        const meId = meResponse.data._id;
-        // setCurrentUserId(meId)
-
-        const response = await api.get("/connection");
-        // console.log(response)
-        let friendData = [];
-        if (response.data.length === 0) {
-          friendData = []
-        } else {
-          response.data.map((connection) => {
-          let realFriend = (connection.userId._id === meId) ? connection.friendId : connection.userId;
-          friendData.push(realFriend);
-        })
-        }
-
-
-        setFriends(friendData);
-      } catch(error) {
-        console.log(error)
-      }
-    }
-      fetchData();
-    }, []);
+    fetchFriendList().then((data) => {
+      setFriends(data);
+    });
+  }, []);
   
 
   
   // return <CurrentUserContext.Provider value={[currentUserId,setCurrentUserId]}>
-  return   <FriendDataContext.Provider value={[friends,setFriends]}>
-    {children}
-  </FriendDataContext.Provider>
+  return (
+    <FriendDataContext.Provider value={{friends}}>
+      {children}
+    </FriendDataContext.Provider>
+  );
   // </CurrentUserContext.Provider>
 
 

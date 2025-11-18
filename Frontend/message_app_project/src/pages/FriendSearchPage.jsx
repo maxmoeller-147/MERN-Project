@@ -15,7 +15,7 @@ export default function FriendSearchPage() {
   },[]);
 
 
-  const [friends,setFriends] = useContext(FriendDataContext)
+  const { friends } = useContext(FriendDataContext)
   let array = [];
   useEffect(() => {
     friends.map((friend) => {
@@ -29,7 +29,7 @@ export default function FriendSearchPage() {
   return (
     <main>
       <h1>Connect with New Friends</h1>
-      <input type="text" />
+      {/* <input type="text" /> */}
       <section>
         {allOtherUsers.map((user) => 
           <UserDisplay key={user.userId} username={user.username} userId={user.userId} isConnected={friendIdArray.includes(user.userId)} />
