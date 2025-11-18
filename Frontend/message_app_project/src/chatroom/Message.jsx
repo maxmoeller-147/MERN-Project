@@ -1,7 +1,7 @@
-export default function Message({ message }) {
+export default function Message({ message , user}) {
     return(
         <div>
-            <p>{message.content}</p>
+            <p>{user.username} says: {message.content}</p>
         </div>
     )
 }
