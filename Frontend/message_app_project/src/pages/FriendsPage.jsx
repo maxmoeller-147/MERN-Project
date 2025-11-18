@@ -1,10 +1,15 @@
 import api from "../api" 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FriendList } from "../components/FriendsList";
+// import { CurrentUserProvider } from "../Contexts/CurrentUserProvider";
+import { FriendDataContext } from "../Contexts/FriendDataContext";
+// import { CurrentUserContext } from "../Contexts/CurrentUserContext";
 
 export function FriendsPage() {
+  // [friends, setFriends] = useContext(FriendDataContext)
   const [friends, setFriends] = useState([]);
-  const [ currentUserId, setCurrentUserId] = useState(null);
+  // const [currentUserId, setCurrentUserId] = useContext(CurrentUserContext);
+  const [currentUserId, setCurrentUserId] = useState();
   
 
   useEffect(() => {

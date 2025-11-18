@@ -35,11 +35,14 @@ router.delete('/:connectionId', verifyJwt, async (request, response,next) => {
     );
     if (!isUserInConnection) {
       return next(new Error("Invalid request! You are not authorised to delete this connection"))
-    };
-    response.json({
-    message:"connection deleted successfully",
-    deleteData: deleteConnection
-    });
+    } else {
+      await ConnectionModel.deleteOne(deleteConnection);
+        response.json({
+          message:"connection deleted successfully",
+          deleteData: deleteConnection
+        });
+    }
+
     next()
   } else {
     return next(new Error("Connection not found!"))

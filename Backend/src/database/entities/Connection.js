@@ -6,7 +6,7 @@ let ConnectionSchema = new mongoose.Schema(
   userId: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
-    require: true
+    require: true,
   },
   friendId: {
     type: mongoose.Types.ObjectId,
@@ -27,7 +27,9 @@ let ConnectionSchema = new mongoose.Schema(
     default: Date.now
   }
 }
-)
+);
+
+ConnectionSchema.index({ userId: 1, friendId: 1 }, { unique: true });
 
 const ConnectionModel = mongoose.model("Connection", ConnectionSchema);
 

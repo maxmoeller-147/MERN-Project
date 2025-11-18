@@ -1,25 +1,39 @@
-import { useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import api from "../api"
 import { UserDisplay } from "../components/UsersDisplay";
+import { FriendDataContext } from "../Contexts/FriendDataContext";
 
 export default function FriendSearchPage() {
-  let allUsers;
-  // fetch all user from database 
+  const [allOtherUsers,setAllOtherUsers] = useState([]);
+  const [friendIdArray, setFriendIdArray] = useState([]);
+
   useEffect(() => {
     api.get("/users").then((response) => {
-      console.log(response.data)
-      allUsers = response.data;
+      let data = response.data;
+      setAllOtherUsers(data)
     })
-  },[])
+  },[]);
+
+
+  const [friends,setFriends] = useContext(FriendDataContext)
+  let array = [];
+  useEffect(() => {
+    friends.map((friend) => {
+      array.push(friend._id)
+    });
+    setFriendIdArray(array)
+  }, [friends])
+
+
 
   return (
     <main>
-      <h1>Connect with new Friends</h1>
+      <h1>Connect with New Friends</h1>
       <input type="text" />
       <section>
-        {allUsers.map((user) => 
-          UserDisplay(user.username, user.userId)
-          )}
+        {allOtherUsers.map((user) => 
+          <UserDisplay key={user.userId} username={user.username} userId={user.userId} isConnected={friendIdArray.includes(user.userId)} />
+        )}
       </section>
     </main>
   )

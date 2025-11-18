@@ -16,7 +16,7 @@ export function NavBar() {
       {/* need to find out who is current user */}
       <Link to="/profiles">Profile</Link> 
       {" | "}
-      <Link to="/search">Search</Link>
+      <Link to="/friends/search">Search</Link>
       {" | "}
       <Link to="/friends">Friends</Link>
       {" | "}

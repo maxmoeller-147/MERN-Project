@@ -77,16 +77,19 @@ router.put(
 
 // GET:  for development testing purpose
 router.get(
-  "/", async (request, response) => {
+  "/", verifyJwt, async (request, response) => {
     const allUsers = await UserModel.find({})
-    let userArray = [];
-    for (const user of allUsers){
-      userArray.push({
-        userId: user.id,
-        username: user.username,
+    let userArrayExcludeAuthenticatedUser = [];
+    for (const user of allUsers) {
+      if (user.id != request.authentication.id) {
+        userArrayExcludeAuthenticatedUser.push({
+          userId: user.id,
+          username: user.username,
       })
+      }
+
     }
-    response.json(userArray)
+    response.json(userArrayExcludeAuthenticatedUser)
     
 });
 

@@ -26,11 +26,21 @@ async function viewAllConnection(request, response, next) {
       .populate("userId")
       .populate("friendId")
       .exec();
-      
+    
 
     if (findConnection == null) {
       return next(new Error("You have no connection at the moment!"));
-    };
+    } 
+    // else { // asign friendId to only userId different from authenticated user
+    //   for (const connection of findConnection) {
+    //     connection.friendId === requestUserId ? 
+    //     if (connection.friendId === requestUserId) {
+    //       connection.friendId = connection.userId
+    //       connection.userId = requestUserId
+          
+    //     }
+    //   }
+    // }
     response.json(findConnection)
 
     next()
