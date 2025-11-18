@@ -32,9 +32,9 @@ export function FriendOptionsMenu ({ friend, friendData }) {
         type: "DIRECT"
       }).then((response) => {
         setRoomId(response.data._id);
-        ;
+        navigate(`/rooms/${response.data._id}`);
       })
-      navigate(`/rooms/${roomId}`)
+      
 
     } catch(err) {
       console.error(err);
@@ -49,7 +49,7 @@ return (
         View Profile
     </button>
 
-    <button onClick={() => { createRoom }}>
+    <button onClick={ createRoom }>
         Send Message
     </button>
 
