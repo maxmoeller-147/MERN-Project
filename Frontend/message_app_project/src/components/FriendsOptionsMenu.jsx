@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 
 
-export function FriendOptionsMenu ({ friend, friendData }) {
+export function FriendOptionsMenu ({ friend }) {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState("")
 
@@ -25,10 +25,15 @@ export function FriendOptionsMenu ({ friend, friendData }) {
 
   const createRoom = async () => {
     try {
-      // const newObjectId = new mongoose.Types.ObjectId;
+
+      // check if room for these user has been created
+
+      // if already exist, view existed room
+
+      // if not, create new room
       await api.post("rooms",{
         name: "New Room Chat",
-        participants: [friendData._id],
+        participants: [friend._id],
         type: "DIRECT"
       }).then((response) => {
         setRoomId(response.data._id);
@@ -45,7 +50,7 @@ export function FriendOptionsMenu ({ friend, friendData }) {
 return (
   <div className="DropMenu">
     
-    <button onClick={() => navigate(`/profiles/${friendData._id}`) }>
+    <button onClick={() => navigate(`/profiles/${friend._id}`) }>
         View Profile
     </button>
 
@@ -53,9 +58,9 @@ return (
         Send Message
     </button>
 
-    <button onClick={() => navigate(`/friends/create-group?user=${friendData._id}`) }>
+    {/* <button onClick={() => navigate(`/friends/create-group?user=${friendData._id}`) }>
         Create Group
-    </button>
+    </button> */}
 
     <button onClick={handleUnfriend}>
         Delete Friend

@@ -1,14 +1,22 @@
+import { useContext, useState } from 'react';
 import { FriendUser } from "./FriendUser"
+import { FriendDataContext } from "../Contexts/FriendDataContext";
 
-export function FriendList({ friends, currentUserId }) {
+export function FriendList() {
+  const { friends } = useContext(FriendDataContext);
+  const [open, setOpen] = useState(false);
+
+  console.log(friends);
    
-  if (friends.length === 0) return <p>you have no friends yet.</p>;
+  if (friends.length === 0) return <p>Sorry, your friends list looks empty</p>;
 
   return (
     <section>
-      {friends.map(friend => (
-        <FriendUser key={ friend._id } friend={ friend } currentUserId={currentUserId}/>
-        ))}
+      {
+        friends.map(friend => (
+          <FriendUser friend={friend} />
+        ))
+      }
     </section>
   );
 

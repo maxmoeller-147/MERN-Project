@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { LogoutButton } from "./LogoutBttm";
+import { useLocation, NavLink } from "react-router-dom";
+
 
 
 
@@ -10,17 +10,12 @@ export function NavBar() {
   if (hideOnRoutes.includes(loc.pathname)) {return null};
 
   return (
-    <nav>
-      <Link to="/home">Home</Link>
-      {" | "}
+    <nav className="navbar">
+      <NavLink to="/home">Home</NavLink>
       {/* need to find out who is current user */}
-      <Link to="/profiles">Profile</Link> 
-      {" | "}
-      <Link to="/friends/search">Search</Link>
-      {" | "}
-      <Link to="/friends">Friends</Link>
-      {" | "}
-      <LogoutButton/>
+      <NavLink to="/profiles">Profile</NavLink> 
+      <NavLink to="/friends/search">Search</NavLink>
+      <NavLink to="/friends" end>Friends</NavLink>
     </nav>
   );
 }

@@ -1,31 +1,25 @@
-import { FriendOptionsMenu } from "./FriendsOptionsMenu";
 import { useState } from "react";
+import { FriendOptionsMenu } from "./FriendsOptionsMenu";
 
-export function FriendUser({ friend, currentUserId }) {
+export function FriendUser({ friend }) {
   const [open, setOpen] = useState(false);
-  
-  const friendData =
-   friend.userId._id === currentUserId ? friend.friendId: friend.userId;
-  
+
   return (
     <div>
       <span>
-        {friendData.username}
-        {friend.connectionStatus === "pending" && "(PENDING)"}
+        {friend.username}
+        {friend.connectionStatus.toUpperCase()}
       </span>
-      
-        <button onClick={() => setOpen(!open)}>
+      <button onClick={() => setOpen(!open)}>
         Options
       </button>
 
       {open && (
         <FriendOptionsMenu
           friend={friend}
-          friendData={friendData}
           onClose={() => setOpen(false)}
         />
       )}
-</div>
-
+    </div>
   );
 };
