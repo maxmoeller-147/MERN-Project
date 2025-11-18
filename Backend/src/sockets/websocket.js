@@ -80,7 +80,7 @@ module.exports = (server) => {
     connectedUsers.set(socket.user, socket.id);
     //console.log('a user connected:', socket.id);
 
-    //broadcastOnlineUsers();
+    // broadcastOnlineUsers();
 
 
     socket.on("joinRoom", async (roomId) =>{
@@ -153,9 +153,9 @@ module.exports = (server) => {
         }
 
 
-        const msg = `${user.username} says: ${data.msg}`
-        console.log(msg);
-        
+        //const msg = `${user.username} says: ${data.msg}`
+        const msg = data.msg
+        console.log(`user ${userId} says ${data.msg}`)
         const fullMessage = await MessageModel.create({
           roomId: roomId,
           senderId: userId,
@@ -182,7 +182,7 @@ module.exports = (server) => {
 
       console.log('user disconnected:', socket.id);
 
-      broadcastOnlineUsers();
+     // broadcastOnlineUsers();
     });
 
 

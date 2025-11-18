@@ -12,8 +12,8 @@ export default function ChatForm( { socket, roomChatId} ) {
         e.preventDefault();
 
         if (!socket || !socket.connected) {
-        console.warn("Socket not connected.");
-        return;
+            console.warn("Socket not connected.");
+            return;
         }
 
         if (message.trim().length === 0) return;
