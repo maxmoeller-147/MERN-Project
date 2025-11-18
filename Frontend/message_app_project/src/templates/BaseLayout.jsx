@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar";
 export function BaseLayout() {
   return <>
     <header>
-      
+      <h1>Chin Wag Application</h1>
     </header>
 
     <main>

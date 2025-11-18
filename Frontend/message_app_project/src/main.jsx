@@ -15,6 +15,7 @@ import { BaseLayout } from "./templates/BaseLayout.jsx";
 import RoomChatPage from "./pages/RoomChatPage.jsx";
 import FriendSearchPage from "./pages/FriendSearchPage.jsx";
 import { FriendDataProvider } from "./Contexts/FriendDataContext.jsx";
+import "./styles/General.css"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

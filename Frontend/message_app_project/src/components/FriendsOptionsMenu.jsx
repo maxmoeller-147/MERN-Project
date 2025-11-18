@@ -28,10 +28,14 @@ export function FriendOptionsMenu ({ friend, friendData }) {
       // const newObjectId = new mongoose.Types.ObjectId;
       await api.post("rooms",{
         name: "New Room Chat",
-        participants: [friendData._id]
+        participants: [friendData._id],
+        type: "DIRECT"
       }).then((response) => {
-        setRoomId(response.data._id)
+        setRoomId(response.data._id);
+        navigate(`/rooms/${response.data._id}`);
       })
+      
+
     } catch(err) {
       console.error(err);
       alert("An error has ocurred");
@@ -45,7 +49,7 @@ return (
         View Profile
     </button>
 
-    <button onClick={() => {navigate(`/rooms/${friendData._id}`); createRoom()}}>
+    <button onClick={ createRoom }>
         Send Message
     </button>
 
