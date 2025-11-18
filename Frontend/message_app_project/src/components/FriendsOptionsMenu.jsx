@@ -1,3 +1,4 @@
+import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router";
 
@@ -5,6 +6,7 @@ import { useNavigate } from "react-router";
 
 export function FriendOptionsMenu ({ friend, friendData }) {
   const navigate = useNavigate();
+  const [roomId, setRoomId] = useState("")
 
   const handleUnfriend = async () => {
     if (!confirm("Do you want to delete this user from your friends list?"))
@@ -21,14 +23,29 @@ export function FriendOptionsMenu ({ friend, friendData }) {
     }
 };
 
+  const createRoom = async () => {
+    try {
+      // const newObjectId = new mongoose.Types.ObjectId;
+      await api.post("rooms",{
+        name: "New Room Chat",
+        participants: [friendData._id]
+      }).then((response) => {
+        setRoomId(response.data._id)
+      })
+    } catch(err) {
+      console.error(err);
+      alert("An error has ocurred");
+    }
+  }
+
 return (
   <div className="DropMenu">
     
-    <button onClick={() => navigate(`/profile/${friendData._id}`) }>
+    <button onClick={() => navigate(`/profiles/${friendData._id}`) }>
         View Profile
     </button>
 
-    <button onClick={() => navigate(`/chatroom/${friendData._id}`) }>
+    <button onClick={() => {navigate(`/rooms/${friendData._id}`); createRoom()}}>
         Send Message
     </button>
 

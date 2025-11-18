@@ -7,7 +7,6 @@ import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import LogInPage from "./pages/LogInPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import { Homepage } from "./pages/Homepage.jsx";
-import { NavBar } from "./components/NavBar.jsx";
 import { WelcomePage } from "./pages/WelcomePage.jsx";
 import { FriendsPage } from "./pages/FriendsPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
@@ -29,7 +28,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/users/register" element={<RegisterPage />} />
 
             <Route path="/home" element={<Homepage />} />
-            <Route path="/friends" element={<FriendDataProvider><FriendsPage/></FriendDataProvider>} />
+            <Route path="/friends" element={<FriendsPage/>} />
             <Route path="/friends/search" element={<FriendDataProvider><FriendSearchPage/></FriendDataProvider>} />
             <Route path="/profiles/" element={<ProfilePage />} />
             <Route path="/profiles/:userId" element={<ProfilePage />} />
