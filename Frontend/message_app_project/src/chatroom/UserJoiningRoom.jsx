@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
         
 
 export default function UserJoiningRoom({ socket, roomChatId }) {
-
+    
+    const navigate = useNavigate();
     useEffect(() => {
         //Try to connect and join the room
         const onConnect =(() => {
