@@ -19,7 +19,7 @@ export function FriendDataProvider({children}) {
 
         const response = await api.get("/connection");
         // console.log(response)
-        const friendData = [];
+        let friendData = [];
         if (response.data.length === 0) {
           friendData = []
         } else {
