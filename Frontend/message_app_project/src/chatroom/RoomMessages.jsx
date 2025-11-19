@@ -3,18 +3,18 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 
 //Import all basic profiles
-import ProfileBored from "../assets/Default_profiles/Profile_bored.png";
-import ProfileGlee from "../assets/Default_profiles/Profile_glee.png";
-import ProfileLook from "../assets/Default_profiles/Profile_look.png";
-import ProfileNeutral from "../assets/Default_profiles/Profile_netrual.png";
-import ProfileSmile from "../assets/Default_profiles/Profile_smile.png";
-import ProfileSpeed from "../assets/Default_profiles/Profile_Speed.png";
+import ProfileBored from "../assets/Default_profiles/bored.png";
+import ProfileGlee from "../assets/Default_profiles/glee.png";
+import ProfileLook from "../assets/Default_profiles/look.png";
+import ProfileNeutral from "../assets/Default_profiles/neutral.png";
+import ProfileSmile from "../assets/Default_profiles/smile.png";
+import ProfileSpeed from "../assets/Default_profiles/speed.png";
 
 export default function RoomMessages({ socket }) {
 
     const [loadedMessages, setLoadedMessages] = useState([]);
 
-    const defaultImages = [
+    const DEFAULT_IMAGES = [
         ProfileBored,
         ProfileGlee,
         ProfileLook,
@@ -24,7 +24,7 @@ export default function RoomMessages({ socket }) {
     ];
 
     const getRandomProfile = () => {
-        return defaultImages[Math.floor(Math.random() * defaultImages.length)];
+        return DEFAULT_IMAGES[Math.floor(Math.random() * DEFAULT_IMAGES.length)];
     };
 
 
