@@ -48,7 +48,7 @@ export function FriendOptionsMenu ({ friend }) {
   }
 
 return (
-  <div className="DropMenu">
+  <div className="drop-options">
     
     <button onClick={() => navigate(`/profiles/${friend._id}`) }>
         View Profile

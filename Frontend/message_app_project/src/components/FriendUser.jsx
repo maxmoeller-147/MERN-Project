@@ -5,12 +5,12 @@ export function FriendUser({ friend }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
-      <span>
+    <div className="friend-row">
+      <span className="friend-name">
         {friend.username}
         {friend.connectionStatus.toUpperCase()}
       </span>
-      <button onClick={() => setOpen(!open)}>
+      <button className="friend-options" onClick={() => setOpen(!open)}>
         Options
       </button>
 

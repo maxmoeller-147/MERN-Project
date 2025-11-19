@@ -11,7 +11,7 @@ export function FriendList() {
   if (friends.length === 0) return <p>Sorry, your friends list looks empty</p>;
 
   return (
-    <section>
+    <section className='friends-list'>
       {
         friends.map(friend => (
           <FriendUser friend={friend} />

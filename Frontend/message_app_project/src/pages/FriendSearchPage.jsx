@@ -28,7 +28,8 @@ export default function FriendSearchPage() {
 
 
   return (
-    <main>
+    <main className="main-search">
+      <div className="search-friends">
       <h1>Connect with New Friends</h1>
       {/* <input type="text" /> */}
       <section>
@@ -36,6 +37,7 @@ export default function FriendSearchPage() {
           <UserDisplay key={user.userId} username={user.username} userId={user.userId} isConnected={friendIdArray.includes(user.userId)} />
         )}
       </section>
+      </div>
     </main>
   )
 }
