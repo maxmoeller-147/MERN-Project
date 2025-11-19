@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../api";
+import "../styles/ProfileEditPage.css"
 
 export default function ProfileEditPage() {
 
@@ -79,12 +80,13 @@ export default function ProfileEditPage() {
 
   return (
     <main>
+      <div className="edit-profile" >
         <h2>Create/ Edit Profile</h2>
       <form>
-        <div>
+        <div className="user-field">
           <p>Username: {profile.username}</p>
         </div>
-        <div>
+        <div className="user-field">
           <p>Email: {profile.email}</p>
         </div>
         <div>
@@ -98,6 +100,7 @@ export default function ProfileEditPage() {
         </div>
         <button type="submit" onClick={onSave}>Save</button>
       </form>
+      </div>
     </main>
     )
   }

@@ -26,6 +26,7 @@ export function UserDisplay({ username, userId, isConnected }) {
     <div>
       <span>
         <p>{username}</p>
+        
       </span>
     {(isConnected === false) && <button onClick={() => {createConnection(); handleClick()}} disabled={isDisable}>{buttonText}</button>}
     {(isConnected === true) && <p>Connected</p>}
