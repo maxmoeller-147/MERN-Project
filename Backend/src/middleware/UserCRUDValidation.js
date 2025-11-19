@@ -28,7 +28,12 @@ async function verifyBasicUserAuth (request, response, next) {
   objDecodedAuth.password = decodedAuth.substring(decodedAuth.indexOf(":") + 1);
 
 	// Check if a user exists for the given login email.
-	let foundUser = await UserModel.findOne({email: objDecodedAuth.email});
+	let foundUser = await UserModel.findOne({email: objDecodedAuth.email}).select({
+    email: 1,
+    username: 1,
+    salt: 1,
+    password: 1,
+  });
 
 	if (!foundUser || foundUser == null) {
 		return next(new Error("No user found for the given auth data."));
