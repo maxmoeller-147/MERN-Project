@@ -95,10 +95,13 @@ search logic for friend search page
 
 
 
+STYLES (TODO)
+  - User Profile
+  - Friends
+  - Friends search
+  - Home
 
-
-
-
+  - Media Responsive for phone
 
 
 

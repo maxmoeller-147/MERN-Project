@@ -1,25 +1,62 @@
-section {
-  padding: 0 16px;
-}
-
-section > div {
+.main-search {
+  padding-top: 80px;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+}
+
+
+.user-row button {
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: 1px solid black;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+
+.search-friends {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 450px;
+  background: var(--yellow-color, #fff7d1);
+  border: 0px;
+  padding: 70px;
+  gap: 20px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+}
+
+
+.search-friends h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+.search-friends section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.user-row {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 0px;
+  padding: 15px 20px;
+  background: white;
 }
 
-section > div > span > p {
-  margin: 0;
+
+.user-row .user-name {
+  font-size: 1rem;
+  font-weight: 800;
 }
 
-section > div > p {
-  border: 1px dashed black;
-  margin: 0;
-  padding: 8px 16px;
-}
 
-button {
-  width: fit-content;
-  padding: 8px 16px;
-  margin: 0;
-}
+
+

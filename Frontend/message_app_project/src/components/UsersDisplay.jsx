@@ -23,12 +23,12 @@ export function UserDisplay({ username, userId, isConnected }) {
   };
 
   return(
-    <div>
-      <span>
+    <div className="user-row">
+      <span className="user-name">
         <p>{username}</p>
         
       </span>
-    {(isConnected === false) && <button onClick={() => {createConnection(); handleClick()}} disabled={isDisable}>{buttonText}</button>}
+    {(isConnected === false) && <button className="connected" onClick={() => {createConnection(); handleClick()}} disabled={isDisable}>{buttonText}</button>}
     {(isConnected === true) && <p>Connected</p>}
 
     </div>

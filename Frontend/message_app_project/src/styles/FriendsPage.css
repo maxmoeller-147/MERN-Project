@@ -1,0 +1,55 @@
+.friends-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 450px;
+  background: var(--yellow-color, #fff7d1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  border-radius: 0px;
+  padding: 50px;
+}
+
+
+.friend-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 0px;
+  padding: 15px 20px;
+  background: white;
+  margin-bottom: 15px;
+  
+}
+
+
+.friend-name {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+
+.friend-options {
+  border: 1px solid black;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+
+.drop-options button {
+  padding: 5px 70px;
+  font-size: 0.8rem;
+  
+}
+
+

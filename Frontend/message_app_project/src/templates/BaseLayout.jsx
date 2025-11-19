@@ -9,7 +9,9 @@ export function BaseLayout() {
     <header>
       <h1>BlahBlah!</h1>
       <NavBar />
+      
     </header>
+
 
     <Outlet />
   </>
