@@ -101,8 +101,34 @@ module.exports = (server) => {
         const messageHistory = await MessageModel.find({ roomId:roomId })
         .sort({ createdAt: 1 });
 
+        let formatedHistory = []
+
+        for (const msg of messageHistory) {
+          // Validate that its a valid id
+          if (!msg.senderId || !mongoose.Types.ObjectId.isValid(msg.senderId)) {
+            console.log('Invalid user id');
+            return;
+          }
+
+          //Find the user creating the room
+          const user = await UserModel.findById(msg.senderId).exec();
+          if (!user) {
+            console.log('Cannot find user');
+            return;
+          }
+
+          const sendData = {
+            content: msg.content,
+            username : user.username,
+            profilePic : user?.image || null,
+            userId: msg.senderId,
+          }
+
+          formatedHistory.push(sendData)
+        }
+
         //Send the chat history to the socket
-        socket.emit("restoreChatHistory", messageHistory);
+        socket.emit("restoreChatHistory", formatedHistory);
       }catch(error){
         console.log(error);
       }
@@ -163,7 +189,16 @@ module.exports = (server) => {
           status: 'SENT'
         })
 
-        io.to(roomId).emit("roomMessage", fullMessage);
+
+        const sendData = {
+          content: msg,
+          username : user.username,
+          profilePic : user?.image || null,
+          userId: userId,
+        }
+
+        //Only send back needed data
+        io.to(roomId).emit("roomMessage", sendData);
 
         
       } catch (error){
