@@ -1,8 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-// const { storage } = require("../server")
 const router = express.Router();
-const fs = require("fs");
 const { ProfileModel } = require("../database/entities/Profile");
 const { verifyJwt } = require("../middleware/UserCRUDValidation");
 const { UserModel } = require("../database/entities/User");
@@ -15,7 +13,6 @@ router.get(['/', '/:userId'], verifyJwt, async (request, response,next) => {
   try {
   const user = await UserModel.findById(userId).exec();
   const profile = await ProfileModel.findOne({ userId: userId }).exec();
-  console.log(profile)
       response.json({
         username: user?.username,
         email: user?.email,
@@ -28,25 +25,6 @@ router.get(['/', '/:userId'], verifyJwt, async (request, response,next) => {
 
 });
 
-// create user profile, for profile owner only
-// router.post('/edit', verifyJwt, async (request, response,next) => {
-//     let newProfileData = {
-//     userId: request.authentication.id,
-//     image: {
-//       data: request.body.image.data,
-//       contentType: 'image/png'
-//     },
-//     description: request.body.description
-//   };
-//   try {
-//     let newProfile = await ProfileModel.create(newProfileData).exec();
-//     await newProfile.save();
-//     response.json(newProfile);
-//     next();
-//       } catch(error) {
-//         return next(new Error(error));
-//   }
-// });
 
 const storage = multer.diskStorage({
   destination: function (request, fie, cb) {
@@ -71,7 +49,6 @@ router.patch('/edit', verifyJwt, imageUpload.single('image'), async (request, re
 
   try {
     const updateData = {...request.body, image: imageFilename};
-    console.log(updateData);
 
     const updateProfile = await ProfileModel.findOneAndUpdate({
       userId: request.authentication.id

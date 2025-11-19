@@ -16,7 +16,7 @@ export default function ProfileEditPage() {
   const [error, setError] = useState("");
 
 
-  const putData = async (data) => {
+  const patchData = async (data) => {
     await api.patch("/profiles/edit", {
       image: data?.image || "",
       description: data?.description || ""
@@ -56,7 +56,7 @@ export default function ProfileEditPage() {
 
   const onSave = (e) => {
     e.preventDefault();
-    putData({
+    patchData({
       image: profile?.image,
       description: profile?.description
     }

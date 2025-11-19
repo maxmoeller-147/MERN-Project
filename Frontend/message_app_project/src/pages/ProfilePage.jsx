@@ -41,12 +41,12 @@ export default function ProfilePage() {
   return (
     <main>
       <h1>User profile</h1>
-        {
-          profile?.image !== "" && <img src={`http://localhost:3000/uploads/${profile.image}`} />
-        }
-        <h1>Username: { profile?.username }</h1>
+      {
+        profile?.image !== "" && <img src={`http://localhost:3000/uploads/${profile.image}`} />
+      }
+      <h2>Username: { profile?.username }</h2>
       <section>
-        <h2>Description</h2>
+        <h3>Description</h3>
         <p>{ profile?.description }</p>
       </section>
         {/* button only visible for user owning profile */}

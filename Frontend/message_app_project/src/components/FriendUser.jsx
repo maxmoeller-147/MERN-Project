@@ -6,10 +6,17 @@ export function FriendUser({ friend }) {
 
   return (
     <div>
-      <span>
+      <section id="friend-item">
+      
+      <div>
         {friend.username}
-        {friend.connectionStatus.toUpperCase()}
-      </span>
+      </div>
+      <div>
+        Status: {friend.connectionStatus.toUpperCase()}
+      </div>
+
+      </section>
+
       <button onClick={() => setOpen(!open)}>
         Options
       </button>

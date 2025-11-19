@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 
-
 export default function UserLogInForm({ setError }) {
 
   const [email, setEmail] = useState("");
@@ -32,9 +31,11 @@ export default function UserLogInForm({ setError }) {
         {
           username : username,
           email : email,
-          password : password
+          password : password,
         }
         , null);
+      
+
 
       if (response.data.error){
 
@@ -56,6 +57,7 @@ export default function UserLogInForm({ setError }) {
         console.log("sending home");
         navigate("/home");
       }
+
     } catch (error){
       setError("An unknown error occured, please try again!")
       console.log(error);

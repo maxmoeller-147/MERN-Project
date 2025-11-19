@@ -18,6 +18,30 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           password: newUserData.password.trim()
         })
 
+        const DEFAULT_IMAGES = [
+          '/defaults/bored.png',
+          '/defaults/glee.png',
+          '/defaults/look.png',
+          '/defaults/neutral.png',
+          '/defaults/smile.png',
+          '/defaults/speed.png',
+        ];
+        
+        const getRandomProfilePic = () => {
+            return DEFAULT_IMAGES[Math.floor(Math.random() * DEFAULT_IMAGES.length)];
+        };
+
+        const updateProfile = await ProfileModel.findOneAndUpdate({
+          userId: newUser._id,
+        }, {
+          image: getRandomProfilePic(),
+        }, {
+          new: true,
+          upsert: true
+        }).exec();
+        
+        await updateProfile.save();
+
         //Create a jwt for the new user
         let jwt = generateJWT(newUser, response);
 
@@ -25,6 +49,7 @@ router.post("/register", validateRegisterData, async (request, response, next)=>
           data: newUser, 
           jwt : jwt
       });
+
         next();
 
       } catch(error) {

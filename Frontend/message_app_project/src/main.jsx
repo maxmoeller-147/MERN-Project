@@ -1,6 +1,5 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import "./index.css"
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
@@ -10,7 +9,6 @@ import { Homepage } from "./pages/Homepage.jsx";
 import { WelcomePage } from "./pages/WelcomePage.jsx";
 import { FriendsPage } from "./pages/FriendsPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
-import { OnlyLoggedUsers } from "./components/OnlyLoggedUsers.jsx";
 import { BaseLayout } from "./templates/BaseLayout.jsx";
 import RoomChatPage from "./pages/RoomChatPage.jsx";
 import FriendSearchPage from "./pages/FriendSearchPage.jsx";
@@ -18,6 +16,7 @@ import { FriendDataProvider } from "./Contexts/FriendDataContext.jsx";
 import "./styles/General.css"
 import "./styles/Header.css"
 import "./styles/Navbar.css"
+import "./index.css"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
