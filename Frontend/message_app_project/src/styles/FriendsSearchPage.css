@@ -1,0 +1,25 @@
+section {
+  padding: 0 16px;
+}
+
+section > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+section > div > span > p {
+  margin: 0;
+}
+
+section > div > p {
+  border: 1px dashed black;
+  margin: 0;
+  padding: 8px 16px;
+}
+
+button {
+  width: fit-content;
+  padding: 8px 16px;
+  margin: 0;
+}

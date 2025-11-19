@@ -15,7 +15,7 @@ router.get(['/', '/:userId'], verifyJwt, async (request, response,next) => {
   try {
   const user = await UserModel.findById(userId).exec();
   const profile = await ProfileModel.findOne({ userId: userId }).exec();
-  // console.log(profile)
+  console.log(profile)
       response.json({
         username: user?.username,
         email: user?.email,
@@ -70,7 +70,7 @@ router.patch('/edit', verifyJwt, imageUpload.single('image'), async (request, re
   imageFilename = request.file?.filename;
 
   try {
-    const updateData = {...request.body, image: `http://localhost:3000/uploads/${imageFilename}`};
+    const updateData = {...request.body, image: imageFilename};
     console.log(updateData);
 
     const updateProfile = await ProfileModel.findOneAndUpdate({

@@ -11,10 +11,6 @@ export function BaseLayout() {
       <NavBar />
     </header>
 
-    <main>
-
-      <Outlet />
-
-    </main>
+    <Outlet />
   </>
 }
