@@ -8,7 +8,7 @@ export function BaseLayout() {
   return <>
     <header>
       <h1>BlahBlah!</h1>
-      <LogoutButton />
+      <NavBar />
     </header>
 
     <main>
@@ -16,7 +16,5 @@ export function BaseLayout() {
       <Outlet />
 
     </main>
-
-    <NavBar />
   </>
 }
