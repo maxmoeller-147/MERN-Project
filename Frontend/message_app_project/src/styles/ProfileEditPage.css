@@ -1,6 +1,7 @@
 /* Contenedor principal */
 main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding-top: 80px; /* por tu header fijo */
   padding-bottom: 40px;
@@ -28,7 +29,7 @@ main {
 .edit-profile input[type="text"],
 .edit-profile input[type="file"] {
   width: 100%;
-  padding: 12px 0px;
+  padding: 12px 0px 12px 12px;
   margin-bottom: 10px;
   border: 1px solid black;
   border-radius: 15px;

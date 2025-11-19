@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import api from "../api"
 import { UserDisplay } from "../components/UsersDisplay";
 import { FriendDataContext } from "../Contexts/FriendDataContext";
+import '../styles/FriendsSearchPage.css';
 
 export default function FriendSearchPage() {
   const [allOtherUsers,setAllOtherUsers] = useState([]);
