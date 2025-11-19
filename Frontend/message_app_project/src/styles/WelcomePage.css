@@ -2,7 +2,7 @@
   min-height: 50vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   text-align: center;
   gap: 20vh;

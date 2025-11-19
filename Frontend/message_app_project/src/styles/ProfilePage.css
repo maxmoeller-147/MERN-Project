@@ -1,4 +1,4 @@
-main {
+/* main {
   gap: 20px;
 }
 
@@ -7,20 +7,20 @@ h1 {
 }
 
 img {
-  /* height: 200px; */
+ 
   width: 80%;
   object-fit: contain;
   align-self: center;
-}
+} */
 
-section {
+/* section {
   border-radius: 0.5rem;
   border: 3px solid #000000;
   text-align: left;
   padding-left: 1rem;
-}
+} */
 
-button {
+/* button {
   align-self: center;
   width: fit-content;
-}
+} */

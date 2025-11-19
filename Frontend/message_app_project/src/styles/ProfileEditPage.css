@@ -1,9 +1,9 @@
-/* Contenedor principal */
-main {
+
+.main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 80px; /* por tu header fijo */
+  padding-top: 80px; 
   padding-bottom: 40px;
 }
 
