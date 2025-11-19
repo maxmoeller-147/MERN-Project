@@ -12,7 +12,6 @@ import ProfileSpeed from "../assets/Default_profiles/Profile_Speed.png";
 
 export default function RoomMessages({ socket }) {
 
-    const [loadedUserInfo, setloadedUserInfo] = useState([]);
     const [loadedMessages, setLoadedMessages] = useState([]);
 
     const defaultImages = [
@@ -28,36 +27,17 @@ export default function RoomMessages({ socket }) {
         return defaultImages[Math.floor(Math.random() * defaultImages.length)];
     };
 
+
     useEffect(() => { 
         const handleRoomMessage = (msg) => {
-            setLoadedMessages(prevMessages => [...prevMessages, msg]);
 
-            const findUser = loadedUserInfo.some(user => user.id === msg.senderId) 
-
-            if (findUser){ return }
-
-            let defaultUserInfo = {
-                id : msg.senderId,
-                username: `User${msg.senderId.slice(msg.senderId.length-4,msg.senderId.length)}`,
-                image : getRandomProfile()
+            if (msg.profilePic == null){
+                msg.profilePic = getRandomProfile()
             }
 
-            try{
-                api.get(`profiles/${msg.senderId}`).then((response) => {
-                    if (response.data.error) throw response.data.error;
-
-                    // If profile is found replace default info
-                    defaultUserInfo.username = response.data.username;
-
-                    if (response.data?.image){
-                        defaultUserInfo.image = response.data.image;
-                    }
-                })
-            }catch(error){
-                console.log(`Couldnt find participants profile ${error}`);
-            }  
-
-            setloadedUserInfo(prevUsers => [...prevUsers, defaultUserInfo]);
+            console.log(msg)
+            
+            setLoadedMessages(prevMessages => [...prevMessages, msg]);
 
         };
 
@@ -82,8 +62,7 @@ export default function RoomMessages({ socket }) {
     return (
         <div className="message-container"> 
             {loadedMessages.map((msg, index)=>(
-                <Message key={index} message={msg} user={loadedUserInfo.find(user => user.id === msg.senderId) 
-}/>
+                <Message key={index} message={msg}/>
             ))}
             
         </div>

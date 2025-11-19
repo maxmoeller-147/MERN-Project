@@ -1,7 +1,12 @@
-export default function Message({ message , user}) {
+export default function Message({ message }) {
+    
+       
     return(
         <div>
-            <p>{user.username} says: {message.content}</p>
+            {
+            message?.profilePic !== "" && <img src={message.profilePic} />
+            }
+            <p>{message.username} says: {message.content}</p>
         </div>
     )
 }

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { RoomChatModel } = require('../database/entities/RoomChat');
+const { ProfileModel } = require('../database/entities/Profile');
 const { validateJWT } = require("../middleware/jwtFunctions");
 const cookie = require("cookie");
 
@@ -101,8 +102,42 @@ module.exports = (server) => {
         const messageHistory = await MessageModel.find({ roomId:roomId })
         .sort({ createdAt: 1 });
 
+        let formatedHistory = []
+
+        for (const msg of messageHistory) {
+          // Validate that its a valid id
+          if (!msg.senderId || !mongoose.Types.ObjectId.isValid(msg.senderId)) {
+            console.log('Invalid user id');
+            return;
+          }
+
+          //Find the user creating the room
+          const user = await UserModel.findById(msg.senderId).exec();
+          if (!user) {
+            console.log('Cannot find user');
+            return;
+          }
+
+          //Find the user creating the room
+          const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+          if (!profile) {
+            console.log('Cannot find profile');
+            return;
+          }
+          //IDK why but it returns the profile as an array :/ wil just use [0] as a small fix
+
+          const sendData = {
+            content: msg.content,
+            username : user.username,
+            profilePic : profile[0]?.image || null,
+            userId: msg.senderId,
+          }
+
+          formatedHistory.push(sendData)
+        }
+
         //Send the chat history to the socket
-        socket.emit("restoreChatHistory", messageHistory);
+        socket.emit("restoreChatHistory", formatedHistory);
       }catch(error){
         console.log(error);
       }
@@ -153,9 +188,19 @@ module.exports = (server) => {
         }
 
 
+        //Find the user creating the room
+        const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+        if (!profile) {
+          console.log('Cannot find profile');
+          return;
+        }
+
+
         //const msg = `${user.username} says: ${data.msg}`
         const msg = data.msg
-        console.log(`user ${userId} says ${data.msg}`)
+
+        console.log(`user ${userId} says ${msg}`)
+
         const fullMessage = await MessageModel.create({
           roomId: roomId,
           senderId: userId,
@@ -163,7 +208,16 @@ module.exports = (server) => {
           status: 'SENT'
         })
 
-        io.to(roomId).emit("roomMessage", fullMessage);
+
+        const sendData = {
+          content: msg,
+          username : user.username,
+          profilePic : profile?.image || null,
+          userId: userId,
+        }
+
+        //Only send back needed data
+        io.to(roomId).emit("roomMessage", sendData);
 
         
       } catch (error){
