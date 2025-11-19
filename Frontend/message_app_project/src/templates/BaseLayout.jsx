@@ -7,7 +7,7 @@ import { LogoutButton } from "../components/LogoutBttm";
 export function BaseLayout() {
   return <>
     <header>
-      <h1>Chin Wag</h1>
+      <h1>BlahBlah!</h1>
       <LogoutButton />
     </header>
 

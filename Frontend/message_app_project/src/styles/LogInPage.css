@@ -1,0 +1,63 @@
+
+.login-page {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--yellow-color);
+  padding: 40px;
+}
+
+
+.SignInForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  padding: 40px 50px;                
+  width: 400px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+
+.SignInForm h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+
+
+.SignInForm input[type="email"],
+.SignInForm input[type="text"],
+.SignInForm input[type="password"] {
+  width: 100%;
+  padding: 12px 0px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 15px;
+  font-size: 1rem;
+  background: white;
+  color: var(--button-dark);
+  outline: none;
+  transition: 0.2s;
+}
+
+.SignInForm input:focus {
+  border-color: black;
+  background-color: #ecebeb;
+}
+
+
+
+.SignInForm .error {
+  color: #d60000;
+  background: rgba(148, 0, 0, 0.12);
+  padding: 15px;
+  border: 2px solid #d60000;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  font-weight: 900;
+}

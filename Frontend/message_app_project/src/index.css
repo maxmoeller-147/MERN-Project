@@ -1,4 +1,6 @@
 :root {
+  --yellow-color: linear-gradient(135deg, #ffe9ac, #f4c418);
+  --button-dark: rgb(49, 49, 49);
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -22,6 +24,12 @@ a:hover {
   color: #535bf2;
 }
 
+
+main {
+  padding-top: 60px;
+}
+
+
 body {
   margin: 0;
   display: flex;
@@ -38,7 +46,7 @@ h1 {
 
 button {
   border-radius: 0;
-  border: 1px solid transparent;
+  border: 1px solid black;
   padding: 13px 70px;
   font-size: 1em;
   font-weight: 500;
