@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { MessageModel } = require("../database/entities/Message");
 const { UserModel } = require('../database/entities/User');
 const { RoomChatModel } = require('../database/entities/RoomChat');
+const { ProfileModel } = require('../database/entities/Profile');
 const { validateJWT } = require("../middleware/jwtFunctions");
 const cookie = require("cookie");
 
@@ -117,10 +118,18 @@ module.exports = (server) => {
             return;
           }
 
+          //Find the user creating the room
+          const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+          if (!profile) {
+            console.log('Cannot find profile');
+            return;
+          }
+          //IDK why but it returns the profile as an array :/ wil just use [0] as a small fix
+
           const sendData = {
             content: msg.content,
             username : user.username,
-            profilePic : user?.image || null,
+            profilePic : profile[0]?.image || null,
             userId: msg.senderId,
           }
 
@@ -179,9 +188,19 @@ module.exports = (server) => {
         }
 
 
+        //Find the user creating the room
+        const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+        if (!profile) {
+          console.log('Cannot find profile');
+          return;
+        }
+
+
         //const msg = `${user.username} says: ${data.msg}`
         const msg = data.msg
-        console.log(`user ${userId} says ${data.msg}`)
+
+        console.log(`user ${userId} says ${msg}`)
+
         const fullMessage = await MessageModel.create({
           roomId: roomId,
           senderId: userId,
@@ -193,7 +212,7 @@ module.exports = (server) => {
         const sendData = {
           content: msg,
           username : user.username,
-          profilePic : user?.image || null,
+          profilePic : profile?.image || null,
           userId: userId,
         }
 
