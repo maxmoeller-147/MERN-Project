@@ -32,7 +32,7 @@ export default function RoomMessages({ socket }) {
         const handleRoomMessage = (msg) => {
 
             if (msg.profilePic == null){
-                msg.profilePic = getRandomProfile()
+                msg.profilePic = getRandomProfile();
             }
 
             console.log(msg)

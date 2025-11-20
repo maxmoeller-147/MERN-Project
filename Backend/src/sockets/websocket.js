@@ -118,18 +118,22 @@ module.exports = (server) => {
             return;
           }
 
+          console.log('asdfasdfasdfasdf', msg.senderId);
+
           //Find the user creating the room
-          const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+          const profile = await ProfileModel.findOne({ userId:msg.senderId }).exec();
           if (!profile) {
             console.log('Cannot find profile');
             return;
           }
+
+          console.log(profile);
           //IDK why but it returns the profile as an array :/ wil just use [0] as a small fix
 
           const sendData = {
             content: msg.content,
             username : user.username,
-            profilePic : profile[0]?.image || null,
+            profilePic : profile?.image || null,
             userId: msg.senderId,
           }
 

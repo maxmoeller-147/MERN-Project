@@ -77,7 +77,7 @@ Room chat page - somewebsite.com/rooms/:roomId
 **JACK**
 - show online friends on home page
 - Add accept or deline friend request on friend page/ home page
-- create profile after register user
+- create profile after register user **DONE**
 
 **PHUONG**
 Global context for page layout
@@ -86,8 +86,7 @@ Make all pages (except welcome page) to be only available to logged in user **OP
 Nav bar **DONE**
 verify who the user is (CurrentUserContext) **MAX: I done some logic about this for FriendsPage**
 remove salt and password in fetching backend response **DONE**
-fix message button in friend page to not create new room, showing the room that created
-search logic for friend search page
+search logic for friend search page 
 
 
 
