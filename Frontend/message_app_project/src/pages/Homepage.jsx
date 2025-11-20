@@ -1,4 +1,5 @@
 import { RoomList } from "../components/RoomList";
+import "../styles/HomePage.css"
 
 <RoomList />
 

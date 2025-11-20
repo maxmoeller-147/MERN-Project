@@ -8,6 +8,8 @@ export function FriendUser({ friend }) {
     <div className="friend-row">
       <span className="friend-name">
         {friend.username}
+      </span>
+      <span>
         {friend.connectionStatus.toUpperCase()}
       </span>
       <button className="friend-options" onClick={() => setOpen(!open)}>

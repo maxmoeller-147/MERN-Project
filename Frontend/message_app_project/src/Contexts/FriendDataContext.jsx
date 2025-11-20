@@ -3,7 +3,6 @@ import api from "../api";
 
 
 export const FriendDataContext = createContext();
-// export const CurrentUserContext = createContext();
 
 const fetchFriendList = async () => {
   try {
@@ -15,8 +14,11 @@ const fetchFriendList = async () => {
     const connectionList = connection?.data?.length > 0 ? connection.data : [];
     const connectionListSanitised = connectionList.map(connection => {
       const sanitisedConnection = connection.userId._id === meId ? connection.friendId : connection.userId;
+      const connectionId = connection._id
+    
 
       return {
+        connectionId: connectionId,
         ...sanitisedConnection,
         connectionStatus: connection.connectionStatus,
       };
@@ -39,6 +41,7 @@ export function FriendDataProvider({children}) {
     });
   }, []);
   
+
 
   
   return (

@@ -3,27 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import { FriendList } from "../components/FriendsList";
 import "../styles/FriendsPage.css";
 
-<FriendList />
+{/* <FriendList /> */}
 
-// import { CurrentUserProvider } from "../Contexts/CurrentUserProvider";
-// import { CurrentUserContext } from "../Contexts/CurrentUserContext";
 
 export function FriendsPage() {
-  // const [friends, setFriends] = useState([]);
-  // const [currentUserId, setCurrentUserId] = useContext(CurrentUserContext);
-  // const [currentUserId, setCurrentUserId] = useState();
-  
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const meRes = await api.get('/users/me');
-  //     setCurrentUserId(meRes.data._id);
-
-  //     const res = await api.get("/connection");
-  //     setFriends(res.data);
-  //     }
-  //     fetchData();
-  //   }, []);
 
     return (
     <main className="friends-main">
