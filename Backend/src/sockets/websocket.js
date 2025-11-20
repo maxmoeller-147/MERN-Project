@@ -89,7 +89,6 @@ module.exports = (server) => {
         // Validate that its a valid id
         const findRoom = await RoomChatModel.findById(roomId).exec();
         if (!roomId || !findRoom) {
-          // console.log('Invalid room id');
           return new Error("Cannot find room");
         }
 
@@ -118,8 +117,6 @@ module.exports = (server) => {
             return;
           }
 
-          console.log('asdfasdfasdfasdf', msg.senderId);
-
           //Find the user creating the room
           const profile = await ProfileModel.findOne({ userId:msg.senderId }).exec();
           if (!profile) {
@@ -127,8 +124,8 @@ module.exports = (server) => {
             return;
           }
 
-          console.log(profile);
-          //IDK why but it returns the profile as an array :/ wil just use [0] as a small fix
+          // console.log('userID joinRoom: ', msg.senderId);
+          // console.log(profile);
 
           const sendData = {
             content: msg.content,
@@ -163,18 +160,14 @@ module.exports = (server) => {
         //Get the user who sent the message
         const userId = socket.user;
 
-        // Validate that its a valid id
-        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
-          console.log('Invalid user id');
-          return;
-        }
-
         //Find the user creating the room
         const user = await UserModel.findById(userId).exec();
         if (!user) {
           console.log('Cannot find user');
           return;
         }
+
+        console.log('iuytrtyuio', user);
 
         const roomId = data.roomId;
         
@@ -190,18 +183,23 @@ module.exports = (server) => {
           console.log('Cannot find room');
           return;
         }
-        const msg = data.msg
+        const msg = data.msg;
+
+        console.log('userID roomMessage: ', userId);
+        
+        // Validate that its a valid id
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+          console.log('Invalid user id');
+          return;
+        }
 
         //Find the user creating the room
-        const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
+        const profile = await ProfileModel.findOne({ userId: userId }).exec();
         if (!profile) {
           console.log('Cannot find profile');
           return;
         }
-
-
-        //const msg = `${user.username} says: ${data.msg}`
-       
+      
 
         console.log(`user ${userId} says ${msg}`)
 
@@ -215,8 +213,8 @@ module.exports = (server) => {
 
         const sendData = {
           content: msg,
-          username : user.username,
-          profilePic : profile?.image || null,
+          username: user.username,
+          profilePic: profile?.image || null,
           userId: userId,
         }
 

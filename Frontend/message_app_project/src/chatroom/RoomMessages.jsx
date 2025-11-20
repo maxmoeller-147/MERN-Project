@@ -15,12 +15,12 @@ export default function RoomMessages({ socket }) {
     const [loadedMessages, setLoadedMessages] = useState([]);
 
     const DEFAULT_IMAGES = [
-        ProfileBored,
-        ProfileGlee,
-        ProfileLook,
-        ProfileNeutral,
-        ProfileSmile,
-        ProfileSpeed
+        '/defaults/bored.png',
+        '/defaults/glee.png',
+        '/defaults/look.png',
+        '/defaults/neutral.png',
+        '/defaults/smile.png',
+        '/defaults/speed.png',
     ];
 
     const getRandomProfile = () => {
