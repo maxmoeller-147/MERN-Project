@@ -1,0 +1,24 @@
+.message-box {
+    position: fixed;
+    bottom: 0;
+    
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding-bottom: 20px;
+    z-index: 9999;
+
+    width : 85%;
+    height : 8%;
+
+
+    display: flex;
+    gap: 10px;
+}
+
+.message-box input,
+.message-box button {
+    height: 100%;
+    flex: 1;
+    box-sizing: border-box;
+}

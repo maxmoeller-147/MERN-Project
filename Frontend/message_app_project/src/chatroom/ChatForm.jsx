@@ -1,4 +1,5 @@
 import React, { useState  } from "react";
+import "../styles/ChatForm.css";
 
 export default function ChatForm( { socket, roomChatId} ) {
 
@@ -27,7 +28,7 @@ export default function ChatForm( { socket, roomChatId} ) {
     }
 
   return (
-    <div>
+    <div class="message-box">
         <form id="form">
             <input value={message} type="text" id="message" name="message" autoComplete="off" onChange={onChangeMessage}/>
             <button onClick={onSubmit}>Send</button>
