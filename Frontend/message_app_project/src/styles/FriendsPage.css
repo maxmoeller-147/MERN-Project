@@ -53,3 +53,21 @@
 }
 
 
+@media (max-width:768px) {
+  .friends-list {
+    gap: 0px;
+    width: 100%;
+    max-width: 350px;
+    padding: 50px 25px;
+  }
+
+  .drop-options button {
+  padding: 5px 12px;
+  font-size: 0.9rem;
+  
+  }
+
+
+
+}
+

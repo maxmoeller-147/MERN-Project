@@ -48,3 +48,12 @@
 .user-description p {
   line-height: 2;
 }
+
+
+@media (max-width: 768px) {
+
+  .main-profile {
+    min-height: 100%;
+    padding: 45px;
+  }
+}
