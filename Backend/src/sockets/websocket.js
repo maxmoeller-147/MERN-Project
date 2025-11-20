@@ -186,7 +186,7 @@ module.exports = (server) => {
           console.log('Cannot find room');
           return;
         }
-
+        const msg = data.msg
 
         //Find the user creating the room
         const profile = await ProfileModel.find({ userId:msg.senderId }).exec();
@@ -197,7 +197,7 @@ module.exports = (server) => {
 
 
         //const msg = `${user.username} says: ${data.msg}`
-        const msg = data.msg
+       
 
         console.log(`user ${userId} says ${msg}`)
 
@@ -221,7 +221,7 @@ module.exports = (server) => {
 
         
       } catch (error){
-        console.log('Error handling chat message:', err);
+        console.log('Error handling chat message:', error);
         socket.emit("forceDisconnect", "something went wrong when sending the message. Please reconnect");
         socket.disconnect(true);
       }
