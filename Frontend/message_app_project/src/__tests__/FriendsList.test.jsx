@@ -12,7 +12,7 @@ vi.mock("../components/FriendList", () => ({
 describe("FriendList", () => {
   test("Show message if it's empty", () => {
     render(<FriendList friends={[]} currentUserId="1"/>);
-    expect(screen.getByText(/you have no friends yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sorry, your friends list looks empty/i)).toBeInTheDocument();
   });
 });
 
