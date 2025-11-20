@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { FriendList } from "../components/FriendsList";
 import "../styles/FriendsPage.css";
 
-
+<FriendList />
 
 // import { CurrentUserProvider } from "../Contexts/CurrentUserProvider";
 // import { CurrentUserContext } from "../Contexts/CurrentUserContext";

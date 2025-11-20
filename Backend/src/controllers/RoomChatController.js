@@ -5,6 +5,7 @@ const { RoomChatModel } = require("../database/entities/RoomChat");
 const { UserModel } = require('../database/entities/User');
 const { verifyJwt  } = require("../middleware/UserCRUDValidation");
 const { canViewRoom  } = require("../middleware/RoomChatValidations");
+const { viewAllRooms } = require('../middleware/RoomValidation');
 // const { MessageModel } = require('../database/entities/Message');
 const router = express.Router();
 
@@ -146,6 +147,10 @@ router.delete('/:roomChatId',
     return next(new Error("Room id is not valid!"));
   }
 });
+
+// VIEW all rooms a user has
+router.get('/', verifyJwt, viewAllRooms);
+
 
 // for development testing purpose only
 // router.get('/', async  (request, response) => {
