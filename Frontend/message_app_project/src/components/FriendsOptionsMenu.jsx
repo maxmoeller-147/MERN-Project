@@ -23,14 +23,8 @@ export function FriendOptionsMenu ({ friend }) {
     }
 };
 
-  const createRoom = async () => {
+  const joinRoom = async () => {
     try {
-
-      // check if room for these user has been created
-
-      // if already exist, view existed room
-
-      // if not, create new room
       await api.post("rooms",{
         name: "New Room Chat",
         participants: [friend._id],
@@ -54,7 +48,7 @@ return (
         View Profile
     </button>
 
-    <button onClick={ createRoom }>
+    <button onClick={ joinRoom }>
         Send Message
     </button>
 

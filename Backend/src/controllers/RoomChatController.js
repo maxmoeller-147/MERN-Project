@@ -47,8 +47,13 @@ router.post('/',
       }
     }
 
-    //Create the room model
-    newRoom = await RoomChatModel.create({
+    // check if the room for these users existed?
+    findRoom = await RoomChatModel.findOne({participants:participants});
+    if (findRoom) {
+      response.json(findRoom)
+      next()
+    } else {
+      newRoom = await RoomChatModel.create({
       name: newRoomData?.name,
       participants: participants,
       type: newRoomData.type
@@ -56,6 +61,9 @@ router.post('/',
     await newRoom.save();
     response.json(newRoom);
     next();
+    }
+    //Create the room model
+ 
 
   } catch(error) {
     return next(new Error(error));
