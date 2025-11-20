@@ -1,29 +1,50 @@
-main {
-  gap: 20px;
+.main-profile {
+  max-width: 400px;
+  margin: 80px auto 40px;
+  padding: 70px;
+  background: var(--yellow-color, #fff7d1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  text-align: center;
 }
 
-h1 {
+
+.main-profile h1 {
+  margin-bottom: 30px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+
+.main-profile img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #000;
+  object-fit: cover;
+
+}
+
+
+.main-profile h2 {
   font-size: 2rem;
-}
-
-img {
-  /* height: 200px; */
-  width: 30vw;
-  object-fit: contain;
-  align-self: center;
-}
-
-section {
-  border-radius: 0.5rem;
-  border: 3px solid #000000;
-  text-align: left;
-  padding-left: 1rem;
-}
-
-button {
-  align-self: center;
-  width: fit-content;
+  margin-bottom: 20px;
 }
 
 
+.user-description {
+  text-align: center;
+  background: white;
+  padding: 25px;
+  border: 1px solid black;
+  border-radius: 0px;
+  margin-bottom: 40px;
+}
 
+.user-description h3 {
+  margin: 0 0 8px 0;
+}
+
+.user-description p {
+  line-height: 2;
+}

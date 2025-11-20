@@ -39,20 +39,21 @@ export default function ProfilePage() {
             
 
   return (
-    <main>
+    <main className="main-profile">
       <h1>User profile</h1>
       {
         profile?.image !== "" && <img src={`http://localhost:3000/uploads/${profile.image}`} />
       }
       <h2>Username: { profile?.username }</h2>
-      <section>
+      <section className="user-description">
         <h3>Description</h3>
         <p>{ profile?.description }</p>
       </section>
         {/* button only visible for user owning profile */}
         {
           !userIdParams &&
-          <button onClick = {handleRedirectToProfileEdit}>Edit</button>
+          <button 
+          onClick = {handleRedirectToProfileEdit}>Edit</button>
         }
     </main>
   )
