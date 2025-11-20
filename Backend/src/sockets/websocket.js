@@ -31,6 +31,42 @@ module.exports = (server) => {
     io.emit("onlineUsers", onlineList)
   }
 
+  const findUserData = async (userId, msg) =>{
+
+    let sendData = {
+      content: msg,
+      username : "User",
+      profilePic : null,
+      userId: userId
+    }
+
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+      console.log('Invalid user id');
+      return sendData;
+    }
+
+    //Find the user creating the room
+    const user = await UserModel.findById(userId).exec();
+    if (!user) {
+      console.log('Cannot find user');
+      return sendData;
+    }
+
+    sendData.username = user.username
+
+    //Find the user creating the room
+    const profile = await ProfileModel.findOne({ userId: userId }).exec();
+    if (!profile) {
+      console.log('Cannot find profile');
+      return sendData;
+    }
+
+    sendData.profilePic = profile?.image || null;
+
+    return sendData;
+
+  };
+
   //Use middleware to check jwt cookies
   io.use( async (socket, next) => {
     try {
@@ -104,35 +140,7 @@ module.exports = (server) => {
         let formatedHistory = []
 
         for (const msg of messageHistory) {
-          // Validate that its a valid id
-          if (!msg.senderId || !mongoose.Types.ObjectId.isValid(msg.senderId)) {
-            console.log('Invalid user id');
-            return;
-          }
-
-          //Find the user creating the room
-          const user = await UserModel.findById(msg.senderId).exec();
-          if (!user) {
-            console.log('Cannot find user');
-            return;
-          }
-
-          //Find the user creating the room
-          const profile = await ProfileModel.findOne({ userId:msg.senderId }).exec();
-          if (!profile) {
-            console.log('Cannot find profile');
-            return;
-          }
-
-          // console.log('userID joinRoom: ', msg.senderId);
-          // console.log(profile);
-
-          const sendData = {
-            content: msg.content,
-            username : user.username,
-            profilePic : profile?.image || null,
-            userId: msg.senderId,
-          }
+          const sendData = await findUserData(msg.senderId, msg.content)
 
           formatedHistory.push(sendData)
         }
@@ -166,8 +174,6 @@ module.exports = (server) => {
           console.log('Cannot find user');
           return;
         }
-
-        console.log('iuytrtyuio', user);
 
         const roomId = data.roomId;
         
