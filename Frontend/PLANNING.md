@@ -28,7 +28,6 @@ Friend page - somewebsite.com/connection **DONE**
   - Message -> direct to chat **DONE**
   - Create Group -> direct to "somewebsite.com/rooms/create" with this friend **NO NEED?**
   - View profile -> direct to profile page "somewebsite.com/profiles/:userId" **DONE**
-  - show all friends in connection. GREEN (or sth else) for PENDING connection
 
 
 
@@ -95,10 +94,7 @@ search logic for friend search page
 
 
 STYLES (TODO)
-  - User Profile
-  - Friends
-  - Friends search
-  - Home
+
 
   - Media Responsive for phone
 

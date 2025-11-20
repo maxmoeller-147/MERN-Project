@@ -61,3 +61,22 @@
   margin-bottom: 15px;
   font-weight: 900;
 }
+
+@media (max-width: 768px) {
+
+  .login-page {
+    min-height: 100%;
+    padding: 15px;
+  }
+
+  .SignInForm {
+    width: 100%;
+    max-width: 300px;
+    padding: 40px 70px;
+  }
+
+  .SignInForm .error {
+    padding: 10px;
+    font-size: 0.7rem;
+  }
+}
