@@ -1,7 +1,7 @@
 import { FriendList } from "../components/FriendsList";
 import { describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react"
-import { FriendUser } from "../components/FriendUser";
+import { FriendDataContext } from "../Contexts/FriendDataContext";
 
 vi.mock("../components/FriendList", () => ({
   FriendUser: ({ friend }) => (
@@ -11,8 +11,8 @@ vi.mock("../components/FriendList", () => ({
 
 describe("FriendList", () => {
   test("Show message if it's empty", () => {
-    render(<FriendList friends={[]} currentUserId="1"/>);
-    expect(screen.getByText(/Sorry, your friends list looks empty/i)).toBeInTheDocument();
+    render(<FriendDataContext.Provider value={[]}><FriendList /></FriendDataContext.Provider>);
+    expect(screen.getByText('Sorry, your friends list looks empty')).toBeInTheDocument();
   });
 });
 

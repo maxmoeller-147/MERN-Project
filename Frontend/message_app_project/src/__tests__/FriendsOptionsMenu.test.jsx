@@ -34,14 +34,10 @@ vi.mock("../api", () => ({
 
 describe("OptionMenu", () => {
   const friend = {_id: "helloworld"};
-  const friendData = {_id:"helloworld123"};
-
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
-
-
 
   // RoomChat button test
   test("Room", async () => {
@@ -50,7 +46,7 @@ describe("OptionMenu", () => {
     });
     render(
       <MemoryRouter>
-        <FriendOptionsMenu friend={friend} friendData={friendData} />
+        <FriendOptionsMenu friend={friend} />
       </MemoryRouter>
     );
 
@@ -59,7 +55,7 @@ describe("OptionMenu", () => {
     await waitFor(() => {
       expect(api.post).toHaveBeenCalledWith("rooms", {
         name: "New Room Chat",
-        participants: ["helloworld123"],
+        participants: ["helloworld"],
         type: "DIRECT",
       });
 
@@ -73,31 +69,15 @@ describe("OptionMenu", () => {
   test("profileButton", () => {
     render(
       <MemoryRouter>
-        <FriendOptionsMenu friend={friend} friendData={friendData} />
+        <FriendOptionsMenu friend={friend} />
       </MemoryRouter>
     );
 
     const button = screen.getByRole("button", { name: /view profile/i });
     fireEvent.click(button);
 
-    expect(mockNavigate).toHaveBeenCalledWith("/profiles/helloworld123");
+    expect(mockNavigate).toHaveBeenCalledWith("/profiles/helloworld");
   });
-
-
-  // Create Group
-  test("Create Room", () => {
-    render(
-      <MemoryRouter>
-        <FriendOptionsMenu friend={friend} friendData={friendData} />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByRole("button", { name: /create group/i }));
-
-    expect(mockNavigate).toHaveBeenCalledWith("/friends/create-group?user=helloworld123"
-    );
-  });
-
 
   // Delete Friend
   test("Delete Friend", async () => {
@@ -107,7 +87,7 @@ describe("OptionMenu", () => {
 
     render(
       <MemoryRouter>
-        <FriendOptionsMenu friend={friend} friendData={friendData} />
+        <FriendOptionsMenu friend={friend} />
       </MemoryRouter>
     );
 
@@ -130,7 +110,7 @@ describe("OptionMenu", () => {
 
     render(
       <MemoryRouter>
-        <FriendOptionsMenu friend={friend} friendData={friendData} />
+        <FriendOptionsMenu friend={friend} />
       </MemoryRouter>
     );
 

@@ -31,7 +31,6 @@ const fetchFriendList = async () => {
 
 export function FriendDataProvider({children}) {
   const [friends, setFriends] = useState([])
-  // const [currentUserId, setCurrentUserId] = useState(null)
   
 
   useEffect(() => {
@@ -42,13 +41,11 @@ export function FriendDataProvider({children}) {
   
 
   
-  // return <CurrentUserContext.Provider value={[currentUserId,setCurrentUserId]}>
   return (
     <FriendDataContext.Provider value={{friends}}>
       {children}
     </FriendDataContext.Provider>
   );
-  // </CurrentUserContext.Provider>
 
 
   
