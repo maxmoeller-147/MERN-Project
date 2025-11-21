@@ -1,11 +1,11 @@
-.message-box {
+.message-input-box {
     position: fixed;
     bottom: 0;
     
     left: 50%;
     transform: translateX(-50%);
 
-    padding-bottom: 20px;
+    padding-bottom: 6px;
     z-index: 9999;
 
     width : 85%;
@@ -16,9 +16,23 @@
     gap: 10px;
 }
 
-.message-box input,
-.message-box button {
+.message-input-box input{
+    height: 100%;
+    flex: 1;
+    box-sizing: border-box; 
+    width:80%;
+
+    padding: 12px 16px;
+    font-size: 1.2rem;
+    line-height: 1; 
+}
+.message-input-box button {
     height: 100%;
     flex: 1;
     box-sizing: border-box;
+    width:15%
+}
+
+form{
+    width:100%;
 }

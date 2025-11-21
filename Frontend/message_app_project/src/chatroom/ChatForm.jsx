@@ -28,7 +28,7 @@ export default function ChatForm( { socket, roomChatId} ) {
     }
 
   return (
-    <div class="message-box">
+    <div className="message-input-box">
         <form id="form">
             <input value={message} type="text" id="message" name="message" autoComplete="off" onChange={onChangeMessage}/>
             <button onClick={onSubmit}>Send</button>

@@ -30,6 +30,6 @@ export default function UserJoiningRoom({ socket, roomChatId }) {
     },[socket, roomChatId])
 
     return (
-        <div>user joined</div>
+        <div></div>
     );
 }

@@ -2,14 +2,6 @@ import Message from "./Message";
 import React, { useEffect, useState } from "react";
 import api from "../api";
 
-//Import all basic profiles
-import ProfileBored from "../assets/Default_profiles/bored.png";
-import ProfileGlee from "../assets/Default_profiles/glee.png";
-import ProfileLook from "../assets/Default_profiles/look.png";
-import ProfileNeutral from "../assets/Default_profiles/neutral.png";
-import ProfileSmile from "../assets/Default_profiles/smile.png";
-import ProfileSpeed from "../assets/Default_profiles/speed.png";
-
 export default function RoomMessages({ socket }) {
 
     const [loadedMessages, setLoadedMessages] = useState([]);
