@@ -31,7 +31,7 @@ export function FriendOptionsMenu ({ friend }) {
         type: "DIRECT"
       }).then((response) => {
         setRoomId(response.data._id);
-        navigate(`/rooms/${connectionId}`);
+        navigate(`/rooms/${response.data._id}`);
       })
       
 
